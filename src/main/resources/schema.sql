@@ -1,1 +1,0 @@
-insert into user_test values(2,'aa');

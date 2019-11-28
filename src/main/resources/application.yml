@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/database?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC
     initialize: true
-    schema: classpath:schema.sql #初始化数据表
+    #schema: classpath:schema.sql #初始化数据表
     username: root
     password: root
   jpa:
