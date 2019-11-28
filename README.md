@@ -4,3 +4,4 @@
 Spring Boot版本 1.5.21
 
 mysql 8.0.18
+把数据库设置为 用户名:root 密码:root
