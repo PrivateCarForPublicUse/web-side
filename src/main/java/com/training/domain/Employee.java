@@ -27,7 +27,7 @@ public class Employee {
     //头像url
     private String headPhotoUrl;
     //账户余额
-    private Double remainMoney;
+    private double remainMoney;
     //身份证号
     private String idCardNumber;
     //身份证正面url
@@ -45,7 +45,7 @@ public class Employee {
     //驾驶证到期日期
     private String driverLicenseDueDate;
     //驾驶员星级
-    private Double StarLevel;
+    private double StarLevel;
     //审核状态,-1审核不通过,0未审核,1审核通过
     private int checkStatus;
 
