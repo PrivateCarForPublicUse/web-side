@@ -121,11 +121,11 @@ public class Employee {
         this.headPhotoUrl = headPhotoUrl;
     }
 
-    public Double getRemainMoney() {
+    public double getRemainMoney() {
         return remainMoney;
     }
 
-    public void setRemainMoney(Double remainMoney) {
+    public void setRemainMoney(double remainMoney) {
         this.remainMoney = remainMoney;
     }
 
@@ -193,11 +193,11 @@ public class Employee {
         this.driverLicenseDueDate = driverLicenseDueDate;
     }
 
-    public Double getStarLevel() {
+    public double getStarLevel() {
         return StarLevel;
     }
 
-    public void setStarLevel(Double starLevel) {
+    public void setStarLevel(double starLevel) {
         StarLevel = starLevel;
     }
 

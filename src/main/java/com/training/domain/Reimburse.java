@@ -29,11 +29,11 @@ public class Reimburse {
         this.id = id;
     }
 
-    public Long getRouteid() {
+    public Long getRouteId() {
         return routeId;
     }
 
-    public void setRouteid(Long routeid) {
+    public void setRouteId(Long routeid) {
         routeId = routeid;
     }
 

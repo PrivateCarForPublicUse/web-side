@@ -20,9 +20,9 @@ public class Settlement {
     //行程实际结束时间
     private String carStopTime;
     //行驶路程（公里）
-    private Double drivingDistance;
+    private double drivingDistance;
     //行驶费用（元）
-    private Double drivingCost;
+    private double drivingCost;
     //路径url
     private String routeUrl;
 
@@ -50,11 +50,11 @@ public class Settlement {
         this.carStopTime = carStopTime;
     }
 
-    public void setDrivingDistance(Double drivingDistance) {
+    public void setDrivingDistance(double drivingDistance) {
         this.drivingDistance = drivingDistance;
     }
 
-    public void setDrivingCost(Double drivingCost) {
+    public void setDrivingCost(double drivingCost) {
         this.drivingCost = drivingCost;
     }
 
@@ -86,11 +86,11 @@ public class Settlement {
         return carStopTime;
     }
 
-    public Double getDrivingDistance() {
+    public double getDrivingDistance() {
         return drivingDistance;
     }
 
-    public Double getDrivingCost() {
+    public double getDrivingCost() {
         return drivingCost;
     }
 
