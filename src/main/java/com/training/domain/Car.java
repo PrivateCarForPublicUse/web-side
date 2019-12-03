@@ -28,21 +28,23 @@ public class Car {
     //交强险保单
     private String CommercialInsurancePolicy;
     //商业险保单
-    private Long CarHostid;
+    private Long CarHostId;
     //车主id
     private int isPublic;
     //公私状态 （1 公车；0 私车）
     private int isUse;
     //使用状态（0 空闲；1 审核中；2 使用中 ）
-    private String startime;
+    private String starTime;
     //车辆公用开始时间
-    private String endtime;
+    private String endTime;
     //车辆公用结束时间
     private double displacement;
     //车辆排量
 
-    public Car(Long id, String license, String picture, String drivingLicenseUrl, String band, String type, double starOfCar, String insuranceCompany, String strongInsurancePolicy, String commercialInsurancePolicy, Long carHostid, int isPublic, int isUse, String startime, String endtime, double displacement) {
-        this.id = id;
+    public Car() {
+    }
+
+    public Car(String license, String picture, String drivingLicenseUrl, String band, String type, double starOfCar, String insuranceCompany, String strongInsurancePolicy, String commercialInsurancePolicy, Long carHostId, int isPublic, int isUse, String starTime, String endTime, double displacement) {
         this.license = license;
         this.picture = picture;
         DrivingLicenseUrl = drivingLicenseUrl;
@@ -52,11 +54,11 @@ public class Car {
         InsuranceCompany = insuranceCompany;
         StrongInsurancePolicy = strongInsurancePolicy;
         CommercialInsurancePolicy = commercialInsurancePolicy;
-        CarHostid = carHostid;
+        CarHostId = carHostId;
         this.isPublic = isPublic;
         this.isUse = isUse;
-        this.startime = startime;
-        this.endtime = endtime;
+        this.starTime = starTime;
+        this.endTime = endTime;
         this.displacement = displacement;
     }
 
@@ -140,12 +142,12 @@ public class Car {
         CommercialInsurancePolicy = commercialInsurancePolicy;
     }
 
-    public Long getCarHostid() {
-        return CarHostid;
+    public Long getCarHostId() {
+        return CarHostId;
     }
 
-    public void setCarHostid(Long carHostid) {
-        CarHostid = carHostid;
+    public void setCarHostId(Long carHostId) {
+        CarHostId = carHostId;
     }
 
     public int getIsPublic() {
@@ -164,20 +166,20 @@ public class Car {
         this.isUse = isUse;
     }
 
-    public String getStartime() {
-        return startime;
+    public String getStarTime() {
+        return starTime;
     }
 
-    public void setStartime(String startime) {
-        this.startime = startime;
+    public void setStarTime(String starTime) {
+        this.starTime = starTime;
     }
 
-    public String getEndtime() {
-        return endtime;
+    public String getEndTime() {
+        return endTime;
     }
 
-    public void setEndtime(String endtime) {
-        this.endtime = endtime;
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
     }
 
     public double getDisplacement() {
