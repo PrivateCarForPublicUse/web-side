@@ -4,11 +4,10 @@ import org.junit.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-@SpringBootTest
-class DemoApplicationTests {
+public class DemoApplicationTests {
 
     @Test
-    void contextLoads() {
+    public void contextLoads() {
         System.out.println("1234");
     }
 
