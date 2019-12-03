@@ -19,7 +19,7 @@ public class Route {
     private Long employeeId;
     //申请员工id
     private int status;
-    //申请状态
+    //申请状态 （-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）
     public Long getId() {
         return id;
     }

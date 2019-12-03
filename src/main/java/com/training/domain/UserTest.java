@@ -11,6 +11,12 @@ public class UserTest {
     Long id;
     String name;
 
+    public UserTest(){}
+
+    public UserTest(String name) {
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }

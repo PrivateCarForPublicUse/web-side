@@ -28,7 +28,7 @@ public class Car {
     //交强险保单
     private String CommercialInsurancePolicy;
     //商业险保单
-    private Long CarHostId;
+    private Long employeeId;
     //车主id
     private int isPublic;
     //公私状态 （1 公车；0 私车）
@@ -40,6 +40,11 @@ public class Car {
     //车辆公用结束时间
     private double displacement;
     //车辆排量
+
+    //是否删除
+    private int isDeleted;
+
+
 
     public Car() {
     }
@@ -54,7 +59,7 @@ public class Car {
         InsuranceCompany = insuranceCompany;
         StrongInsurancePolicy = strongInsurancePolicy;
         CommercialInsurancePolicy = commercialInsurancePolicy;
-        CarHostId = carHostId;
+        employeeId = carHostId;
         this.isPublic = isPublic;
         this.isUse = isUse;
         this.starTime = starTime;
@@ -143,11 +148,11 @@ public class Car {
     }
 
     public Long getCarHostId() {
-        return CarHostId;
+        return employeeId;
     }
 
     public void setCarHostId(Long carHostId) {
-        CarHostId = carHostId;
+        employeeId = carHostId;
     }
 
     public int getIsPublic() {
@@ -189,4 +194,13 @@ public class Car {
     public void setDisplacement(double displacement) {
         this.displacement = displacement;
     }
+
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
 }

@@ -23,8 +23,8 @@ public class Settlement {
     private double drivingDistance;
     //行驶费用（元）
     private double drivingCost;
-    //路径url
-    private String routeUrl;
+    //路径的traceId
+    private String trid;
 
     public void setId(Long id) {
         this.id = id;
@@ -59,7 +59,7 @@ public class Settlement {
     }
 
     public void setRouteUrl(String routeUrl) {
-        this.routeUrl = routeUrl;
+        this.trid = routeUrl;
     }
 
     public Long getId() {
@@ -95,6 +95,6 @@ public class Settlement {
     }
 
     public String getRouteUrl() {
-        return routeUrl;
+        return trid;
     }
 }

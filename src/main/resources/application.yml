@@ -5,7 +5,7 @@ spring:
     initialize: true
     #schema: classpath:schema.sql #初始化数据表
     username: root
-    password: 123456
+    password: root
   jpa:
     hibernate:
       #create 程序运行时 重新创建一张表
@@ -13,5 +13,5 @@ spring:
       #create-drop 应用停止时， 删除表
       #none
       #validate 验证类中的属性是否与表结构一致，不一致 会报错
-      ddl-auto: create-drop
+      ddl-auto: update
     show-sql: true

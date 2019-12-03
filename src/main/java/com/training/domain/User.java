@@ -6,7 +6,7 @@ import javax.persistence.Id;
 
 //员工表
 @Entity
-public class Employee {
+public class User {
     @Id
     @GeneratedValue
     private Long id;
@@ -48,6 +48,18 @@ public class Employee {
     private double StarLevel;
     //审核状态,-1审核不通过,0未审核,1审核通过
     private int checkStatus;
+    //用户设备id
+    private Long tid;
+    //是否删除
+    private int isDeleted;
+
+    public int getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(int isDeleted) {
+        this.isDeleted = isDeleted;
+    }
 
     public Long getId() {
         return id;
@@ -207,5 +219,13 @@ public class Employee {
 
     public void setCheckStatus(int checkStatus) {
         this.checkStatus = checkStatus;
+    }
+
+    public Long getTid() {
+        return tid;
+    }
+
+    public void setTid(Long tid) {
+        this.tid = tid;
     }
 }

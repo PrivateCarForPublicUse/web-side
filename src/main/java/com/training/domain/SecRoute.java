@@ -9,13 +9,13 @@ public class SecRoute {
     @Id
     @GeneratedValue
     private Long id;
-    //段行程id
-    private Long routeId;
     //行程表id
-    private String origin;
+    private Long routeId;
     //出发点
-    private String destination;
+    private String origin;
     //目的地
+    private String destination;
+
 
     public Long getId() {
         return id;
