@@ -10,11 +10,11 @@ public class Settlement {
     @GeneratedValue
     private Long id;
     //用户id
-    private Long EmployeeId;
+    private Long employeeId;
     //行程表id
-    private Long RouteId;
+    private Long routeId;
     //段行程id
-    private Long SecRouteId;
+    private Long secRouteId;
     //行程实际开始时间
     private String carStartTime;
     //行程实际结束时间
@@ -31,15 +31,15 @@ public class Settlement {
     }
 
     public void setEmployeeId(Long employeeId) {
-        EmployeeId = employeeId;
+        this.employeeId = employeeId;
     }
 
     public void setRouteId(Long routeId) {
-        RouteId = routeId;
+        this.routeId = routeId;
     }
 
     public void setSecRouteId(Long secRouteId) {
-        SecRouteId = secRouteId;
+        this.secRouteId = secRouteId;
     }
 
     public void setCarStartTime(String carStartTime) {
@@ -67,15 +67,15 @@ public class Settlement {
     }
 
     public Long getEmployeeId() {
-        return EmployeeId;
+        return employeeId;
     }
 
     public Long getRouteId() {
-        return RouteId;
+        return routeId;
     }
 
     public Long getSecRouteId() {
-        return SecRouteId;
+        return secRouteId;
     }
 
     public String getCarStartTime() {
