@@ -22,4 +22,13 @@ public class AuthorizeController {
         else return null;
     }
 
+    @PostMapping("/login/token")
+    public Account loginByToken(Account account){
+        Account account2 = accountService.getAccountByToken(account.getToken());
+        if(account2!=null){
+            return account2;
+        }
+        else return null;
+    }
+
 }
