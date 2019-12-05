@@ -12,8 +12,8 @@ public class User {
     private Long id;
     //用户名
     private String userName;
-    //密码
-    private String password;
+    //账号
+    private Long accountId;
     //工号
     private Long workNumber;
     //姓名
@@ -77,12 +77,12 @@ public class User {
         this.userName = userName;
     }
 
-    public String getPassword() {
-        return password;
+    public Long getAccountId() {
+        return accountId;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
     }
 
     public Long getWorkNumber() {
