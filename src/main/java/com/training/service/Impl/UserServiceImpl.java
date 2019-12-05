@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserById(Long id) {
-        return userRepository.findOne(id);
+        return userRepository.findById(id).get();
     }
 
     @Override
@@ -36,8 +36,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User delete(Long id){
-        User user = userRepository.findOne(id);
-        userRepository.delete(id);
+        User user = userRepository.findById(id).get();
+        userRepository.deleteById(id);
         return user;
     }
 }
