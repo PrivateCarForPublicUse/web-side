@@ -28,7 +28,7 @@ public class Car {
     //交强险保单
     private String CommercialInsurancePolicy;
     //商业险保单
-    private Long employeeId;
+    private Long userId;
     //车主id
     private int isPublic;
     //公私状态 （1 公车；0 私车）
@@ -59,7 +59,7 @@ public class Car {
         InsuranceCompany = insuranceCompany;
         StrongInsurancePolicy = strongInsurancePolicy;
         CommercialInsurancePolicy = commercialInsurancePolicy;
-        employeeId = carHostId;
+        userId = carHostId;
         this.isPublic = isPublic;
         this.isUse = isUse;
         this.starTime = starTime;
@@ -147,12 +147,12 @@ public class Car {
         CommercialInsurancePolicy = commercialInsurancePolicy;
     }
 
-    public Long getCarHostId() {
-        return employeeId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setCarHostId(Long carHostId) {
-        employeeId = carHostId;
+    public void setUserId(Long carHostId) {
+        userId = carHostId;
     }
 
     public int getIsPublic() {

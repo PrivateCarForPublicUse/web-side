@@ -16,7 +16,7 @@ public class Route {
     //申请结束时间
     private Long carId;
     //申请车辆id
-    private Long employeeId;
+    private Long userId;
     //申请员工id
     private int status;
     //申请状态 （-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）
@@ -52,12 +52,12 @@ public class Route {
         this.carId = carId;
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public int getStatus() {

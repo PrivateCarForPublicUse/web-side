@@ -10,7 +10,7 @@ public class Settlement {
     @GeneratedValue
     private Long id;
     //用户id
-    private Long employeeId;
+    private Long userId;
     //行程表id
     private Long routeId;
     //段行程id
@@ -30,8 +30,20 @@ public class Settlement {
         this.id = id;
     }
 
-    public void setEmployeeId(Long employeeId) {
-        this.employeeId = employeeId;
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getTrid() {
+        return trid;
+    }
+
+    public void setTrid(String trid) {
+        this.trid = trid;
     }
 
     public void setRouteId(Long routeId) {
@@ -66,9 +78,6 @@ public class Settlement {
         return id;
     }
 
-    public Long getEmployeeId() {
-        return employeeId;
-    }
 
     public Long getRouteId() {
         return routeId;
