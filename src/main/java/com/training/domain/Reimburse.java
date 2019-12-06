@@ -15,12 +15,6 @@ public class Reimburse {
     private int isReimburse;
     //-1 报销失败；0 未报销；1 已报销
 
-    public Reimburse(Long id, Long routeid, int isReimburse) {
-        this.id = id;
-        routeId = routeid;
-        this.isReimburse = isReimburse;
-    }
-
     public Long getId() {
         return id;
     }
