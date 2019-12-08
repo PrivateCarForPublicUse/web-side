@@ -1,6 +1,7 @@
 package com.training.controller;
 
 import com.training.domain.CarRate;
+import com.training.response.ResponseResult;
 import com.training.service.CarRateService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -21,17 +22,30 @@ public class CarRateController {
     @Autowired
     CarRateService carRateService;
 
-    @ApiOperation("获取评价列表")
+    @ApiOperation("获取所有评价列表")
     @GetMapping("/")
-    public List<CarRate> carRates(){
+    public ResponseResult carRates(){
         return carRateService.getCarRates();
     }
 
     @ApiOperation("新增评价")
-    @ApiImplicitParam(value = "评价内容",paramType = "query")
-    @PostMapping("/carRate")
-    public CarRate add(@RequestBody CarRate carRate){
+    @ApiImplicitParam(name="carRate",value = "评价内容")
+    @PostMapping("/add")
+    public ResponseResult add(@RequestBody CarRate carRate){
         return carRateService.save(carRate);
     }
 
+    @ApiOperation("根据评论人id获取其发表的所有对车的评论")
+    @ApiImplicitParam(name="userId",value = "评论人id")
+    @PostMapping("/userId/{userId}")
+    public ResponseResult findByUserId(@PathVariable("userId") Long userId){
+        return carRateService.findByUserId(userId);
+    }
+
+    @ApiOperation("根据车的id获取该车的所有评价")
+    @ApiImplicitParam(name="carId",value = "车的id")
+    @PostMapping("/carId/{carId}")
+    public ResponseResult findByEvaluateeId(@PathVariable("carId") Long carId){
+        return carRateService.findByCarId(carId);
+    }
 }

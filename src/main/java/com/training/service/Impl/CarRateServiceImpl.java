@@ -2,6 +2,7 @@ package com.training.service.Impl;
 
 import com.training.domain.CarRate;
 import com.training.repository.CarRateRepository;
+import com.training.response.ResponseResult;
 import com.training.service.CarRateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,18 +18,28 @@ public class CarRateServiceImpl implements CarRateService {
     CarRateRepository carRateRepository;
 
     @Override
-    public List<CarRate> getCarRates(){
-        return carRateRepository.findAll();
+    public ResponseResult getCarRates(){
+        return new ResponseResult(carRateRepository.findAll());
     }
 
     @Override
-    public CarRate save(CarRate carRate){
-        return carRateRepository.save(carRate);
+    public ResponseResult save(CarRate carRate){
+        return new ResponseResult(carRateRepository.save(carRate));
     }
 
     @Override
-    public CarRate update(CarRate carRate) {
-        return carRateRepository.save(carRate);
+    public ResponseResult update(CarRate carRate) {
+        return new ResponseResult(carRateRepository.save(carRate));
+    }
+
+    @Override
+    public ResponseResult findByUserId(Long userId) {
+        return new ResponseResult(carRateRepository.findByUserId(userId));
+    }
+
+    @Override
+    public ResponseResult findByCarId(Long carId) {
+        return new ResponseResult(carRateRepository.findByCarId(carId));
     }
 
 }

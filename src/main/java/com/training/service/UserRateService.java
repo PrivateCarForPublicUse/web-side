@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.UserRate;
+import com.training.response.ResponseResult;
 
 import java.util.List;
 
@@ -8,7 +9,9 @@ import java.util.List;
  * by Huang
  */
 public interface UserRateService {
-    List<UserRate> getUserRates();
-    UserRate save(UserRate userRate);
-    UserRate update(UserRate userRate);
+    ResponseResult getUserRates();
+    ResponseResult save(UserRate userRate);
+    ResponseResult update(UserRate userRate);
+    ResponseResult findByUserId(Long userId);
+    ResponseResult findByEvaluateeId(Long valuateeId);
 }

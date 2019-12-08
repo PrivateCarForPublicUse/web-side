@@ -24,7 +24,7 @@ public class ReimburseController {
     ReimburseService reimburseService;
 
     @ApiOperation("获取所有报销列表")
-    @GetMapping("/all")
+    @GetMapping("/")
     public ResponseResult reimburses(){
         return reimburseService.getReimburses();
     }
