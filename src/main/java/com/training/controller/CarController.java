@@ -39,14 +39,14 @@ public class CarController {
     @ApiOperation("添加车辆")
     @ApiImplicitParam(value = "车辆对象",paramType = "query")
     @PostMapping("/car")
-    public Car add(Car car){
+    public Car add(@RequestBody Car car){
         return carService.save(car);
     }
 
     @ApiOperation("更新车辆")
     @ApiImplicitParam(value = "车辆对象",paramType = "query")
     @PutMapping("/car")
-    public Car update(Car car){
+    public Car update(@RequestBody Car car){
         return carService.save(car);
     }
 

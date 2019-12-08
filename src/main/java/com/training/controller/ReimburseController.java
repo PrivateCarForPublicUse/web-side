@@ -39,7 +39,7 @@ public class ReimburseController {
     @ApiOperation("更新某条报销状态")
     @ApiImplicitParam(value = "报销对象",paramType = "query")
     @PutMapping("/reimburse")
-    public Reimburse update(Reimburse reimburse){
+    public Reimburse update(@RequestBody Reimburse reimburse){
         return reimburseService.save(reimburse);
     }
 

@@ -30,7 +30,7 @@ public class UserRateController {
     @ApiOperation("新增评价")
     @ApiImplicitParam(value = "评价内容",paramType = "query")
     @PostMapping("/userRate")
-    public UserRate add(UserRate userRate){
+    public UserRate add(@RequestBody UserRate userRate){
         return userRateService.save(userRate);
     }
 
