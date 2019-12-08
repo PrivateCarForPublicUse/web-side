@@ -28,6 +28,13 @@ public class CarController {
         return carService.getCars();
     }
 
+    @ApiOperation("查看没有被删除的所有车")
+    @ApiImplicitParam(name="isDeleted",value = "是否已删除")
+    @PostMapping("/isDeleted/{isDeleted}")
+    public ResponseResult findByIsDeleted(@PathVariable("isDeleted") int isDeleted){
+        return carService.findByIsDeleted(isDeleted);
+    }
+
     @ApiOperation("通过id获取车辆信息")
     @ApiImplicitParam(name="id",value = "车辆id")
     @GetMapping("/id/{id}")
@@ -55,4 +62,20 @@ public class CarController {
     public ResponseResult delete(@PathVariable("id") Long id){
         return carService.delete(id);
     }
+
+    @ApiOperation("根据公私状态1公车，0私车获取对应的车辆列表")
+    @ApiImplicitParam(name="isPublic",value = "是否为私车")
+    @PostMapping("/isPublic/{isPublic}")
+    public ResponseResult findByIsPublic(@PathVariable("isPublic") int isPublic){
+        return carService.findByIsPublic(isPublic);
+    }
+
+    @ApiOperation("根据使用状态0空闲,1审核中,2使用中获取对应的车辆列表")
+    @ApiImplicitParam(name="isUse",value = "使用状态")
+    @PostMapping("/isUse/{isUse}")
+    public ResponseResult findByIsUse(@PathVariable("isUse") int isUse){
+        return carService.findByIsUse(isUse);
+    }
+
+
 }

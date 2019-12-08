@@ -43,4 +43,19 @@ public class CarServiceImpl implements CarService {
         carRepository.deleteById(id);
         return new ResponseResult(car);
     }
+
+    @Override
+    public ResponseResult findByIsPublic(int isPublic) {
+        return new ResponseResult(carRepository.findByIsPublic(isPublic));
+    }
+
+    @Override
+    public ResponseResult findByIsUse(int isUse) {
+        return new ResponseResult(carRepository.findByIsUse(isUse));
+    }
+
+    @Override
+    public ResponseResult findByIsDeleted(int isDeleted) {
+        return new ResponseResult(carRepository.findByIsDeleted(isDeleted));
+    }
 }

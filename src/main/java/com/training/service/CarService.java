@@ -14,4 +14,7 @@ public interface CarService {
     ResponseResult save(Car car);
     ResponseResult update(Car car);
     ResponseResult delete(Long id);
+    ResponseResult findByIsPublic(int isPublic);
+    ResponseResult findByIsUse(int isUse);
+    ResponseResult findByIsDeleted(int isDeleted);
 }
