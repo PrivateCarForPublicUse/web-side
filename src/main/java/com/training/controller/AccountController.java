@@ -34,14 +34,14 @@ public class AccountController {
     @ApiOperation("添加账号")
     @ApiImplicitParam(value = "账号对象",paramType = "query")
     @PostMapping("/user")
-    public Account add(Account user){
+    public Account add(@RequestBody Account user){
         return accountService.save(user);
     }
 
     @ApiOperation("更新账号")
     @ApiImplicitParam(value = "账号对象",paramType = "query")
     @PutMapping("/user")
-    public Account update(Account user){
+    public Account update(@RequestBody Account user){
         return accountService.save(user);
     }
 

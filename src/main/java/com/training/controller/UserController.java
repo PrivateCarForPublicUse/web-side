@@ -34,14 +34,14 @@ public class UserController {
     @ApiOperation("添加用户")
     @ApiImplicitParam(value = "用户对象",paramType = "query")
     @PostMapping("/user")
-    public User add(User user){
+    public User add(@RequestBody User user){
         return userService.save(user);
     }
 
     @ApiOperation("更新用户")
     @ApiImplicitParam(value = "用户对象",paramType = "query")
     @PutMapping("/user")
-    public User update(User user){
+    public User update(@RequestBody User user){
         return userService.save(user);
     }
 
