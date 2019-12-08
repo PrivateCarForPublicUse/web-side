@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.Car;
+import com.training.response.ResponseResult;
 
 import java.util.List;
 
@@ -8,9 +9,9 @@ import java.util.List;
  * by Huang
  */
 public interface CarService {
-    List<Car> getCars();
-    Car getCarById(Long id);
-    Car save(Car car);
-    Car update(Car car);
-    Car delete(Long id);
+    ResponseResult getCars();
+    ResponseResult getCarById(Long id);
+    ResponseResult save(Car car);
+    ResponseResult update(Car car);
+    ResponseResult delete(Long id);
 }
