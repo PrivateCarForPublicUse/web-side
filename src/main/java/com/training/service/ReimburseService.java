@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.Reimburse;
+import com.training.response.ResponseResult;
 
 import java.util.List;
 
@@ -8,8 +9,10 @@ import java.util.List;
  * by Huang
  */
 public interface ReimburseService {
-    List<Reimburse> getReimburses();
-    Reimburse getReimburseById(Long id);
-    Reimburse save(Reimburse reimburse);
-    Reimburse update(Reimburse reimburse);
+    ResponseResult getReimburses();
+    ResponseResult getReimbursesByStatus(int isReimburse);
+    ResponseResult getReimburseById(Long id);
+    ResponseResult getReimburseByRouteId(Long routeId);
+    ResponseResult save(Reimburse reimburse);
+    ResponseResult update(Reimburse reimburse);
 }
