@@ -9,14 +9,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
 @Api(value="/Route",tags="用于测试路程表相关接口")
-@Controller
 @RequestMapping("/Route")
 @RestController
 public class RouteController {
@@ -60,8 +56,8 @@ public class RouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "route", value = "新增的行程")
     })
-    @GetMapping("/save")
-    public ResponseResult saveRoute(Route route) {
+    @PostMapping("/save")
+    public ResponseResult saveRoute(@RequestBody Route route) {
         return routeService.saveRoute(route);
     }
 
@@ -69,8 +65,8 @@ public class RouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "route", value = "更新的路程")
     })
-    @GetMapping("/update")
-    public ResponseResult updateRoute(Route route) {
+    @PostMapping("/update")
+    public ResponseResult updateRoute(@RequestBody Route route) {
         return routeService.updateRoute(route);
     }
 
@@ -79,7 +75,7 @@ public class RouteController {
             @ApiImplicitParam(name = "id", value = "行程表id"),
             @ApiImplicitParam(name = "st", value = "行程状态改变值")
     })
-    @GetMapping("/update_status")
+    @PostMapping("/update_status")
     public ResponseResult updateStatusOfRouteById(@RequestParam("id")Long id, @RequestParam("st")int st) {
         return routeService.updateStatusOfRouteById(id, st);
     }

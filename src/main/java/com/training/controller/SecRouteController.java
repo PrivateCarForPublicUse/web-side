@@ -9,14 +9,10 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
 @Api(value="/SecRoute",tags="用于测试段路程表相关接口")
-@Controller
 @RequestMapping("/SecRoute")
 @RestController
 public class SecRouteController {
@@ -29,7 +25,7 @@ public class SecRouteController {
         return secRouteService.findAllSecRoute();
     }
 
-    @ApiOperation("保存行程")
+    @ApiOperation("根据行程id获取所有段行程")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "行程id")
     })
@@ -51,8 +47,8 @@ public class SecRouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "secroute", value = "新增的段行程")
     })
-    @GetMapping("/save")
-    public ResponseResult saveSecRoute(SecRoute secroute) {
+    @PostMapping("/save")
+    public ResponseResult saveSecRoute(@RequestBody SecRoute secroute) {
         return secRouteService.saveSecRoute(secroute);
     }
 
@@ -60,8 +56,8 @@ public class SecRouteController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "secroute", value = "更新的段行程")
     })
-    @GetMapping("/update")
-    public ResponseResult updateSecRoute(SecRoute secroute) {
+    @PostMapping("/update")
+    public ResponseResult updateSecRoute(@RequestBody SecRoute secroute) {
         return secRouteService.updateSecRoute(secroute);
     }
 

@@ -14,9 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
 @Api(value="/Master",tags="用于测试管理员相关接口")
-@Controller
 @RequestMapping("/Master")
-@RestController
+@Controller
 public class MasterController {
     @Autowired
     MasterService masterService;
@@ -47,15 +46,10 @@ public class MasterController {
 
     @ApiOperation("增加一个新管理员")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "name", value = "管理员名字"),
-            @ApiImplicitParam(name = "password", value = "管理员密码")
+            @ApiImplicitParam(name = "master", value = "新增的管理员")
     })
-    @GetMapping("/add")
-    public ResponseResult saveMaster(@RequestParam("name")String name, @RequestParam("password")String password,@RequestParam("CompanyId")String CompanyId) {
-        Master master = new Master();
-        master.setName("阳哥");
-        master.setCompanyId(2L);
-        master.setPassword("123456");
+    @PostMapping("/add")
+    public ResponseResult saveMaster(@RequestBody Master master) {
         masterService.saveMaster(master);
         return masterService.saveMaster(master);
     }
@@ -64,9 +58,9 @@ public class MasterController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "管理员id")
     })
-    @GetMapping("/del")
+    @DeleteMapping("/del")
     public ResponseResult deleteMaster(@RequestParam("id")Long id) {
-        masterService.deleteMasterById(3L);
+        masterService.deleteMasterById(id);
         return new ResponseResult("SUCCESS");
     }
 
@@ -75,10 +69,8 @@ public class MasterController {
             @ApiImplicitParam(name = "id", value = "管理员id"),
             @ApiImplicitParam(name = "name", value = "修改后的管理员名字")
     })
-    @GetMapping("/update")
+    @PostMapping("/update")
     public ResponseResult updateUser(@RequestParam("id")Long id, @RequestParam("name")String name) {
-        String n = "阳佬";
-        Long i = 1L;
-        return masterService.updateNameOfMastersById(i, n);
+        return masterService.updateNameOfMastersById(id, name);
     }
 }
