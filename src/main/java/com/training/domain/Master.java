@@ -17,7 +17,7 @@ public class Master {
     //是否为企业管理员，0：不是 1：是
     private int isCompanyMaster;
     //对应的企业id
-    private Long CompanyId;
+    private Long companyId;
 
     public Master(){};
 
@@ -25,7 +25,7 @@ public class Master {
         this.name = name;
         this.password = password;
         this.isCompanyMaster = isComMaster;
-        CompanyId = companyId;
+        this.companyId = companyId;
     }
 
     public Long getId() {
@@ -61,10 +61,10 @@ public class Master {
     }
 
     public Long getCompanyId() {
-        return CompanyId;
+        return companyId;
     }
 
     public void setCompanyId(Long companyId) {
-        CompanyId = companyId;
+        companyId = this.companyId;
     }
 }
