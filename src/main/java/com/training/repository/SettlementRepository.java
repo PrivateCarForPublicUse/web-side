@@ -18,7 +18,7 @@ public interface SettlementRepository extends JpaRepository<Settlement,Long> {
     @Query(value="select * from settlement where routeId = :routeid",nativeQuery = true)
     public List<Settlement> findSettlementByRouteId(@Param("routeid") Long routeid);
 
-    // 根据employeeId查询，使用sql语句
-    @Query(value="select * from settlement where employeeId = :employeeId",nativeQuery = true)
-    public List<Settlement> findSettlementByEmployeeId(@Param("employeeId") Long employeeId);
+    // 根据userId查询，使用sql语句
+    @Query(value="select * from settlement where userId = :userId",nativeQuery = true)
+    public List<Settlement> findSettlementByUserId(@Param("userId") Long userId);
 }

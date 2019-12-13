@@ -8,7 +8,7 @@ public interface SettlementService {
     ResponseResult findSettlementById(Long id);
     ResponseResult findSettlementByRouteId(Long routeid);
     ResponseResult findSettlementBySecRouteId(Long secrouteid);
-    ResponseResult findSettlementByEmployeeId(Long employeeId);
+    ResponseResult findSettlementByUserId(Long userId);
     ResponseResult saveSettlement(Settlement settlement);
     ResponseResult updateSettlement(Settlement settlement);
 }

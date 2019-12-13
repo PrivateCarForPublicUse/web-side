@@ -4,28 +4,35 @@ package com.training.controller;
 import com.training.domain.Settlement;
 import com.training.response.ResponseResult;
 import com.training.service.SettlementService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Api(value="/Settlement",tags="用于测试报销表相关接口")
+@Api(value="/Settlement",tags="用于测试结算表相关接口")
 @RequestMapping("/Settlement")
 @RestController
 public class SettlementController {
     @Autowired
     SettlementService settlementService;
 
-    @ApiOperation("查询报销表所有信息")
+    @ApiResponses({
+            @ApiResponse(code=200,message="ok"),
+            @ApiResponse(code=500,message="结算不存在"),
+            @ApiResponse(code=501,message="id不存在"),
+            @ApiResponse(code=502,message="routeid不存在"),
+            @ApiResponse(code=503,message="userId不存在"),
+            @ApiResponse(code=504,message="secrouteid不存在"),
+            @ApiResponse(code=505,message="插入失败"),
+            @ApiResponse(code=506,message="更新失败")
+    })
+    @ApiOperation("查询结算表所有信息")
     @GetMapping("/")
     public ResponseResult findAllSettlement() {
         return settlementService.findAllSettlement();
     }
 
-    @ApiOperation("根据报销id查询")
+    @ApiOperation("根据结算id查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "报销表id")
     })
@@ -54,25 +61,25 @@ public class SettlementController {
 
     @ApiOperation("根据员工id查询报销")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "employeeId", value = "员工id")
+            @ApiImplicitParam(name = "userId", value = "员工id")
     })
-    @GetMapping("/employeeId")
-    public ResponseResult findSettlementByEmployeeId(@RequestParam("employeeId")Long employeeId) {
-        return settlementService.findSettlementByEmployeeId(employeeId);
+    @GetMapping("/userId")
+    public ResponseResult findSettlementByUserId(@RequestParam("userId")Long userId) {
+        return settlementService.findSettlementByUserId(userId);
     }
 
-    @ApiOperation("新增报销表")
+    @ApiOperation("新增结算表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "settlement", value = "新增的报销")
+            @ApiImplicitParam(name = "settlement", value = "新增的结算")
     })
     @PostMapping("/save")
     public ResponseResult saveSettlement(@RequestBody Settlement settlement) {
         return settlementService.saveSettlement(settlement);
     }
 
-    @ApiOperation("更新报销表")
+    @ApiOperation("更新结算表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "settlement", value = "更新的报销")
+            @ApiImplicitParam(name = "settlement", value = "更新的结算")
     })
     @PostMapping("/update")
     public ResponseResult updateSettlement(@RequestBody Settlement settlement) {

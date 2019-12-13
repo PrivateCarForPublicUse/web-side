@@ -8,6 +8,8 @@ import com.training.service.SecRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SecRouteServiceImpl implements SecRouteService {
 
@@ -16,17 +18,26 @@ public class SecRouteServiceImpl implements SecRouteService {
 
     @Override
     public ResponseResult findAllSecRoute() {
-        return new ResponseResult(secRouteRepository.findAll());
+        List<SecRoute> secRoutes = secRouteRepository.findAll();
+        if (secRoutes.size() == 0)
+            return new ResponseResult(500,"段行程不存在!");
+        return new ResponseResult(secRoutes);
     }
 
     @Override
     public ResponseResult findSecRouteById(Long id) {
-        return new ResponseResult(secRouteRepository.findById(id).get());
+        SecRoute secRoute = secRouteRepository.findById(id).get();
+        if (secRoute == null)
+            return new ResponseResult(501,"id不存在!");
+        return new ResponseResult(secRoute);
     }
 
     @Override
     public ResponseResult findSecRouteByRouteId(Long routeid) {
-        return new ResponseResult(secRouteRepository.findSecRouteByRouteId(routeid));
+        List<SecRoute> secRoutes = secRouteRepository.findSecRouteByRouteId(routeid);
+        if (secRoutes.size() == 0)
+            return new ResponseResult(502,"routeid不存在!");
+        return new ResponseResult(secRoutes);
     }
 
     @Override
@@ -46,12 +57,23 @@ public class SecRouteServiceImpl implements SecRouteService {
 
     @Override
     public ResponseResult saveSecRoute(SecRoute secroute) {
-        SecRoute sec = secRouteRepository.save(secroute);
-        return new ResponseResult(sec);
+        try {
+            SecRoute sec = secRouteRepository.save(secroute);
+            return new ResponseResult(sec);
+        }
+        catch (Exception e){
+            return new ResponseResult(503,"插入失败!");
+        }
     }
 
     @Override
     public ResponseResult updateSecRoute(SecRoute secroute) {
-        return new ResponseResult(secRouteRepository.save(secroute));
+        try {
+            SecRoute sec = secRouteRepository.save(secroute);
+            return new ResponseResult(sec);
+        }
+        catch (Exception e){
+            return new ResponseResult(504,"更新失败!");
+        }
     }
 }

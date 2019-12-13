@@ -15,9 +15,9 @@ public interface RouteRepository extends JpaRepository<Route,Long> {
     @Query(value="select * from route where carId = :carid",nativeQuery = true)
     public List<Route> findRouteByCarId(@Param("carid") Long carid);
 
-    // 根据employeeId查询，使用sql语句
-    @Query(value="select * from route where employeeId = :employeeId",nativeQuery = true)
-    public List<Route> findRouteByEmployeeId(@Param("employeeId") Long employeeId);
+    // 根据userId查询，使用sql语句
+    @Query(value="select * from route where userId = :userId",nativeQuery = true)
+    public List<Route> findRouteByUserId(@Param("userId") Long userId);
 
 
 }

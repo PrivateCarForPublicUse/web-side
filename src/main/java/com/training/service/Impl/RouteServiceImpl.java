@@ -7,6 +7,8 @@ import com.training.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RouteServiceImpl implements RouteService {
 
@@ -15,22 +17,34 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public ResponseResult findAllRoute() {
-        return new ResponseResult(routeRepository.findAll());
+        List<Route> Routes = routeRepository.findAll();
+        if (Routes.size() == 0)
+            return new ResponseResult(500,"行程不存在!");
+        return new ResponseResult(Routes);
     }
 
     @Override
     public ResponseResult findRouteById(Long id) {
-        return new ResponseResult(routeRepository.findById(id).get()) ;
+        Route route = routeRepository.findById(id).get();
+        if (route == null)
+            return new ResponseResult(501,"id不存在!");
+        return new ResponseResult(route) ;
     }
 
     @Override
     public ResponseResult findRouteByCarId(Long carid) {
-        return new ResponseResult(routeRepository.findRouteByCarId(carid));
+        List<Route> Routes = routeRepository.findRouteByCarId(carid);
+        if (Routes.size() == 0)
+            return new ResponseResult(502,"carid不存在!");
+        return new ResponseResult(Routes);
     }
 
     @Override
-    public ResponseResult findRouteByEmployeeId(Long employeeId) {
-        return new ResponseResult(routeRepository.findRouteByEmployeeId(employeeId));
+    public ResponseResult findRouteByUserId(Long userId) {
+        List<Route> Routes = routeRepository.findRouteByUserId(userId);
+        if (Routes.size() == 0)
+            return new ResponseResult(503,"userId不存在!");
+        return new ResponseResult(Routes);
     }
 
     @Override
@@ -49,25 +63,42 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public void deleteRouteByEmployeeId(Long employeeId) {
-        for (Route r : routeRepository.findRouteByEmployeeId(employeeId)) routeRepository.delete(r);
+    public void deleteRouteByUserId(Long userId) {
+        for (Route r : routeRepository.findRouteByUserId(userId)) routeRepository.delete(r);
     }
 
     @Override
     public ResponseResult saveRoute(Route route) {
-        Route r = routeRepository.save(route);
-        return new ResponseResult(r);
+        try {
+            Route r = routeRepository.save(route);
+            return new ResponseResult(r);
+        }
+        catch (Exception e){
+            return new ResponseResult(504,"插入失败!");
+        }
     }
 
     @Override
     public ResponseResult updateRoute(Route route) {
-        return new ResponseResult(routeRepository.save(route));
+        try {
+            Route r = routeRepository.save(route);
+            return new ResponseResult(r);
+        }
+        catch (Exception e){
+            return new ResponseResult(505,"更新失败!");
+        }
     }
 
     @Override
     public ResponseResult updateStatusOfRouteById(Long id, int st) {
-        Route r = routeRepository.findById(id).get();
-        r.setStatus(st);
-        return new ResponseResult(routeRepository.save(r));
+        try {
+            Route r = routeRepository.findById(id).get();
+            r.setStatus(st);
+            return new ResponseResult(routeRepository.save(r));
+        }
+        catch (Exception e){
+            return new ResponseResult(505,"更新失败");
+        }
+
     }
 }

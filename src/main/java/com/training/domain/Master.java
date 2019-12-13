@@ -19,8 +19,6 @@ public class Master {
     //对应的企业id
     private Long companyId;
 
-    public Master(){};
-
     public Master(String name, String password, int isComMaster, Long companyId) {
         this.name = name;
         this.password = password;

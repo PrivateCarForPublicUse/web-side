@@ -3,10 +3,7 @@ package com.training.controller;
 import com.training.domain.Route;
 import com.training.response.ResponseResult;
 import com.training.service.RouteService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +16,15 @@ public class RouteController {
     @Autowired
     RouteService routeService;
 
+    @ApiResponses({
+            @ApiResponse(code=200,message="ok"),
+            @ApiResponse(code=500,message="行程不存在"),
+            @ApiResponse(code=501,message="id不存在"),
+            @ApiResponse(code=502,message="carid不存在"),
+            @ApiResponse(code=503,message="userId不存在"),
+            @ApiResponse(code=504,message="插入失败"),
+            @ApiResponse(code=505,message="更新失败")
+    })
     @ApiOperation("查询所有行程表的接口")
     @GetMapping("/")
     public ResponseResult findAllRoute() {
@@ -43,13 +49,13 @@ public class RouteController {
         return routeService.findRouteByCarId(carid);
     }
 
-    @ApiOperation("按employeeId查询行程")
+    @ApiOperation("按userId查询行程")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "employeeId", value = "员工id")
+            @ApiImplicitParam(name = "userId", value = "员工id")
     })
-    @GetMapping("/employeeId")
-    public ResponseResult findRouteByEmployeeId(@RequestParam("employeeId")Long employeeId) {
-        return routeService.findRouteByEmployeeId(employeeId);
+    @GetMapping("/userId")
+    public ResponseResult findRouteByUserId(@RequestParam("userId")Long userId) {
+        return routeService.findRouteByUserId(userId);
     }
 
     @ApiOperation("保存行程")

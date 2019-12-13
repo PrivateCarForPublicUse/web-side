@@ -7,6 +7,8 @@ import com.training.service.SettlementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SettlementServiceImpl implements SettlementService {
 
@@ -15,37 +17,63 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Override
     public ResponseResult findAllSettlement() {
-        return new ResponseResult(settlementRepository.findAll());
+        List<Settlement> settlements = settlementRepository.findAll();
+        if (settlements.size() == 0)
+            return new ResponseResult(500,"结算不存在!");
+        return new ResponseResult(settlements);
     }
 
     @Override
     public ResponseResult findSettlementById(Long id) {
-        return new ResponseResult(settlementRepository.findById(id).get());
+        Settlement settlement = settlementRepository.findById(id).get();
+        if (settlement == null)
+            return new ResponseResult(501,"id不存在!");
+        return new ResponseResult(settlement);
     }
 
     @Override
     public ResponseResult findSettlementByRouteId(Long routeid) {
-        return new ResponseResult(settlementRepository.findSettlementByRouteId(routeid));
+        List<Settlement> settlements = settlementRepository.findSettlementByRouteId(routeid);
+        if (settlements.size() == 0)
+            return new ResponseResult(502,"routeid不存在!");
+        return new ResponseResult(settlements);
     }
 
     @Override
     public ResponseResult findSettlementBySecRouteId(Long secrouteid) {
-        return new ResponseResult(settlementRepository.findSettlementBySecRouteId(secrouteid));
+        List<Settlement> settlements = settlementRepository.findSettlementBySecRouteId(secrouteid);
+        if (settlements.size() == 0)
+            return new ResponseResult(504,"secrouteid不存在!");
+        return new ResponseResult(settlements);
     }
 
     @Override
-    public ResponseResult findSettlementByEmployeeId(Long employeeId) {
-        return new ResponseResult(settlementRepository.findSettlementByEmployeeId(employeeId));
+    public ResponseResult findSettlementByUserId(Long userId) {
+        List<Settlement> settlements = settlementRepository.findSettlementBySecRouteId(userId);
+        if (settlements.size() == 0)
+            return new ResponseResult(503,"userId不存在!");
+        return new ResponseResult(settlements);
     }
 
     @Override
     public ResponseResult saveSettlement(Settlement settlement) {
-        Settlement s = settlementRepository.save(settlement);
-        return new ResponseResult(s);
+        try {
+            Settlement s = settlementRepository.save(settlement);
+            return new ResponseResult(s);
+        }
+        catch (Exception e){
+            return new ResponseResult(505,"插入失败!");
+        }
     }
 
     @Override
     public ResponseResult updateSettlement(Settlement settlement) {
-        return new ResponseResult(settlementRepository.save(settlement));
+        try {
+            Settlement s = settlementRepository.save(settlement);
+            return new ResponseResult(s);
+        }
+        catch (Exception e){
+            return new ResponseResult(506,"更新失败!");
+        }
     }
 }

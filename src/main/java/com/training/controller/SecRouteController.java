@@ -3,10 +3,7 @@ package com.training.controller;
 import com.training.domain.SecRoute;
 import com.training.response.ResponseResult;
 import com.training.service.SecRouteService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +16,14 @@ public class SecRouteController {
     @Autowired
     SecRouteService secRouteService;
 
+    @ApiResponses({
+            @ApiResponse(code=200,message="ok"),
+            @ApiResponse(code=500,message="段行程不存在"),
+            @ApiResponse(code=501,message="id不存在"),
+            @ApiResponse(code=502,message="routeid不存在"),
+            @ApiResponse(code=503,message="插入失败"),
+            @ApiResponse(code=504,message="更新失败")
+    })
     @ApiOperation("查询段路程表所有信息")
     @GetMapping("/")
     public ResponseResult findAllSecRoute() {

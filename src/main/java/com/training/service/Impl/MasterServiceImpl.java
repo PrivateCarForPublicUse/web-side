@@ -8,6 +8,8 @@ import com.training.service.MasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MasterServiceImpl implements MasterService {
 
@@ -16,18 +18,29 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public ResponseResult findAllMasters() {
-        return new ResponseResult(masterRepository.findAll());
+        List<Master> Masters = masterRepository.findAll();
+        if (Masters.size() == 0)
+            return new ResponseResult(500,"管理员不存在!");
+        return new ResponseResult(Masters);
     }
 
     @Override
     public ResponseResult findMastersByName(String newname) {
-        return new ResponseResult(masterRepository.findAllByName(newname));
+        List<Master> Masters =  masterRepository.findAllByName(newname);
+        if (Masters.size() == 0)
+            return new ResponseResult(501,"name不存在!");
+        return new ResponseResult(Masters);
     }
 
     @Override
     public ResponseResult saveMaster(Master master) {
-        Master m =  masterRepository.save(master);
-        return new ResponseResult(m);
+        try {
+            Master m =  masterRepository.save(master);
+            return new ResponseResult(m);
+        }
+        catch (Exception e){
+            return new ResponseResult(503,"插入失败!");
+        }
     }
 
     @Override
@@ -36,23 +49,45 @@ public class MasterServiceImpl implements MasterService {
     }
 
     @Override
-    public void deleteMasterById(Long id) { masterRepository.deleteById(id);
+    public ResponseResult deleteMasterById(Long id) {
+        try {
+            masterRepository.deleteById(id);
+            return new ResponseResult();
+        }
+        catch (Exception e){
+            return new ResponseResult(504,"删除失败!");
+        }
     }
 
     @Override
     public ResponseResult updateMaster(Master master) {
-        return new ResponseResult(masterRepository.save(master));
+        try {
+            Master m =  masterRepository.save(master);
+            return new ResponseResult(m);
+        }
+        catch (Exception e){
+            return new ResponseResult(503,"更新失败!");
+        }
     }
 
     @Override
     public ResponseResult findMasterById(Long id) {
-        return new ResponseResult(masterRepository.findById(id).get());
+        Master Master =  masterRepository.findById(id).get();
+        if (Master == null)
+            return new ResponseResult(501,"id不存在!");
+        return new ResponseResult(Master);
     }
 
     @Override
     public ResponseResult updateNameOfMastersById(Long id,String name){
-        Master m = masterRepository.findById(id).get();
-        m.setName(name);
-        return new ResponseResult(masterRepository.save(m));
+        try {
+            Master m = masterRepository.findById(id).get();
+            m.setName(name);
+            return new ResponseResult(m);
+        }
+        catch (Exception e){
+            return new ResponseResult(503,"更新失败!");
+        }
+
     }
 }
