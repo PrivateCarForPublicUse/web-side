@@ -19,26 +19,47 @@ public class CarRateServiceImpl implements CarRateService {
 
     @Override
     public ResponseResult getCarRates(){
-        return new ResponseResult(carRateRepository.findAll());
+        List<CarRate> carRates = carRateRepository.findAll();
+        if (carRates.size() == 0)
+            return new ResponseResult(500,"不存在任何评价!");
+        return new ResponseResult(carRates);
     }
 
     @Override
     public ResponseResult save(CarRate carRate){
-        return new ResponseResult(carRateRepository.save(carRate));
+        try {
+            CarRate c = carRateRepository.save(carRate);
+            return new ResponseResult(c);
+        }
+        catch (Exception e){
+            return new ResponseResult(501,"新建失败!");
+        }
     }
 
     @Override
     public ResponseResult update(CarRate carRate) {
-        return new ResponseResult(carRateRepository.save(carRate));
+        try {
+            CarRate c = carRateRepository.save(carRate);
+            return new ResponseResult(c);
+        }
+        catch (Exception e){
+            return new ResponseResult(504,"更新失败!");
+        }
     }
 
     @Override
     public ResponseResult findByUserId(Long userId) {
-        return new ResponseResult(carRateRepository.findByUserId(userId));
+        List<CarRate> carRates = carRateRepository.findByUserId(userId);
+        if (carRates.size() == 0)
+            return new ResponseResult(502,"该用户没有发表过任何评价!");
+        return new ResponseResult(carRates);
     }
 
     @Override
     public ResponseResult findByCarId(Long carId) {
+        List<CarRate> carRates = carRateRepository.findByCarId(carId);
+        if (carRates.size() == 0)
+            return new ResponseResult(503,"该车未曾收到过评价!");
         return new ResponseResult(carRateRepository.findByCarId(carId));
     }
 

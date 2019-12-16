@@ -19,26 +19,47 @@ public class UserRateServiceImpl implements UserRateService {
 
     @Override
     public ResponseResult getUserRates(){
-        return new ResponseResult(userRateRepository.findAll());
+        List<UserRate> userRates = userRateRepository.findAll();
+        if (userRates.size() == 0)
+            return new ResponseResult(500,"不存在任何评价!");
+        return new ResponseResult(userRates);
     }
 
     @Override
     public ResponseResult save(UserRate userRate){
-        return new ResponseResult(userRateRepository.save(userRate));
+        try {
+            UserRate u = userRateRepository.save(userRate);
+            return new ResponseResult(u);
+        }
+        catch (Exception e){
+            return new ResponseResult(501,"新建失败!");
+        }
     }
 
     @Override
     public ResponseResult update(UserRate userRate) {
-        return new ResponseResult(userRateRepository.save(userRate));
+        try {
+            UserRate u = userRateRepository.save(userRate);
+            return new ResponseResult(u);
+        }
+        catch (Exception e){
+            return new ResponseResult(504,"更新失败!");
+        }
     }
 
     @Override
     public ResponseResult findByUserId(Long userId) {
-        return new ResponseResult(userRateRepository.findByUserId(userId));
+        List<UserRate> userRates = userRateRepository.findByUserId(userId);
+        if (userRates.size() == 0)
+            return new ResponseResult(502,"该用户没有发表过任何评价!");
+        return new ResponseResult(userRates);
     }
 
     @Override
     public ResponseResult findByEvaluateeId(Long evaluateeId) {
-        return new ResponseResult(userRateRepository.findByEvaluateeId(evaluateeId));
+        List<UserRate> userRates = userRateRepository.findByEvaluateeId(evaluateeId);
+        if (userRates.size() == 0)
+            return new ResponseResult(503,"该用户没有受到过任何评价!");
+        return new ResponseResult(userRates);
     }
 }

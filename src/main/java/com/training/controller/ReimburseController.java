@@ -3,10 +3,7 @@ package com.training.controller;
 import com.training.domain.Reimburse;
 import com.training.response.ResponseResult;
 import com.training.service.ReimburseService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,12 +20,21 @@ public class ReimburseController {
     @Autowired
     ReimburseService reimburseService;
 
+    @ApiResponses({
+            @ApiResponse(code=500,message="不存在任何记录")
+    })
     @ApiOperation("获取所有报销列表")
     @GetMapping("/")
     public ResponseResult reimburses(){
         return reimburseService.getReimburses();
     }
 
+    @ApiResponses({
+            @ApiResponse(code=501,message="没有未报销的行程"),
+            @ApiResponse(code=502,message="没有已报销的行程"),
+            @ApiResponse(code=503,message="没有报销失败的行程"),
+            @ApiResponse(code=504,message="无效的识别码")
+    })
     @ApiOperation("根据-1报销失败，0未报销，1已报销，查看其中一种状态的报销列表")
     @ApiImplicitParam(name = "isReimburse",value = "报销状态")
     @GetMapping("/isReimburse/{isReimburse}")
@@ -36,6 +42,9 @@ public class ReimburseController {
         return reimburseService.getReimbursesByStatus(isReimburse);
     }
 
+    @ApiResponses({
+            @ApiResponse(code=505,message="id不存在")
+    })
     @ApiOperation("通过id获取报销信息")
     @ApiImplicitParam(name = "id", value = "主键id")
     @GetMapping("/id/{id}")
@@ -43,6 +52,9 @@ public class ReimburseController {
         return reimburseService.getReimburseById(id);
     }
 
+    @ApiResponses({
+            @ApiResponse(code=506,message="routeId不存在")
+    })
     @ApiOperation("通过RouteId获取报销信息")
     @ApiImplicitParam(name = "routeId",value = "行程id")
     @GetMapping("/routeId/{routeId}")
@@ -50,6 +62,9 @@ public class ReimburseController {
         return reimburseService.getReimburseByRouteId(routeId);
     }
 
+    @ApiResponses({
+            @ApiResponse(code=507,message="更新失败")
+    })
     @ApiOperation("更新某个行程的报销状态")
     @ApiImplicitParam(name = "reimburse",value = "报销对象")
     @PutMapping("/update")
