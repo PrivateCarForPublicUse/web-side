@@ -2,6 +2,7 @@ package com.training.service.Impl;
 
 import com.training.domain.Account;
 import com.training.repository.AccountRepository;
+import com.training.response.ResponseResult;
 import com.training.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,35 +16,35 @@ public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
 
     @Override
-    public List<Account> getAccounts() {
-        return accountRepository.findAll();
+    public ResponseResult getAccounts() {
+        return new ResponseResult(accountRepository.findAll());
     }
 
     @Override
-    public Account getAccountById(Long id) {
-        return accountRepository.findById(id).get();
+    public ResponseResult getAccountById(Long id) {
+        return new ResponseResult(accountRepository.findById(id).get());
     }
 
     @Override
-    public Account getAccountByToken(String token) {
-        return accountRepository.findByToken(token);
+    public ResponseResult getAccountByToken(String token) {
+        return new ResponseResult(accountRepository.findByToken(token));
     }
 
     @Override
-    public Account save(Account user) {
+    public ResponseResult save(Account user) {
         user.setToken(UUID.randomUUID().toString());
-        return accountRepository.save(user);
+        return new ResponseResult(accountRepository.save(user));
     }
 
     @Override
-    public Account update(Account user) {
-        return accountRepository.save(user);
+    public ResponseResult update(Account user) {
+        return new ResponseResult(accountRepository.save(user));
     }
 
     @Override
-    public Account delete(Long id) {
+    public ResponseResult delete(Long id) {
         Account account= accountRepository.findById(id).get();
         accountRepository.deleteById(id);
-        return account;
+        return new ResponseResult(account);
     }
 }

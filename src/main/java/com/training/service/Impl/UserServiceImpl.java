@@ -3,6 +3,7 @@ package com.training.service.Impl;
 
 import com.training.domain.User;
 import com.training.repository.UserRepository;
+import com.training.response.ResponseResult;
 import com.training.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,29 +16,32 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public List<User> getUsers(){
-        return userRepository.findAll();
+    public ResponseResult getUsers(){
+        return new ResponseResult(userRepository.findAll());
     }
 
     @Override
-    public User getUserById(Long id) {
-        return userRepository.findById(id).get();
+    public ResponseResult getUserById(Long id) {
+        return new ResponseResult(userRepository.findById(id).get());
     }
 
     @Override
-    public User save(User user){
-        return userRepository.save(user);
+    public ResponseResult save(User user){
+        return new ResponseResult(userRepository.save(user));
     }
 
     @Override
-    public User update(User user) {
-        return userRepository.save(user);
+    public ResponseResult update(User user) {
+        if(userRepository.findById(user.getId()).isPresent()==false){
+            return new ResponseResult(500,"找不到对象",null);
+        }
+        return new ResponseResult(userRepository.save(user));
     }
 
     @Override
-    public User delete(Long id){
+    public ResponseResult delete(Long id){
         User user = userRepository.findById(id).get();
         userRepository.deleteById(id);
-        return user;
+        return new ResponseResult(user);
     }
 }

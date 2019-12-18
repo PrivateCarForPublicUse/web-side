@@ -2,6 +2,7 @@ package com.training.controller;
 
 
 import com.training.domain.User;
+import com.training.response.ResponseResult;
 import com.training.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,15 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
+    @ApiResponses({
+            @ApiResponse(code=200,message="ok"),
+            @ApiResponse(code=500,message="对象不存在"),
+    })
+
     @ApiOperation("获取用户列表")
     @GetMapping("/")
-    public List<User> users(){
+    public ResponseResult users(){
         return userService.getUsers();
     }
 
@@ -27,28 +34,28 @@ public class UserController {
     @ApiOperation("通过id获取用户信息")
     @ApiImplicitParam(value = "用户id",paramType = "path")
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable("id") Long id){
+    public ResponseResult getUserById(@PathVariable("id") Long id){
         return userService.getUserById(id);
     }
 
     @ApiOperation("添加用户")
     @ApiImplicitParam(value = "用户对象",paramType = "query")
     @PostMapping("/user")
-    public User add(@RequestBody User user){
+    public ResponseResult add(@RequestBody User user){
         return userService.save(user);
     }
 
     @ApiOperation("更新用户")
     @ApiImplicitParam(value = "用户对象",paramType = "query")
     @PutMapping("/user")
-    public User update(@RequestBody User user){
-        return userService.save(user);
+    public ResponseResult update(@RequestBody User user){
+        return userService.update(user);
     }
 
     @ApiOperation("删除用户")
     @ApiImplicitParam(value = "用户id",paramType = "path")
     @DeleteMapping("/{id}")
-    public User delete(@PathVariable("id") Long id){
+    public ResponseResult delete(@PathVariable("id") Long id){
         return userService.delete(id);
     }
 }

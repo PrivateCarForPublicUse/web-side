@@ -9,17 +9,17 @@ public class Route {
     @Id
     @GeneratedValue
     private Long id;
-    //行程id
-    private String applyStartTime;
     //申请开始时间
-    private String applyEndTime;
+    private String applyStartTime;
     //申请结束时间
-    private Long carId;
+    private String applyEndTime;
     //申请车辆id
-    private Long userId;
+    private Long carId;
     //申请员工id
-    private int status;
+    private Long userId;
     //申请状态 （-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）
+    private int status;
+
     public Long getId() {
         return id;
     }

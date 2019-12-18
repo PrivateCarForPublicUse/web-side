@@ -8,39 +8,38 @@ import javax.persistence.Id;
 public class Car {
     @Id
     @GeneratedValue
-    private Long id;
     //车辆id
-    private String license;
+    private Long id;
     // 牌照
-    private String picture;
+    private String license;
     //车辆照片url
-    private String DrivingLicenseUrl;
+    private String picture;
     //车辆行驶证url
-    private String band;
+    private String DrivingLicenseUrl;
     //车辆品牌
-    private String type;
+    private String band;
     //车辆型号
-    private double StarOfCar;
+    private String type;
     //车辆星级
-    private String InsuranceCompany;
+    private double StarOfCar;
     //保险公司
-    private String StrongInsurancePolicy;
+    private String InsuranceCompany;
     //交强险保单
-    private String CommercialInsurancePolicy;
+    private String StrongInsurancePolicy;
     //商业险保单
-    private Long userId;
+    private String CommercialInsurancePolicy;
     //车主id
-    private int isPublic;
+    private Long userId;
     //公私状态 （1 公车；0 私车）
-    private int isUse;
+    private int isPublic;
     //使用状态（0 空闲；1 审核中；2 使用中 ）
-    private String starTime;
+    private int isUse;
     //车辆公用开始时间
-    private String endTime;
+    private String starTime;
     //车辆公用结束时间
-    private double displacement;
+    private String endTime;
     //车辆排量
-
+    private double displacement;
     //是否删除
     private int isDeleted;
 
