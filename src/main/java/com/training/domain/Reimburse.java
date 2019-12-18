@@ -13,7 +13,7 @@ public class Reimburse {
     private Long routeId;
     //行程id
     private int isReimburse;
-    //-1 报销失败；0 未报销；1 已报销
+    //-1 报销失败；0 未报销；1 已报销；2 审核中
 
     public Long getId() {
         return id;
