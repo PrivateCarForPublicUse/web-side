@@ -69,18 +69,12 @@ public class SettlementController {
     }
 
     @ApiOperation("新增结算表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "settlement", value = "新增的结算")
-    })
     @PostMapping("/save")
     public ResponseResult saveSettlement(@RequestBody Settlement settlement) {
         return settlementService.saveSettlement(settlement);
     }
 
     @ApiOperation("更新结算表")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "settlement", value = "更新的结算")
-    })
     @PostMapping("/update")
     public ResponseResult updateSettlement(@RequestBody Settlement settlement) {
         return settlementService.updateSettlement(settlement);

@@ -19,6 +19,8 @@ public class Route {
     private Long userId;
     //申请状态 （-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）
     private int status;
+    //申请理由
+    private String reason;
 
     public Long getId() {
         return id;
@@ -66,5 +68,22 @@ public class Route {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason) {
+        this.applyStartTime = applyStartTime;
+        this.applyEndTime = applyEndTime;
+        this.carId = carId;
+        this.userId = userId;
+        this.status = status;
+        this.reason = reason;
     }
 }

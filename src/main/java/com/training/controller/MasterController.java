@@ -52,9 +52,6 @@ public class MasterController {
     }
 
     @ApiOperation("增加一个新管理员")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "master", value = "新增的管理员")
-    })
     @PostMapping("/add")
     public ResponseResult saveMaster(@RequestBody Master master) {
         masterService.saveMaster(master);
@@ -72,9 +69,6 @@ public class MasterController {
     }
 
     @ApiOperation("更新管理员")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "master", value = "更新的管理员")
-    })
     @PostMapping("/update")
     public ResponseResult updateUser(@RequestBody Master master) {
         return masterService.updateMaster(master);

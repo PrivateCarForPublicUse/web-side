@@ -49,18 +49,12 @@ public class SecRouteController {
     }
 
     @ApiOperation("保存段行程")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "secroute", value = "新增的段行程")
-    })
     @PostMapping("/save")
     public ResponseResult saveSecRoute(@RequestBody SecRoute secroute) {
         return secRouteService.saveSecRoute(secroute);
     }
 
     @ApiOperation("更新段行程")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "secroute", value = "更新的段行程")
-    })
     @PostMapping("/update")
     public ResponseResult updateSecRoute(@RequestBody SecRoute secroute) {
         return secRouteService.updateSecRoute(secroute);

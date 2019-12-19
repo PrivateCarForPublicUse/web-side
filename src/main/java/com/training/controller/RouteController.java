@@ -59,18 +59,12 @@ public class RouteController {
     }
 
     @ApiOperation("保存行程")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "route", value = "新增的行程")
-    })
     @PostMapping("/save")
     public ResponseResult saveRoute(@RequestBody Route route) {
         return routeService.saveRoute(route);
     }
 
     @ApiOperation("更新行程")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "route", value = "更新的路程")
-    })
     @PostMapping("/update")
     public ResponseResult updateRoute(@RequestBody Route route) {
         return routeService.updateRoute(route);
