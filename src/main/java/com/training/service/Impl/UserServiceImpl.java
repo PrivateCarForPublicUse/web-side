@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,9 +33,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseResult update(User user) {
-        if(userRepository.findById(user.getId()).isPresent()==false){
-            return new ResponseResult(500,"找不到对象",null);
+        Optional<User> optional = userRepository.findById(user.getId());
+
+        if(optional.isPresent()==false){
+            return new ResponseResult(500,"找不到用户",null);
         }
+
+        User user1 =optional.get();
+        user.setPhoneNumber(user1.getPhoneNumber());
+        user.setAccountId(user1.getAccountId());
+        user.setUserName(user1.getUserName());
+        //以上三条信息无法更新！需要走其它通道！
         return new ResponseResult(userRepository.save(user));
     }
 

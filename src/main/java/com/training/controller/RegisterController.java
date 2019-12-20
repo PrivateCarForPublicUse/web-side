@@ -29,7 +29,12 @@ public class RegisterController {
     public ResponseResult register(@RequestBody RegisterDTO registerDTO){
 
 
-        Account account = new Account(); account.setPassword(registerDTO.getPassword());
+        if(userService.getUserByPhone(registerDTO.getPhoneNumber()).getData()!=null){
+            return new ResponseResult(500,"手机号已注册",null);
+        }
+
+        Account account = new Account();
+        account.setPassword(registerDTO.getPassword());
         Account account2 = (Account) accountService.save(account).getData();
 
         User user = new User();

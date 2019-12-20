@@ -12,8 +12,10 @@ import java.util.List;
 public interface UserRepository extends JpaRepository<User,Long> {
 //    @Query(value="select * from user_test where id = :id",nativeQuery = true)
 //    List<UserTest> findById(@Param("id")Integer id);
-@Query(value="select * from user where phone_number = :s",nativeQuery = true)
-User findByPhoneNumber(@Param("s")String s);
+    @Query(value="select * from user where phone_number = :s",nativeQuery = true)
+    User findByPhoneNumber(@Param("s")String s);
     @Query(value="select * from user where account_id = :id",nativeQuery = true)
     User findByAccount(@Param("id")Long id);
+    @Query(value="select * from user where user_name = :user_name",nativeQuery = true)
+    User getUserByUserName(@Param("user_name")String userName);
 }

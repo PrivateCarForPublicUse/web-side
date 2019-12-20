@@ -1,7 +1,11 @@
 package com.training.service.Impl;
 
 import com.training.domain.Account;
+import com.training.domain.User;
+import com.training.dto.LoginByUserNameDTO;
+import com.training.dto.LoginDTO;
 import com.training.repository.AccountRepository;
+import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,8 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private UserRepository userRepository;
     @Override
     public ResponseResult getAccounts() {
         return new ResponseResult(accountRepository.findAll());
@@ -47,4 +53,14 @@ public class AccountServiceImpl implements AccountService {
         accountRepository.deleteById(id);
         return new ResponseResult(account);
     }
+
+    public LoginDTO loginByUserName(LoginByUserNameDTO loginByUserNameDTO){
+        User user = userRepository.getUserByUserName(loginByUserNameDTO.getUserName());
+        Account account = accountRepository.findById(user.getAccountId()).get();
+        if(loginByUserNameDTO.getPassword().equals(account.getPassword())){
+            return new LoginDTO(account,user);
+        }
+        else return null;
+    }
+
 }

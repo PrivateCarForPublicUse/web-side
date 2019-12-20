@@ -4,6 +4,7 @@ package com.training.controller;
 import com.training.domain.Account;
 import com.training.domain.User;
 import com.training.dto.LoginByPhoneDTO;
+import com.training.dto.LoginByUserNameDTO;
 import com.training.dto.LoginDTO;
 import com.training.response.ResponseResult;
 import com.training.service.AccountService;
@@ -71,6 +72,16 @@ public class AuthorizeController {
         account.setId(user.getAccountId());
         return this.login(account);
 
+
+    }
+    @PostMapping("/login/username")
+    public ResponseResult loginByUserName(@RequestBody LoginByUserNameDTO loginByUserNameDTO){
+
+
+        LoginDTO loginDTO = accountService.loginByUserName(loginByUserNameDTO);
+        if(loginDTO==null)
+            return new ResponseResult(500,"账号密码错误",null);
+        else return new ResponseResult(loginDTO);
 
     }
 }
