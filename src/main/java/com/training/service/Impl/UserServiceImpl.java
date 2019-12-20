@@ -44,4 +44,16 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
         return new ResponseResult(user);
     }
+
+    @Override
+    public ResponseResult getUserByPhone(String s) {
+        User user = userRepository.findByPhoneNumber(s);
+        return new ResponseResult(user);
+    }
+
+    @Override
+    public ResponseResult getUserByAccount(Long id) {
+        User user = userRepository.findByAccount(id);
+        return new ResponseResult(user);
+    }
 }

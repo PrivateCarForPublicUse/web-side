@@ -12,4 +12,6 @@ public interface AccountService {
     ResponseResult save(Account user);
     ResponseResult update(Account user);
     ResponseResult delete(Long id);
+
+   // ResponseResult getAccountByUserId(Long id);
 }

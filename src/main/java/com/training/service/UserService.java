@@ -12,4 +12,7 @@ public interface UserService {
     ResponseResult save(User user);
     ResponseResult update(User user);
     ResponseResult delete(Long id);
+    ResponseResult getUserByPhone(String s);
+
+    ResponseResult getUserByAccount(Long id);
 }
