@@ -33,9 +33,10 @@ public class ReimburseController {
             @ApiResponse(code=501,message="没有未报销的行程"),
             @ApiResponse(code=502,message="没有已报销的行程"),
             @ApiResponse(code=503,message="没有报销失败的行程"),
+            @ApiResponse(code=509,message="没有待审核的行程"),
             @ApiResponse(code=504,message="无效的识别码")
     })
-    @ApiOperation("根据-1报销失败，0未报销，1已报销，查看其中一种状态的报销列表")
+    @ApiOperation("根据-1报销失败，0未报销，1已报销，2审核中查看其中一种状态的报销列表")
     @ApiImplicitParam(name = "isReimburse",value = "报销状态")
     @GetMapping("/isReimburse/{isReimburse}")
     public ResponseResult getReimbursesByStatus(@PathVariable("isReimburse") int isReimburse){
@@ -66,7 +67,6 @@ public class ReimburseController {
             @ApiResponse(code=507,message="更新失败")
     })
     @ApiOperation("更新某个行程的报销状态")
-    @ApiImplicitParam(name = "reimburse",value = "报销对象")
     @PutMapping("/update")
     public ResponseResult update(@RequestBody Reimburse reimburse){
         return reimburseService.save(reimburse);

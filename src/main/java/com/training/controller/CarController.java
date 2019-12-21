@@ -43,7 +43,6 @@ public class CarController {
             @ApiResponse(code=502,message="新建失败")
     })
     @ApiOperation("添加车辆")
-    @ApiImplicitParam(name="car",value = "车辆对象")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody Car car){
         return carService.save(car);
@@ -53,7 +52,6 @@ public class CarController {
             @ApiResponse(code=503,message="更新失败")
     })
     @ApiOperation("更新车辆")
-    @ApiImplicitParam(name="car",value = "车辆对象")
     @PutMapping("/update")
     public ResponseResult update(@RequestBody Car car){
         return carService.save(car);

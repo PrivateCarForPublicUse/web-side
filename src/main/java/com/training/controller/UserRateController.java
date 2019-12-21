@@ -53,7 +53,6 @@ public class UserRateController {
             @ApiResponse(code=501,message="新建失败")
     })
     @ApiOperation("新增评价")
-    @ApiImplicitParam(name="userRate",value = "评价内容")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody UserRate userRate){
         return userRateService.save(userRate);

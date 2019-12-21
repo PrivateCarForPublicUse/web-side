@@ -33,6 +33,7 @@ public class ReimburseServiceImpl implements ReimburseService {
                 case 0:return new ResponseResult(501,"没有未报销的行程!");
                 case 1:return new ResponseResult(502,"没有已报销的行程!");
                 case -1:return new ResponseResult(503,"没有报销失败的行程!");
+                case 2:return new ResponseResult(509,"没有待审核的行程!");
                 default:return new ResponseResult(504,"无效的识别码!");
             }
         }
