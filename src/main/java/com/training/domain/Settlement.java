@@ -78,7 +78,6 @@ public class Settlement {
         return id;
     }
 
-
     public Long getRouteId() {
         return routeId;
     }
@@ -105,5 +104,18 @@ public class Settlement {
 
     public String getRouteUrl() {
         return trid;
+    }
+
+    public Settlement() { }
+
+    public Settlement(Long userId, Long routeId, Long secRouteId, String carStartTime, String carStopTime, double drivingDistance, double drivingCost, String trid) {
+        this.userId = userId;
+        this.routeId = routeId;
+        this.secRouteId = secRouteId;
+        this.carStartTime = carStartTime;
+        this.carStopTime = carStopTime;
+        this.drivingCost = drivingCost;
+        this.drivingDistance = drivingDistance;
+        this.trid = trid;
     }
 }

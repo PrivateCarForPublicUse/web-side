@@ -14,6 +14,8 @@ public class Company {
     //企业所属的城市
     private String city;
 
+    public Company() {}
+
     public Company(String name, String city) {
         this.name = name;
         this.city = city;

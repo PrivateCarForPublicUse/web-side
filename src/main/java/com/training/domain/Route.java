@@ -21,6 +21,8 @@ public class Route {
     private int status;
     //申请理由
     private String reason;
+    //路径的traceId
+    private String trid;
 
     public Long getId() {
         return id;
@@ -78,12 +80,23 @@ public class Route {
         this.reason = reason;
     }
 
-    public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason) {
+    public String getTrid() {
+        return trid;
+    }
+
+    public void setTrid(String trid) {
+        this.trid = trid;
+    }
+
+    public Route(){}
+
+    public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason,String trid) {
         this.applyStartTime = applyStartTime;
         this.applyEndTime = applyEndTime;
         this.carId = carId;
         this.userId = userId;
         this.status = status;
         this.reason = reason;
+        this.trid = trid;
     }
 }
