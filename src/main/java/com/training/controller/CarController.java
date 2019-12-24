@@ -1,5 +1,6 @@
 package com.training.controller;
 
+import com.training.domain.Account;
 import com.training.domain.Car;
 import com.training.domain.User;
 import com.training.model.SelectCarModel;
@@ -116,8 +117,8 @@ public class CarController {
     @PostMapping("/getCarByTime")
     public ResponseResult getCarByTime(@RequestBody SelectCarModel model,HttpServletRequest request){
         HttpSession session=request.getSession();
-        User user= (User) session.getAttribute("user");
-        Long id=user.getId();
+        Account account= (Account) session.getAttribute("account");
+        Long id=account.getUserID();
         return carService.findByTimeAndUserID(model,id);
     }
 }

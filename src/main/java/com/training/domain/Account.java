@@ -11,6 +11,16 @@ public class Account {
     private Long id;
     private String password;
     private String token;
+    private Long userID;
+
+    public Long getUserID() {
+        return userID;
+    }
+
+    public void setUserID(Long userID) {
+        this.userID = userID;
+    }
+
     public String getToken() {
         return token;
     }
