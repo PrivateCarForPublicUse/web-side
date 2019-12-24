@@ -64,12 +64,12 @@ public class ReimburseController {
     }
 
     @ApiResponses({
-            @ApiResponse(code=507,message="更新失败")
+            @ApiResponse(code=507,message="修改失败")
     })
-    @ApiOperation("更新某个行程的报销状态")
-    @PutMapping("/update")
-    public ResponseResult update(@RequestBody Reimburse reimburse){
-        return reimburseService.save(reimburse);
+    @ApiOperation("发出报销申请")
+    @PutMapping("/apply")
+    public ResponseResult update(@RequestParam("routeIds")List<Long> routeIds){
+        return reimburseService.applyReimburse(routeIds);
     }
 
 }

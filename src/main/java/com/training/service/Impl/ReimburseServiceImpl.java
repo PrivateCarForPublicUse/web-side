@@ -81,4 +81,18 @@ public class ReimburseServiceImpl implements ReimburseService {
         }
     }
 
+    @Override
+    public ResponseResult applyReimburse(List<Long> routeIds) {
+        try {
+            for(Long routeId : routeIds){
+                Reimburse reimburse = reimburseRepository.findById(routeId).get();
+                reimburse.setIsReimburse(2);
+                reimburseRepository.save(reimburse);
+            }
+            return new ResponseResult(200,"更新成功!");
+        }
+        catch (Exception e){
+            return new ResponseResult(507,"更新失败!");
+        }
+    }
 }

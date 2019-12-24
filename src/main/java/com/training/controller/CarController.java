@@ -118,7 +118,33 @@ public class CarController {
     public ResponseResult getCarByTime(@RequestBody SelectCarModel model,HttpServletRequest request){
         HttpSession session=request.getSession();
         Account account= (Account) session.getAttribute("account");
-        Long id=account.getUserID();
+        Long id=account.getUserId();
         return carService.findByTimeAndUserID(model,id);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code=514,message="更新车辆状态失败!")
+    })
+    @ApiOperation("开始用车，更改carId对应车辆状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "carId", value = "车辆id"),
+            @ApiImplicitParam(name = "secRouteId", value = "段行程id")
+    })
+    @GetMapping("/startUse")
+    public ResponseResult startUse(@RequestParam("carId")Long carId,@RequestParam("secRouteId")Long secRouteId){
+        return carService.updateCarIsUseOrNot(carId,secRouteId,2);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code=514,message="更新车辆状态失败!")
+    })
+    @ApiOperation("结束用车，更改carId对应车辆状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name =  "carId", value = "车辆id"),
+            @ApiImplicitParam(name = "secRouteId", value = "段行程id")
+    })
+    @GetMapping("/endUse")
+    public ResponseResult endUse(@RequestParam("carId")Long carId,@RequestParam("secRouteId")Long secRouteId){
+        return carService.updateCarIsUseOrNot(carId,secRouteId,0);
     }
 }

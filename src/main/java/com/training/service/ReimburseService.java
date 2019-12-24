@@ -15,4 +15,5 @@ public interface ReimburseService {
     ResponseResult getReimburseByRouteId(Long routeId);
     ResponseResult save(Reimburse reimburse);
     ResponseResult update(Reimburse reimburse);
+    ResponseResult applyReimburse(List<Long> routeIds);
 }

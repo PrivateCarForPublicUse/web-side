@@ -126,4 +126,17 @@ public class CarServiceImpl implements CarService {
         }
         return new ResponseResult(cars);
     }
+
+    @Override
+    public ResponseResult updateCarIsUseOrNot(Long carId, Long secRouteId,int status) {
+        try {
+            Car car = carRepository.findById(carId).get();
+            car.setIsUse(status);
+            carRepository.save(car);
+            return new ResponseResult(200,"更新车辆状态成功");
+        }
+        catch (Exception e){
+            return new ResponseResult(514,"更新车辆状态失败!");
+        }
+    }
 }
