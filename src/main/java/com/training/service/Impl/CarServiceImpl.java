@@ -1,6 +1,7 @@
 package com.training.service.Impl;
 
 import com.training.domain.Car;
+import com.training.model.SelectCarModel;
 import com.training.repository.CarRepository;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
@@ -105,6 +106,23 @@ public class CarServiceImpl implements CarService {
                 case -1:return new ResponseResult(512,"没有已删除的车!");
                 default:return new ResponseResult(507,"无效的识别码!");
             }
+        }
+        return new ResponseResult(cars);
+    }
+
+    @Override
+    public ResponseResult findByTimeAndUserID(SelectCarModel model, Long id) {
+        List<Car> cars;
+        String startTime=model.getStartTime();
+        String endTime=model.getEndTime();
+        int isMine=model.getIsMine();
+        if(isMine==1){
+            cars = carRepository.findByTimeAndMy(startTime,endTime,id);
+        }else {
+            cars = carRepository.findByTimeAndNotMy(startTime, endTime, id);
+        }
+        if (cars.size() == 0){
+            return new ResponseResult(513,"不存在该时间段可用的车辆!");
         }
         return new ResponseResult(cars);
     }

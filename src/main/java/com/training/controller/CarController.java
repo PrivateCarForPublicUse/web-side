@@ -1,12 +1,16 @@
 package com.training.controller;
 
 import com.training.domain.Car;
+import com.training.domain.User;
+import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -103,5 +107,17 @@ public class CarController {
     @GetMapping("/isDeleted/{isDeleted}")
     public ResponseResult findByIsDeleted(@PathVariable("isDeleted") int isDeleted){
         return carService.findByIsDeleted(isDeleted);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code=513,message="不存在该时间段可用的车辆")
+    })
+    @ApiOperation("根据选定时间查看自己或别人的车,isMine的1表示自己的车，0表示别人的车")
+    @PostMapping("/getCarByTime")
+    public ResponseResult getCarByTime(@RequestBody SelectCarModel model,HttpServletRequest request){
+        HttpSession session=request.getSession();
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
+        return carService.findByTimeAndUserID(model,id);
     }
 }

@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.Car;
+import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
 
 import java.util.List;
@@ -17,4 +18,5 @@ public interface CarService {
     ResponseResult findByIsPublic(int isPublic);
     ResponseResult findByIsUse(int isUse);
     ResponseResult findByIsDeleted(int isDeleted);
+    ResponseResult findByTimeAndUserID(SelectCarModel model, Long id);
 }
