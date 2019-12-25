@@ -1,12 +1,19 @@
 package com.training.controller;
 
+import com.training.domain.Account;
 import com.training.domain.Route;
+import com.training.domain.SecRoute;
+import com.training.dto.ApplyCarDTO;
 import com.training.response.ResponseResult;
 import com.training.service.RouteService;
+import com.training.service.SecRouteService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.applet.Applet;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
 @Api(value="/Route",tags="用于测试路程表相关接口")
@@ -15,6 +22,8 @@ import org.springframework.web.bind.annotation.*;
 public class RouteController {
     @Autowired
     RouteService routeService;
+    @Autowired
+    SecRouteService secRouteService;
 
     @ApiResponses({
             @ApiResponse(code=200,message="ok"),
@@ -79,6 +88,28 @@ public class RouteController {
     public ResponseResult updateStatusOfRouteById(@RequestParam("id")Long id, @RequestParam("st")int st) {
         return routeService.updateStatusOfRouteById(id, st);
     }
+
+    @ApiOperation("申请用车")
+    @PostMapping("/applyCar")
+    public ResponseResult applyCar(@RequestBody ApplyCarDTO applyCarDTO, HttpServletRequest request) {
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        Long id=account.getUserId();
+        Route route = new Route(applyCarDTO.getStartTime(),applyCarDTO.getEndTime(),applyCarDTO.getCarId(),id,0,applyCarDTO.getReason());
+        ResponseResult r = routeService.saveRoute(route);
+        if (r.getCode() != 200)
+            return r;
+        Route route1 = (Route) r.getData();
+        int i = 0,j = 0;
+        while (i < applyCarDTO.getNames().size()){
+            SecRoute secRoute = new SecRoute(route1.getId(),applyCarDTO.getNames().get(i),applyCarDTO.getNames().get(i+1),applyCarDTO.getLats().get(j).getLongitude(),applyCarDTO.getLats().get(j).getLatitude(), applyCarDTO.getLats().get(j+1).getLongitude(),applyCarDTO.getLats().get(j+1).getLatitude());
+            i += 2;
+            j += 2;
+            secRouteService.saveSecRoute(secRoute);
+        }
+        return r;
+    }
+
 
     @ApiOperation("根据审核状态返回路程信息，返回包含用户、车辆、段路程")
     @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）")

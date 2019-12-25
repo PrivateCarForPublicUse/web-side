@@ -4,6 +4,7 @@ import com.training.domain.Master;
 import com.training.response.ResponseResult;
 import com.training.service.Impl.MasterServiceImpl;
 import com.training.service.MasterService;
+import com.training.service.RouteService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/Master")
 @RestController
 public class MasterController {
+    @Autowired
+    RouteService routeService;
     @Autowired
     MasterService masterService;
     @ApiResponses({
@@ -82,5 +85,15 @@ public class MasterController {
     @PostMapping("/update_name")
     public ResponseResult updateUser(@RequestParam("id")Long id, @RequestParam("name")String name) {
         return masterService.updateNameOfMastersById(id, name);
+    }
+
+    @ApiOperation("管理员审核申请用车")
+    @PostMapping("/reviewUseCar")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "routeId", value = "路程id"),
+            @ApiImplicitParam(name = "status", value = "修改后的路程状态")
+    })
+    public ResponseResult reviewUseCar(@RequestParam("routeId")Long routeId,@RequestParam("status")int status){
+        return routeService.updateStatusOfRouteById(routeId,status);
     }
 }
