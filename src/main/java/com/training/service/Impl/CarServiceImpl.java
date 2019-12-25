@@ -128,7 +128,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public ResponseResult updateCarIsUseOrNot(Long carId, Long secRouteId,int status) {
+    public ResponseResult updateCarIsUseOrNot(Long carId,int status) {
         try {
             Car car = carRepository.findById(carId).get();
             car.setIsUse(status);
@@ -138,5 +138,14 @@ public class CarServiceImpl implements CarService {
         catch (Exception e){
             return new ResponseResult(514,"更新车辆状态失败!");
         }
+    }
+
+    @Override
+    public ResponseResult findMyCarByUserID(Long userId) {
+        List<Car> cars = carRepository.findByUserId(userId);
+        if (cars.size() == 0){
+            return new ResponseResult(515,"您没有已登记的车辆!");
+        }
+        return new ResponseResult(cars);
     }
 }

@@ -132,7 +132,7 @@ public class CarController {
     })
     @GetMapping("/startUse")
     public ResponseResult startUse(@RequestParam("carId")Long carId,@RequestParam("secRouteId")Long secRouteId){
-        return carService.updateCarIsUseOrNot(carId,secRouteId,2);
+        return carService.updateCarIsUseOrNot(carId,2);
     }
 
     @ApiResponses({
@@ -145,6 +145,18 @@ public class CarController {
     })
     @GetMapping("/endUse")
     public ResponseResult endUse(@RequestParam("carId")Long carId,@RequestParam("secRouteId")Long secRouteId){
-        return carService.updateCarIsUseOrNot(carId,secRouteId,0);
+        return carService.updateCarIsUseOrNot(carId,0);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code=515,message="您没有已登记的车辆")
+    })
+    @ApiOperation("普通用户接口：管理我的车辆")
+    @GetMapping("/getMyCar")
+    public ResponseResult getMyCar(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        Long id=account.getUserId();
+        return carService.findMyCarByUserID(id);
     }
 }

@@ -29,4 +29,6 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     public List<Car> findByTimeAndNotMy(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("id") Long id);
     // 根据id获取
     Car getCarById(Long id);
+    //根据userId获取
+    public List<Car> findByUserId(Long userId);
 }

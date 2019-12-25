@@ -67,6 +67,7 @@ public class ReimburseController {
             @ApiResponse(code=507,message="修改失败")
     })
     @ApiOperation("发出报销申请")
+    @ApiImplicitParam(name = "routeIds",value = "行程id的列表")
     @PutMapping("/apply")
     public ResponseResult update(@RequestParam("routeIds")List<Long> routeIds){
         return reimburseService.applyReimburse(routeIds);

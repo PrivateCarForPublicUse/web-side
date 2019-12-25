@@ -19,5 +19,6 @@ public interface CarService {
     ResponseResult findByIsUse(int isUse);
     ResponseResult findByIsDeleted(int isDeleted);
     ResponseResult findByTimeAndUserID(SelectCarModel model, Long id);
-    ResponseResult updateCarIsUseOrNot(Long carId, Long secRouteId,int status);
+    ResponseResult updateCarIsUseOrNot(Long carId,int status);
+    ResponseResult findMyCarByUserID(Long userId);
 }
