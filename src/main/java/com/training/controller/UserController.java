@@ -58,4 +58,9 @@ public class UserController {
     public ResponseResult delete(@PathVariable("id") Long id){
         return userService.delete(id);
     }
+
+    @ApiOperation("根据审核状态返回用户,审核状态：-1审核不通过,0未审核,1审核通过")
+    @ApiImplicitParam(value="审核状态",name="status")
+    @GetMapping("/status")
+    public ResponseResult getByStatus(@RequestParam int status){return userService.getUsersByCheckStatus(status);}
 }

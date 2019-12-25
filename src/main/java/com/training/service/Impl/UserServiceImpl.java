@@ -65,4 +65,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByAccount(id);
         return new ResponseResult(user);
     }
+
+    @Override
+    public ResponseResult getUsersByCheckStatus(int status) {
+        List<User> users = userRepository.getUsersByCheckStatus(status);
+        return new ResponseResult(users);
+    }
 }

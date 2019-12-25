@@ -15,4 +15,6 @@ public interface UserService {
     ResponseResult getUserByPhone(String s);
 
     ResponseResult getUserByAccount(Long id);
+    //根据审核状态返回
+    ResponseResult getUsersByCheckStatus(int status);
 }

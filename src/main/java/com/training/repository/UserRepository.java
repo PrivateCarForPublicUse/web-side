@@ -18,4 +18,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByAccount(@Param("id")Long id);
     @Query(value="select * from user where user_name = :user_name",nativeQuery = true)
     User getUserByUserName(@Param("user_name")String userName);
+    //根据用户审核状态查询
+    List<User> getUsersByCheckStatus(int status);
 }

@@ -33,7 +33,7 @@ public class SessionInterception implements HandlerInterceptor {
                     break;
                 }
             }
-        return true;
+        return true;//false
     }
 
 }
