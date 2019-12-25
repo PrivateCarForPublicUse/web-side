@@ -1,5 +1,6 @@
 package com.training.controller;
 
+import com.training.domain.Account;
 import com.training.domain.Route;
 import com.training.domain.SecRoute;
 import com.training.dto.ApplyCarDTO;
@@ -10,6 +11,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.applet.Applet;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
@@ -88,8 +91,11 @@ public class RouteController {
 
     @ApiOperation("申请用车")
     @PostMapping("/applyCar")
-    public ResponseResult applyCar(@RequestBody ApplyCarDTO applyCarDTO) {
-        Route route = new Route(applyCarDTO.getStartTime(),applyCarDTO.getEndTime(),applyCarDTO.getCarId(),applyCarDTO.getUserId(),0,applyCarDTO.getReason());
+    public ResponseResult applyCar(@RequestBody ApplyCarDTO applyCarDTO, HttpServletRequest request) {
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        Long id=account.getUserId();
+        Route route = new Route(applyCarDTO.getStartTime(),applyCarDTO.getEndTime(),applyCarDTO.getCarId(),id,0,applyCarDTO.getReason());
         ResponseResult r = routeService.saveRoute(route);
         if (r.getCode() != 200)
             return r;
