@@ -1,27 +1,27 @@
 package com.training.dto;
 
 public class PointLatDTO {
-    private String Longitude;
-    private String Latitude;
+    private String longitude;
+    private String latitude;
 
     public String getLongitude() {
-        return Longitude;
+        return longitude;
     }
 
     public void setLongitude(String longitude) {
-        Longitude = longitude;
+        this.longitude = longitude;
     }
 
     public String getLatitude() {
-        return Latitude;
+        return latitude;
     }
 
     public void setLatitude(String latitude) {
-        Latitude = latitude;
+        this.latitude = latitude;
     }
 
     public PointLatDTO(String longitude, String latitude) {
-        Longitude = longitude;
-        Latitude = latitude;
+        this.longitude = longitude;
+        this.latitude = latitude;
     }
 }
