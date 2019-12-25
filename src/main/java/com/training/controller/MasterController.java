@@ -1,5 +1,7 @@
 package com.training.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.training.domain.Master;
 import com.training.response.ResponseResult;
 import com.training.service.Impl.MasterServiceImpl;
@@ -93,7 +95,8 @@ public class MasterController {
             @ApiImplicitParam(name = "routeId", value = "路程id"),
             @ApiImplicitParam(name = "status", value = "修改后的路程状态")
     })
-    public ResponseResult reviewUseCar(@RequestParam("routeId")Long routeId,@RequestParam("status")int status){
-        return routeService.updateStatusOfRouteById(routeId,status);
+    public ResponseResult reviewUseCar(@RequestBody String body){
+        JSONObject json = JSON.parseObject(body);
+        return routeService.updateStatusOfRouteById(json.getLong("routeId"),json.getInteger("status"));
     }
 }

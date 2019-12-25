@@ -3,12 +3,12 @@ package com.training.dto;
 import java.util.List;
 
 public class ApplyCarDTO {
-    private String startTime;
-    private String endTime;
-    private String reason;
-    private List<String> names;
-    private List<PointLatDTO> lats;
-    private Long carId;
+        private String startTime;
+        private String endTime;
+        private String reason;
+        private List<String> names;
+        private List<PointLatDTO> lats;
+        private Long carId;
 
 
     public String getStartTime() {
