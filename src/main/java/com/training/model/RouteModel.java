@@ -11,20 +11,20 @@ public class RouteModel {
     private User user;
     private Car car;
     private Route route;
-    private List<SecRoute>secRoutes;
+    private List<SecRouteModel>secRoutesModel;
 
     public RouteModel() {}
 
-    public RouteModel(Route route, List<SecRoute> secRoutes) {
+    public RouteModel(Route route, List<SecRouteModel> secRoutes) {
         this.route = route;
-        this.secRoutes = secRoutes;
+        this.secRoutesModel = secRoutes;
     }
 
-    public RouteModel(User user, Car car, Route route, List<SecRoute> secRoutes) {
+    public RouteModel(User user, Car car, Route route, List<SecRouteModel> secRoutes) {
         this.user = user;
         this.car = car;
         this.route = route;
-        this.secRoutes = secRoutes;
+        this.secRoutesModel = secRoutes;
     }
 
     public Route getRoute() {
@@ -35,12 +35,12 @@ public class RouteModel {
         this.route = route;
     }
 
-    public List<SecRoute> getSecRoutes() {
-        return secRoutes;
+    public List<SecRouteModel> getSecRoutes() {
+        return secRoutesModel;
     }
 
-    public void setSecRoutes(List<SecRoute> secRoutes) {
-        this.secRoutes = secRoutes;
+    public void setSecRoutes(List<SecRouteModel> secRoutes) {
+        this.secRoutesModel = secRoutes;
     }
 
     public User getUser() {

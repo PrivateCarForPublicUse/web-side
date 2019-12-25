@@ -4,13 +4,13 @@ import com.training.domain.Settlement;
 
 public class SettlementModel {
     private Settlement settlement;
-    private RouteModel route;
+    private RouteModel routeModel;
 
     public SettlementModel(){}
 
     public SettlementModel(Settlement settlement, RouteModel route) {
         this.settlement = settlement;
-        this.route = route;
+        this.routeModel = route;
     }
 
     public Settlement getSettlement() {
@@ -22,10 +22,10 @@ public class SettlementModel {
     }
 
     public RouteModel getRoute() {
-        return route;
+        return routeModel;
     }
 
     public void setRoute(RouteModel route) {
-        this.route = route;
+        this.routeModel = route;
     }
 }

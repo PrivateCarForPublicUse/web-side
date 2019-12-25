@@ -9,6 +9,7 @@ import com.training.repository.SecRouteRepository;
 import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.RouteService;
+import com.training.service.SecRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +27,8 @@ public class RouteServiceImpl implements RouteService {
     UserRepository userRepository;
     @Autowired
     CarRepository carRepository;
+    @Autowired
+    SecRouteService secRouteService;
 
     @Override
     public ResponseResult findAllRoute() {
@@ -132,10 +135,18 @@ public class RouteServiceImpl implements RouteService {
         return new ResponseResult(this.packRouteModels(routeRepository.findAll()));
     }
 
+    //根据报销状态返回行程
+    @Override
+    public ResponseResult findFDRoutesByIsReimburse(int is){
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByIsReimburse(is)));
+    }
+
+
+
     //包装返回的Route类型r
     private RouteModel packRouteModel(Route r){
         if(r==null)return null;
-        return new RouteModel(userRepository.getUserById(r.getUserId()),carRepository.getCarById(r.getCarId()),r,secRouteRepository.findSecRouteByRouteId(r.getId()));
+        return new RouteModel(userRepository.getUserById(r.getUserId()),carRepository.getCarById(r.getCarId()),r,secRouteService.findFDSecRouteByRouteId(r.getId()));
     }
     //包装返回的Route类型routes
     private List<RouteModel> packRouteModels(List<Route>routes){

@@ -21,5 +21,10 @@ public interface RouteRepository extends JpaRepository<Route,Long> {
 
     // 根据审核状态返回行程
     List<Route> findRoutesByStatus(int status);
+
+    //根据id返回数据
     Route findRouteById(Long id);
+
+    //根据报销状态返回行程
+    List<Route> findRoutesByIsReimburse(int is);
 }

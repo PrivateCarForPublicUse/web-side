@@ -124,6 +124,11 @@ public class RouteController {
         return routeService.findFDRoutes();
     }
 
+    @ApiOperation("根据报销状态返回包含所有详细数据的路程")
+    @ApiImplicitParam(name="is",value="是否报销")
+    @GetMapping("/is_reimburse")
+    public ResponseResult findFDRoutesByIsReimburse(@RequestParam("is")int is){return routeService.findFDRoutesByIsReimburse(is);}
+
     /*
     public void deleteRoute(Route route) {
         routeService.deleteRoute(route);

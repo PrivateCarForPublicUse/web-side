@@ -1,13 +1,16 @@
 package com.training.service.Impl;
 
-import com.training.domain.Route;
 import com.training.domain.SecRoute;
+import com.training.domain.Settlement;
+import com.training.model.SecRouteModel;
 import com.training.repository.SecRouteRepository;
+import com.training.repository.SettlementRepository;
 import com.training.response.ResponseResult;
 import com.training.service.SecRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +18,8 @@ public class SecRouteServiceImpl implements SecRouteService {
 
     @Autowired
     SecRouteRepository secRouteRepository;
+    @Autowired
+    SettlementRepository settlementRepository;
 
     @Override
     public ResponseResult findAllSecRoute() {
@@ -75,5 +80,30 @@ public class SecRouteServiceImpl implements SecRouteService {
         catch (Exception e){
             return new ResponseResult(504,"更新失败!");
         }
+    }
+
+    @Override
+    public List<SecRouteModel> findFDSecRouteByRouteId(Long id) {
+        return this.packSecRouteModels(secRouteRepository.findSecRouteByRouteId(id));
+    }
+
+    //根据id返回SecRouteModel
+//    public List<SecRouteModel> ()
+
+    //和settlement包装
+    private SecRouteModel packSecRouteModel(SecRoute secRoute){
+        if(secRoute==null)return null;
+        List<Settlement> settlement = settlementRepository.findSettlementBySecRouteId(secRoute.getId());
+        if(settlement!=null&&settlement.size()>0)
+            return new SecRouteModel(secRoute,settlement.get(0));
+        else return new SecRouteModel(secRoute,null);
+    }
+    private List<SecRouteModel> packSecRouteModels(List<SecRoute>secRoutes){
+        if(secRoutes==null)return null;
+        List<SecRouteModel>secRouteModels=new ArrayList<>();
+        for(SecRoute secRoute:secRoutes){
+            secRouteModels.add(this.packSecRouteModel(secRoute));
+        }
+        return secRouteModels;
     }
 }

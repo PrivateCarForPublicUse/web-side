@@ -4,6 +4,8 @@ import com.training.domain.Route;
 import com.training.model.RouteModel;
 import com.training.response.ResponseResult;
 
+import java.util.List;
+
 public interface RouteService {
     ResponseResult findAllRoute();
     ResponseResult findRouteById(Long id);
@@ -22,4 +24,6 @@ public interface RouteService {
     ResponseResult findFDRoutes();
     // 根据id获取包含所有信息的路程
     RouteModel findFDRouteById(Long id);
+    //根据报销状态返回行程
+    ResponseResult findFDRoutesByIsReimburse(int is);
 }
