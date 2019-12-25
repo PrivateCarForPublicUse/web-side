@@ -141,10 +141,10 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public ResponseResult findMyCarByUserID(Long userId) {
-        List<Car> cars = carRepository.findByUserId(userId);
+    public ResponseResult findMyCarByIsPublicAndUserID(int isPublic, Long userId) {
+        List<Car> cars = carRepository.findByIsPublicAndUserId(isPublic,userId);
         if (cars.size() == 0){
-            return new ResponseResult(515,"您没有已登记的车辆!");
+            return new ResponseResult(515,"您没有该状态的车辆!");
         }
         return new ResponseResult(cars);
     }

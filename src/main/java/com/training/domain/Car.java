@@ -42,8 +42,16 @@ public class Car {
     private double displacement;
     //是否删除
     private int isDeleted;
+    //总行驶里程(km)
+    private double mileage;
 
+    public double getMileage() {
+        return mileage;
+    }
 
+    public void setMileage(double mileage) {
+        this.mileage = mileage;
+    }
 
     public Car() {
     }

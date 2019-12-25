@@ -2,7 +2,6 @@ package com.training.controller;
 
 import com.training.domain.Account;
 import com.training.domain.Car;
-import com.training.domain.User;
 import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.List;
 
 /**
  * by Huang
@@ -149,14 +147,15 @@ public class CarController {
     }
 
     @ApiResponses({
-            @ApiResponse(code=515,message="您没有已登记的车辆")
+            @ApiResponse(code=515,message="您没有该状态的车辆")
     })
-    @ApiOperation("普通用户接口：管理我的车辆")
+    @ApiOperation("普通用户接口：管理我的车辆，isPublic为1表示公车，0表示私车")
+    @ApiImplicitParam(name="isPublic",value = "是否公用")
     @GetMapping("/getMyCar")
-    public ResponseResult getMyCar(HttpServletRequest request){
+    public ResponseResult getMyCar(@RequestParam("isPublic")int isPublic,HttpServletRequest request){
         HttpSession session=request.getSession();
         Account account= (Account) session.getAttribute("account");
         Long id=account.getUserId();
-        return carService.findMyCarByUserID(id);
+        return carService.findMyCarByIsPublicAndUserID(isPublic,id);
     }
 }
