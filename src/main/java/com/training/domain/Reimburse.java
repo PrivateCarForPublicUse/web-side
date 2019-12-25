@@ -8,12 +8,12 @@ import javax.persistence.Id;
 public class Reimburse {
     @Id
     @GeneratedValue
-    private Long id;
     //报销id
-    private Long routeId;
+    private Long id;
     //行程id
-    private int isReimburse;
+    private Long routeId;
     //-1 报销失败；0 未报销；1 已报销；2 审核中
+    private int isReimburse;
 
     public Long getId() {
         return id;
