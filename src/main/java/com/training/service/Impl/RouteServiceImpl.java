@@ -1,12 +1,18 @@
 package com.training.service.Impl;
 
 import com.training.domain.Route;
+import com.training.domain.SecRoute;
+import com.training.model.RouteModel;
+import com.training.repository.CarRepository;
 import com.training.repository.RouteRepository;
+import com.training.repository.SecRouteRepository;
+import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +20,12 @@ public class RouteServiceImpl implements RouteService {
 
     @Autowired
     RouteRepository routeRepository;
+    @Autowired
+    SecRouteRepository secRouteRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    CarRepository carRepository;
 
     @Override
     public ResponseResult findAllRoute() {
@@ -28,7 +40,7 @@ public class RouteServiceImpl implements RouteService {
         Route route = routeRepository.findById(id).get();
         if (route == null)
             return new ResponseResult(501,"id不存在!");
-        return new ResponseResult(route) ;
+        return new ResponseResult(this.packRouteModel(route)) ;
     }
 
     @Override
@@ -100,5 +112,32 @@ public class RouteServiceImpl implements RouteService {
             return new ResponseResult(505,"更新失败");
         }
 
+    }
+
+    //根据审核状态返回路程
+    @Override
+    public ResponseResult findRoutesByStatus(int status) {
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatus(status)));
+    }
+
+    //获取包含所有数据的所有路程信息
+    @Override
+    public ResponseResult findFDRoutes(){
+        return new ResponseResult(this.packRouteModels(routeRepository.findAll()));
+    }
+
+    //包装返回的Route类型r
+    private RouteModel packRouteModel(Route r){
+        if(r==null)return null;
+        return new RouteModel(userRepository.getUserById(r.getUserId()),carRepository.getCarById(r.getCarId()),r,secRouteRepository.findSecRouteByRouteId(r.getId()));
+    }
+    //包装返回的Route类型routes
+    private List<RouteModel> packRouteModels(List<Route>routes){
+        if(routes==null)return null;
+        List<RouteModel> routeModels=new ArrayList<>();
+        for(Route r:routes){
+            routeModels.add(this.packRouteModel(r));
+        }
+        return routeModels;
     }
 }

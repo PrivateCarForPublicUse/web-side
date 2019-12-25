@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User getUserByUserName(@Param("user_name")String userName);
     //根据用户审核状态查询
     List<User> getUsersByCheckStatus(int status);
+    //根据id获取
+    User getUserById(Long id);
 }

@@ -80,6 +80,19 @@ public class RouteController {
         return routeService.updateStatusOfRouteById(id, st);
     }
 
+    @ApiOperation("根据审核状态返回路程信息，返回包含用户、车辆、段路程")
+    @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）")
+    @GetMapping("/status")
+    public ResponseResult findRoutesByStatus(@RequestParam("status")int status){
+        return routeService.findRoutesByStatus(status);
+    }
+
+    @ApiOperation("获取包含所有信息的所有路程")
+    @GetMapping("/fd")
+    public ResponseResult findFDRoutes(){
+        return routeService.findFDRoutes();
+    }
+
     /*
     public void deleteRoute(Route route) {
         routeService.deleteRoute(route);

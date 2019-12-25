@@ -27,4 +27,6 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     // 根据time查询NotMy
     @Query(value="select * from car where star_time <= :startTime and end_time >= :endTime and user_id != :id",nativeQuery = true)
     public List<Car> findByTimeAndNotMy(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("id") Long id);
+    // 根据id获取
+    Car getCarById(Long id);
 }

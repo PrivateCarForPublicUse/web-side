@@ -13,12 +13,12 @@ import java.util.List;
 public interface SecRouteRepository extends JpaRepository<SecRoute,Long> {
 
     // 根据RouteId查询段行程，使用sql语句
-    @Query(value="select * from sec_route where routeId = :routeid",nativeQuery = true)
+    @Query(value="select * from sec_route where route_id = :routeid",nativeQuery = true)
     public List<SecRoute> findSecRouteByRouteId(@Param("routeid") Long routeid);
 
     // 根据RouteId删除段行程，使用sql语句
     @Modifying
-    @Query(value="delete from sec_route where routeId = :routeid",nativeQuery = true)
+    @Query(value="delete from sec_route where route_id = :routeid",nativeQuery = true)
     public void deleteSecRouteByRouteId(@Param("routeid") Long routeid);
 
 }
