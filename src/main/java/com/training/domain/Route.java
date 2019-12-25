@@ -23,6 +23,8 @@ public class Route {
     private String reason;
     //路径的traceId
     private String trid;
+    //-1 报销失败；0 未报销；1 已报销；2 审核中
+    private int isReimburse;
 
     public Long getId() {
         return id;
@@ -88,6 +90,14 @@ public class Route {
         this.trid = trid;
     }
 
+    public int getIsReimburse() {
+        return isReimburse;
+    }
+
+    public void setIsReimburse(int isReimburse) {
+        this.isReimburse = isReimburse;
+    }
+
     public Route(){}
 
     public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason,String trid) {
@@ -98,5 +108,16 @@ public class Route {
         this.status = status;
         this.reason = reason;
         this.trid = trid;
+    }
+
+    public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason, String trid, int isReimburse) {
+        this.applyStartTime = applyStartTime;
+        this.applyEndTime = applyEndTime;
+        this.carId = carId;
+        this.userId = userId;
+        this.status = status;
+        this.reason = reason;
+        this.trid = trid;
+        this.isReimburse = isReimburse;
     }
 }
