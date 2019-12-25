@@ -114,7 +114,13 @@ public class RouteServiceImpl implements RouteService {
 
     }
 
-    //根据审核状态返回路程
+    //根据id返回包含所有信息的路程
+    @Override
+    public RouteModel findFDRouteById(Long id){
+        return this.packRouteModel(routeRepository.findRouteById(id));
+    }
+
+    //根据审核状态返回包含所有信息的路程
     @Override
     public ResponseResult findRoutesByStatus(int status) {
         return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatus(status)));

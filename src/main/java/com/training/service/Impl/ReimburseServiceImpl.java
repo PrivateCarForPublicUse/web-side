@@ -1,12 +1,16 @@
 package com.training.service.Impl;
 
 import com.training.domain.Reimburse;
-import com.training.repository.ReimburseRepository;
+import com.training.model.ReimburseModel;
+import com.training.model.RouteModel;
+import com.training.repository.*;
 import com.training.response.ResponseResult;
 import com.training.service.ReimburseService;
+import com.training.service.RouteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,7 +19,10 @@ import java.util.List;
 @Service
 public class ReimburseServiceImpl implements ReimburseService {
     @Autowired
+    RouteService routeService;
+    @Autowired
     ReimburseRepository reimburseRepository;
+
 
     @Override
     public ResponseResult getReimburses(){
@@ -94,5 +101,19 @@ public class ReimburseServiceImpl implements ReimburseService {
         catch (Exception e){
             return new ResponseResult(507,"更新失败!");
         }
+    }
+
+    //包装
+    private ReimburseModel packReimburseModel(Reimburse r){
+        if(r==null)return null;
+        return new ReimburseModel(r,routeService.findFDRouteById(r.getRouteId()));
+    }
+    private List<ReimburseModel> packReimburseModels(List<Reimburse>reimburses){
+        if(reimburses==null)return null;
+        List<ReimburseModel> reimburseModels=new ArrayList<>();
+        for(Reimburse r:reimburses){
+            reimburseModels.add(this.packReimburseModel(r));
+        }
+        return reimburseModels;
     }
 }

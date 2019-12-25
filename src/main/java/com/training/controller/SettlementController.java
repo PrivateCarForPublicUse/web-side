@@ -79,4 +79,10 @@ public class SettlementController {
     public ResponseResult updateSettlement(@RequestBody Settlement settlement) {
         return settlementService.updateSettlement(settlement);
     }
+
+    @ApiOperation("返回所有数据、所有结算")
+    @GetMapping("/fd")
+    public ResponseResult findFDSettlements(){
+        return settlementService.findFDSettlements();
+    }
 }

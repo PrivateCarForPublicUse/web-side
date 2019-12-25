@@ -11,4 +11,6 @@ public interface SettlementService {
     ResponseResult findSettlementByUserId(Long userId);
     ResponseResult saveSettlement(Settlement settlement);
     ResponseResult updateSettlement(Settlement settlement);
+    //返回所有详细数据
+    ResponseResult findFDSettlements();
 }

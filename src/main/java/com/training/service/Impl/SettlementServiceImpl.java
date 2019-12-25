@@ -1,12 +1,15 @@
 package com.training.service.Impl;
 
 import com.training.domain.Settlement;
+import com.training.model.SettlementModel;
 import com.training.repository.SettlementRepository;
 import com.training.response.ResponseResult;
+import com.training.service.RouteService;
 import com.training.service.SettlementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -14,6 +17,8 @@ public class SettlementServiceImpl implements SettlementService {
 
     @Autowired
     SettlementRepository settlementRepository;
+    @Autowired
+    RouteService routeService;
 
     @Override
     public ResponseResult findAllSettlement() {
@@ -76,4 +81,26 @@ public class SettlementServiceImpl implements SettlementService {
             return new ResponseResult(506,"更新失败!");
         }
     }
+
+    //返回所有数据
+    @Override
+    public ResponseResult findFDSettlements() {
+        return new ResponseResult(packSettlementModels(settlementRepository.findAll()));
+    }
+
+    //包装
+    private SettlementModel packSettlementModel(Settlement settlement){
+        if(settlement==null)return null;
+        return new SettlementModel(settlement,routeService.findFDRouteById(settlement.getRouteId()));
+    }
+    private List<SettlementModel> packSettlementModels(List<Settlement>settlements){
+        if(settlements==null)return null;
+        List<SettlementModel> settlementModels=new ArrayList<>();
+        for(Settlement s:settlements){
+            settlementModels.add(this.packSettlementModel(s));
+        }
+        return settlementModels;
+    }
+
+
 }

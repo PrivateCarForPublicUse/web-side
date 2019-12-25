@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.Route;
+import com.training.model.RouteModel;
 import com.training.response.ResponseResult;
 
 public interface RouteService {
@@ -19,4 +20,6 @@ public interface RouteService {
     ResponseResult findRoutesByStatus(int status);
     // 获取包含所有信息的所有路程
     ResponseResult findFDRoutes();
+    // 根据id获取包含所有信息的路程
+    RouteModel findFDRouteById(Long id);
 }
