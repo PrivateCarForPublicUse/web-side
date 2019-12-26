@@ -85,4 +85,11 @@ public class SettlementController {
     public ResponseResult findFDSettlements(){
         return settlementService.findFDSettlements();
     }
+
+//    @ApiOperation("根据userid返回包含所有完成的路程信息")
+//    @ApiImplicitParam(name="userId",value="用户ID")
+//    @GetMapping("/finish")
+//    public ResponseResult findFinishedRouteByUserId(@RequestParam("userId")Long userId){
+//
+//    }
 }

@@ -98,7 +98,7 @@ public class MasterServiceImpl implements MasterService {
         if (master == null)
             return new ResponseResult(500,"管理员不存在!");
         if (master.getPassword().equals(password))
-            return new ResponseResult(200,"登录成功！");
+            return new ResponseResult(200,"登录成功！",master);
         return new ResponseResult(506,"密码错误!");
     }
 }
