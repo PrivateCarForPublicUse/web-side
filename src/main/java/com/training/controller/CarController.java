@@ -2,6 +2,7 @@ package com.training.controller;
 
 import com.training.domain.Account;
 import com.training.domain.Car;
+import com.training.domain.User;
 import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
@@ -26,10 +27,10 @@ public class CarController {
     @ApiResponses({
             @ApiResponse(code=500,message="不存在任何车辆")
     })
-    @ApiOperation("获取车辆列表")
-    @GetMapping("/")
-    public ResponseResult cars(){
-        return carService.getCars();
+    @ApiOperation("管理员接口：查看本公司所有车辆")
+    @GetMapping("/fd")
+    public ResponseResult cars(@RequestParam("masterId")Long masterId){
+        return carService.getCars(masterId);
     }
 
     @ApiResponses({
@@ -71,60 +72,60 @@ public class CarController {
         return carService.delete(id);
     }
 
-    @ApiResponses({
-            @ApiResponse(code=505,message="没有私车"),
-            @ApiResponse(code=506,message="没有公车"),
-            @ApiResponse(code=507,message="无效的识别码")
-    })
-    @ApiOperation("根据公私状态1公车，0私车获取对应的车辆列表")
-    @ApiImplicitParam(name="isPublic",value = "是否为私车")
-    @GetMapping("/isPublic/{isPublic}")
-    public ResponseResult findByIsPublic(@PathVariable("isPublic") int isPublic){
-        return carService.findByIsPublic(isPublic);
-    }
+//    @ApiResponses({
+//            @ApiResponse(code=505,message="没有私车"),
+//            @ApiResponse(code=506,message="没有公车"),
+//            @ApiResponse(code=507,message="无效的识别码")
+//    })
+//    @ApiOperation("根据公私状态1公车，0私车获取对应的车辆列表")
+//    @ApiImplicitParam(name="isPublic",value = "是否为私车")
+//    @GetMapping("/isPublic/{isPublic}")
+//    public ResponseResult findByIsPublic(@PathVariable("isPublic") int isPublic){
+//        return carService.findByIsPublic(isPublic);
+//    }
+//
+//    @ApiResponses({
+//            @ApiResponse(code=508,message="没有空闲的车"),
+//            @ApiResponse(code=509,message="没有审核中的车"),
+//            @ApiResponse(code=510,message="没有使用中的车"),
+//            @ApiResponse(code=507,message="无效的识别码")
+//    })
+//    @ApiOperation("根据使用状态0空闲,1审核中,2使用中获取对应的车辆列表")
+//    @ApiImplicitParam(name="isUse",value = "使用状态")
+//    @GetMapping("/isUse/{isUse}")
+//    public ResponseResult findByIsUse(@PathVariable("isUse") int isUse){
+//        return carService.findByIsUse(isUse);
+//    }
+//
+//    @ApiResponses({
+//            @ApiResponse(code=511,message="不存在有效的车辆"),
+//            @ApiResponse(code=512,message="没有已删除的车"),
+//            @ApiResponse(code=507,message="无效的识别码")
+//    })
+//    @ApiOperation("查看没有被删除的所有车，0为未删除，-1为已删除")
+//    @ApiImplicitParam(name="isDeleted",value = "是否已删除")
+//    @GetMapping("/isDeleted/{isDeleted}")
+//    public ResponseResult findByIsDeleted(@PathVariable("isDeleted") int isDeleted){
+//        return carService.findByIsDeleted(isDeleted);
+//    }
 
     @ApiResponses({
-            @ApiResponse(code=508,message="没有空闲的车"),
-            @ApiResponse(code=509,message="没有审核中的车"),
-            @ApiResponse(code=510,message="没有使用中的车"),
-            @ApiResponse(code=507,message="无效的识别码")
+            @ApiResponse(code=505,message="不存在该时间段可用的车辆")
     })
-    @ApiOperation("根据使用状态0空闲,1审核中,2使用中获取对应的车辆列表")
-    @ApiImplicitParam(name="isUse",value = "使用状态")
-    @GetMapping("/isUse/{isUse}")
-    public ResponseResult findByIsUse(@PathVariable("isUse") int isUse){
-        return carService.findByIsUse(isUse);
-    }
-
-    @ApiResponses({
-            @ApiResponse(code=511,message="不存在有效的车辆"),
-            @ApiResponse(code=512,message="没有已删除的车"),
-            @ApiResponse(code=507,message="无效的识别码")
-    })
-    @ApiOperation("查看没有被删除的所有车，0为未删除，-1为已删除")
-    @ApiImplicitParam(name="isDeleted",value = "是否已删除")
-    @GetMapping("/isDeleted/{isDeleted}")
-    public ResponseResult findByIsDeleted(@PathVariable("isDeleted") int isDeleted){
-        return carService.findByIsDeleted(isDeleted);
-    }
-
-    @ApiResponses({
-            @ApiResponse(code=513,message="不存在该时间段可用的车辆")
-    })
-    @ApiOperation("根据选定时间查看自己或别人的车,isMine的1表示自己的车，0表示别人的车")
+    @ApiOperation("用户接口：根据选定时间查看自己或别人的车,isMine的1表示自己的车，0表示别人的车")
     @PostMapping("/getCarByTime")
     public ResponseResult getCarByTime(@RequestBody SelectCarModel model,HttpServletRequest request){
         HttpSession session=request.getSession();
-        Account account= (Account) session.getAttribute("account");
-      //  Long id=account.getUserId();
-        Long id=null;
-        return carService.findByTimeAndUserID(model,id);
+        User user= (User) session.getAttribute("user");
+        Long userId=user.getId();
+        Long companyId=user.getCompanyId();
+        return carService.findByTimeAndUserID(model,userId,companyId);
     }
 
     @ApiResponses({
-            @ApiResponse(code=514,message="更新车辆状态失败!")
+            @ApiResponse(code=506,message="更新车辆状态失败!")
     })
-    @ApiOperation("开始用车，更改carId对应车辆状态")
+    @ApiOperation("用户接口：开始用车，更改carId对应车辆状态")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "carId", value = "车辆id"),
             @ApiImplicitParam(name = "secRouteId", value = "段行程id")
@@ -135,9 +136,9 @@ public class CarController {
     }
 
     @ApiResponses({
-            @ApiResponse(code=514,message="更新车辆状态失败!")
+            @ApiResponse(code=506,message="更新车辆状态失败!")
     })
-    @ApiOperation("结束用车，更改carId对应车辆状态")
+    @ApiOperation("用户接口：结束用车，更改carId对应车辆状态")
     @ApiImplicitParams({
             @ApiImplicitParam(name =  "carId", value = "车辆id"),
             @ApiImplicitParam(name = "secRouteId", value = "段行程id")
@@ -148,16 +149,15 @@ public class CarController {
     }
 
     @ApiResponses({
-            @ApiResponse(code=515,message="您没有该状态的车辆")
+            @ApiResponse(code=507,message="您没有该状态的车辆")
     })
-    @ApiOperation("普通用户接口：管理我的车辆，isPublic为1表示公车，0表示私车")
+    @ApiOperation("用户接口：管理我的车辆，isPublic为1表示公车，0表示私车")
     @ApiImplicitParam(name="isPublic",value = "是否公用")
     @GetMapping("/getMyCar")
     public ResponseResult getMyCar(@RequestParam("isPublic")int isPublic,HttpServletRequest request){
         HttpSession session=request.getSession();
-        Account account= (Account) session.getAttribute("account");
-     //   Long id=account.getUserId();
-        Long id=null;
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
         return carService.findMyCarByIsPublicAndUserID(isPublic,id);
     }
 }
