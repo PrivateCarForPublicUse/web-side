@@ -24,6 +24,10 @@ public interface RouteService {
     ResponseResult findFDRoutes();
     // 根据id获取包含所有信息的路程
     RouteModel findFDRouteById(Long id);
+    // 根据UserId获取包含所有信息的路程
+    RouteModel findFDRouteByUserId(Long userId);
     //根据报销状态返回行程
     ResponseResult findFDRoutesByIsReimburse(int is);
+    RouteModel packRouteModel(Route r);
+    List<RouteModel> packRouteModels(List<Route>routes);
 }
