@@ -98,7 +98,8 @@ public class RouteController {
     public ResponseResult applyCar(@RequestBody ApplyCarDTO applyCarDTO, HttpServletRequest request) {
         HttpSession session=request.getSession();
         Account account= (Account) session.getAttribute("account");
-        Long id=account.getUserId();
+        Long id=null;
+        //account.getUserId();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Route route = new Route(applyCarDTO.getStartTime(),applyCarDTO.getEndTime(),applyCarDTO.getCarId(),id,0,applyCarDTO.getReason(),0,df.format(new Date()));
         ResponseResult r = routeService.saveRoute(route);

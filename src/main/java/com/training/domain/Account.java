@@ -11,15 +11,18 @@ public class Account {
     private Long id;
     private String password;
     private String token;
-    private Long userId;
 
-    public Long getUserId() {
-        return userId;
+    private Integer flag;//1:管理员 0：用户
+
+    public Integer getFlag() {
+        return flag;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setFlag(Integer flag) {
+        this.flag = flag;
     }
+
+
 
     public String getToken() {
         return token;

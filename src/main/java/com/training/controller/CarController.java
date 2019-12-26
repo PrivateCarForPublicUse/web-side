@@ -116,7 +116,8 @@ public class CarController {
     public ResponseResult getCarByTime(@RequestBody SelectCarModel model,HttpServletRequest request){
         HttpSession session=request.getSession();
         Account account= (Account) session.getAttribute("account");
-        Long id=account.getUserId();
+      //  Long id=account.getUserId();
+        Long id=null;
         return carService.findByTimeAndUserID(model,id);
     }
 
@@ -155,7 +156,8 @@ public class CarController {
     public ResponseResult getMyCar(@RequestParam("isPublic")int isPublic,HttpServletRequest request){
         HttpSession session=request.getSession();
         Account account= (Account) session.getAttribute("account");
-        Long id=account.getUserId();
+     //   Long id=account.getUserId();
+        Long id=null;
         return carService.findMyCarByIsPublicAndUserID(isPublic,id);
     }
 }
