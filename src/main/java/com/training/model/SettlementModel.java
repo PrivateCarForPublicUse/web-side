@@ -13,6 +13,8 @@ public class SettlementModel {
         this.routeModel = route;
     }
 
+
+
     public Settlement getSettlement() {
         return settlement;
     }

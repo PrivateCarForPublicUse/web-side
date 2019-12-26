@@ -3,6 +3,7 @@ package com.training.service.Impl;
 import com.training.domain.Master;
 import com.training.domain.Route;
 import com.training.domain.SecRoute;
+import com.training.domain.Settlement;
 import com.training.model.RouteModel;
 import com.training.repository.CarRepository;
 import com.training.repository.RouteRepository;
@@ -12,6 +13,7 @@ import com.training.response.ResponseResult;
 import com.training.service.MasterService;
 import com.training.service.RouteService;
 import com.training.service.SecRouteService;
+import com.training.service.SettlementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -118,13 +120,18 @@ public class RouteServiceImpl implements RouteService {
         catch (Exception e){
             return new ResponseResult(505,"更新失败");
         }
-
     }
 
     //根据id返回包含所有信息的路程
     @Override
     public RouteModel findFDRouteById(Long id){
         return this.packRouteModel(routeRepository.findRouteById(id));
+    }
+
+    //根据userid返回包含所有信息的路程
+    @Override
+    public RouteModel findFDRouteByUserId(Long userId){
+        return this.packRouteModel(routeRepository.findRouteById(userId));
     }
 
     //根据审核状态和管理员Id返回包含所有信息的路程
@@ -147,12 +154,14 @@ public class RouteServiceImpl implements RouteService {
     }
 
     //包装返回的Route类型r
-    private RouteModel packRouteModel(Route r){
+    @Override
+    public RouteModel packRouteModel(Route r){
         if(r==null)return null;
         return new RouteModel(userRepository.getUserById(r.getUserId()),carRepository.getCarById(r.getCarId()),r,secRouteService.findFDSecRouteByRouteId(r.getId()));
     }
     //包装返回的Route类型routes
-    private List<RouteModel> packRouteModels(List<Route>routes){
+    @Override
+    public List<RouteModel> packRouteModels(List<Route>routes){
         if(routes==null)return null;
         List<RouteModel> routeModels=new ArrayList<>();
         for(Route r:routes){
