@@ -23,7 +23,16 @@ public class Route {
     private String reason;
     //-1 报销失败；0 未报销；1 已报销；2 审核中
     private int isReimburse;
+    //申请时间
+    private String applyTime;
 
+    public String getApplyTime() {
+        return applyTime;
+    }
+
+    public void setApplyTime(String applyTime) {
+        this.applyTime = applyTime;
+    }
 
     public Long getId() {
         return id;
@@ -91,16 +100,7 @@ public class Route {
 
     public Route(){}
 
-    public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason) {
-        this.applyStartTime = applyStartTime;
-        this.applyEndTime = applyEndTime;
-        this.carId = carId;
-        this.userId = userId;
-        this.status = status;
-        this.reason = reason;
-    }
-
-    public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason, int isReimburse) {
+    public Route(String applyStartTime, String applyEndTime, Long carId, Long userId, int status, String reason, int isReimburse, String applyTime) {
         this.applyStartTime = applyStartTime;
         this.applyEndTime = applyEndTime;
         this.carId = carId;
@@ -108,5 +108,6 @@ public class Route {
         this.status = status;
         this.reason = reason;
         this.isReimburse = isReimburse;
+        this.applyTime = applyTime;
     }
 }

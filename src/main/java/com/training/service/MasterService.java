@@ -12,4 +12,5 @@ public interface MasterService {
     ResponseResult updateMaster(Master master);
     ResponseResult findMasterById(Long id);
     ResponseResult updateNameOfMastersById(Long id, String name);
+    ResponseResult loginByMasterName(String mastername,String password);
 }

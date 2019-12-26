@@ -1,10 +1,12 @@
 package com.training.controller;
 
 import com.training.domain.Account;
+import com.training.domain.Master;
 import com.training.domain.Route;
 import com.training.domain.SecRoute;
 import com.training.dto.ApplyCarDTO;
 import com.training.response.ResponseResult;
+import com.training.service.MasterService;
 import com.training.service.RouteService;
 import com.training.service.SecRouteService;
 import io.swagger.annotations.*;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.applet.Applet;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
 @Api(value="/Route",tags="用于测试路程表相关接口")
@@ -95,7 +99,8 @@ public class RouteController {
         HttpSession session=request.getSession();
         Account account= (Account) session.getAttribute("account");
         Long id=account.getUserId();
-        Route route = new Route(applyCarDTO.getStartTime(),applyCarDTO.getEndTime(),applyCarDTO.getCarId(),id,0,applyCarDTO.getReason());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Route route = new Route(applyCarDTO.getStartTime(),applyCarDTO.getEndTime(),applyCarDTO.getCarId(),id,0,applyCarDTO.getReason(),0,df.format(new Date()));
         ResponseResult r = routeService.saveRoute(route);
         if (r.getCode() != 200)
             return r;
@@ -111,11 +116,14 @@ public class RouteController {
     }
 
 
-    @ApiOperation("根据审核状态返回路程信息，返回包含用户、车辆、段路程")
-    @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）")
+    @ApiOperation("根据审核状态和管理员Id返回路程信息，返回包含用户、车辆、段路程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
+            @ApiImplicitParam(name = "masterId", value = "管理员ID")
+    })
     @GetMapping("/status")
-    public ResponseResult findRoutesByStatus(@RequestParam("status")int status){
-        return routeService.findRoutesByStatus(status);
+    public ResponseResult findRoutesByStatus(@RequestParam("status")int status,@RequestParam("masterId")Long masterId){
+        return routeService.findRoutesByStatus(status,masterId);
     }
 
     @ApiOperation("获取包含所有信息的所有路程")

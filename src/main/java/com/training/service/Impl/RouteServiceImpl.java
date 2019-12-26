@@ -1,5 +1,6 @@
 package com.training.service.Impl;
 
+import com.training.domain.Master;
 import com.training.domain.Route;
 import com.training.domain.SecRoute;
 import com.training.model.RouteModel;
@@ -8,6 +9,7 @@ import com.training.repository.RouteRepository;
 import com.training.repository.SecRouteRepository;
 import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
+import com.training.service.MasterService;
 import com.training.service.RouteService;
 import com.training.service.SecRouteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,8 @@ public class RouteServiceImpl implements RouteService {
     CarRepository carRepository;
     @Autowired
     SecRouteService secRouteService;
+    @Autowired
+    MasterService masterService;
 
     @Override
     public ResponseResult findAllRoute() {
@@ -123,10 +127,11 @@ public class RouteServiceImpl implements RouteService {
         return this.packRouteModel(routeRepository.findRouteById(id));
     }
 
-    //根据审核状态返回包含所有信息的路程
+    //根据审核状态和管理员Id返回包含所有信息的路程
     @Override
-    public ResponseResult findRoutesByStatus(int status) {
-        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatus(status)));
+    public ResponseResult findRoutesByStatus(int status,Long masterId) {
+        Master master = (Master) masterService.findMasterById(masterId).getData();
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatus(status,master.getCompanyId())));
     }
 
     //获取包含所有数据的所有路程信息
@@ -140,8 +145,6 @@ public class RouteServiceImpl implements RouteService {
     public ResponseResult findFDRoutesByIsReimburse(int is){
         return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByIsReimburse(is)));
     }
-
-
 
     //包装返回的Route类型r
     private RouteModel packRouteModel(Route r){

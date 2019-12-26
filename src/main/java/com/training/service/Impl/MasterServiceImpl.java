@@ -90,4 +90,15 @@ public class MasterServiceImpl implements MasterService {
         }
 
     }
+
+    @Override
+    public ResponseResult loginByMasterName(String mastername,String password) {
+        Master master = masterRepository.findMasterByMasterName(mastername);
+        System.out.println(master == null);
+        if (master == null)
+            return new ResponseResult(500,"管理员不存在!");
+        if (master.getPassword().equals(password))
+            return new ResponseResult(200,"登录成功！");
+        return new ResponseResult(506,"密码错误!");
+    }
 }

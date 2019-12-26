@@ -21,6 +21,7 @@ public class MasterController {
     RouteService routeService;
     @Autowired
     MasterService masterService;
+
     @ApiResponses({
             @ApiResponse(code=200,message="ok"),
             @ApiResponse(code=500,message="管理员不存在"),
@@ -28,7 +29,8 @@ public class MasterController {
             @ApiResponse(code=502,message="name不存在"),
             @ApiResponse(code=503,message="插入失败"),
             @ApiResponse(code=504,message="删除失败"),
-            @ApiResponse(code=505,message="更新失败")
+            @ApiResponse(code=505,message="更新失败"),
+            @ApiResponse(code=506,message="密码错误")
     })
 
 
@@ -91,12 +93,15 @@ public class MasterController {
 
     @ApiOperation("管理员审核申请用车")
     @PostMapping("/reviewUseCar")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "routeId", value = "路程id"),
-            @ApiImplicitParam(name = "status", value = "修改后的路程状态")
-    })
     public ResponseResult reviewUseCar(@RequestBody String body){
         JSONObject json = JSON.parseObject(body);
         return routeService.updateStatusOfRouteById(json.getLong("routeId"),json.getInteger("status"));
     }
+
+    @ApiOperation("管理员登录接口")
+    @PostMapping("/login")
+    public ResponseResult loginMaster(@RequestBody Master master){
+        return masterService.loginByMasterName(master.getMasterName(),master.getPassword());
+    }
+
 }

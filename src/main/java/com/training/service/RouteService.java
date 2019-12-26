@@ -18,8 +18,8 @@ public interface RouteService {
     ResponseResult saveRoute(Route route);
     ResponseResult updateRoute(Route route);
     ResponseResult updateStatusOfRouteById(Long id, int st);
-    // 根据审核状态返回行程
-    ResponseResult findRoutesByStatus(int status);
+    // 根据审核状态和管理员id返回行程
+    ResponseResult findRoutesByStatus(int status,Long masterId);
     // 获取包含所有信息的所有路程
     ResponseResult findFDRoutes();
     // 根据id获取包含所有信息的路程

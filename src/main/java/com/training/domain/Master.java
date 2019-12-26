@@ -18,14 +18,29 @@ public class Master {
     private int isCompanyMaster;
     //对应的企业id
     private Long companyId;
+    //管理员昵称
+    private String masterName;
 
     public Master(){}
 
-    public Master(String name, String password, int isComMaster, Long companyId) {
+    public Master(String name, String password, int isComMaster, Long companyId,String masterName) {
         this.name = name;
         this.password = password;
         this.isCompanyMaster = isComMaster;
         this.companyId = companyId;
+        this.masterName = masterName;
+    }
+
+    public void setIsCompanyMaster(int isCompanyMaster) {
+        this.isCompanyMaster = isCompanyMaster;
+    }
+
+    public String getMasterName() {
+        return masterName;
+    }
+
+    public void setMasterName(String masterName) {
+        this.masterName = masterName;
     }
 
     public Long getId() {
