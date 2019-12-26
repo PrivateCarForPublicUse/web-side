@@ -35,6 +35,7 @@ public class RegisterController {
 
         Account account = new Account();
         account.setPassword(registerDTO.getPassword());
+        account.setFlag(0);
         Account account2 = (Account) accountService.save(account).getData();
 
         User user = new User();

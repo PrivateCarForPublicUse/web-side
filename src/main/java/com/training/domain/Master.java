@@ -21,6 +21,16 @@ public class Master {
     //管理员昵称
     private String masterName;
 
+    private Integer accountId;
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
     public Master(){}
 
     public Master(String name, String password, int isComMaster, Long companyId,String masterName) {
