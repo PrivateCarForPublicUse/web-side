@@ -2,3 +2,6 @@
 /target/
 /.idea/
 /src/.idea/
+/src/main/java/test/LeetCode.java
+/src/main/java/test/B.java
+/src/main/java/test/A.java
