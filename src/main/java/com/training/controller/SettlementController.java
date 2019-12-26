@@ -2,12 +2,16 @@ package com.training.controller;
 
 
 import com.training.domain.Settlement;
+import com.training.domain.User;
 import com.training.response.ResponseResult;
 import com.training.service.SettlementService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @Api(value="/Settlement",tags="用于测试结算表相关接口")
 @RequestMapping("/Settlement")
@@ -87,10 +91,11 @@ public class SettlementController {
     }
 
     @ApiOperation("根据userid返回总路程，花费信息")
-    @ApiImplicitParam(name = "userId", value = "员工id")
     @PostMapping("/total")
-    public ResponseResult find(@RequestParam("userId")Long userId) {
-        return settlementService.findSettlementByUserIdAndStatus(userId);
+    public ResponseResult findTotalSettlementByUserId(HttpServletRequest request) {
+        HttpSession session=request.getSession();
+        User user= (User) session.getAttribute("user");
+        return settlementService.findSettlementByUserIdAndStatus(user.getId());
     }
 
 }

@@ -1,9 +1,6 @@
 package com.training.controller;
 
-import com.training.domain.Account;
-import com.training.domain.Master;
-import com.training.domain.Route;
-import com.training.domain.SecRoute;
+import com.training.domain.*;
 import com.training.dto.ApplyCarDTO;
 import com.training.response.ResponseResult;
 import com.training.service.MasterService;
@@ -97,9 +94,8 @@ public class RouteController {
     @PostMapping("/applyCar")
     public ResponseResult applyCar(@RequestBody ApplyCarDTO applyCarDTO, HttpServletRequest request) {
         HttpSession session=request.getSession();
-        Account account= (Account) session.getAttribute("account");
-        Long id=null;
-        //account.getUserId();
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Route route = new Route(applyCarDTO.getStartTime(),applyCarDTO.getEndTime(),applyCarDTO.getCarId(),id,0,applyCarDTO.getReason(),0,df.format(new Date()));
         ResponseResult r = routeService.saveRoute(route);
