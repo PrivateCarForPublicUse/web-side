@@ -148,12 +148,15 @@ public class RouteController {
 
     @ApiOperation("开始行程")
     @PostMapping("/start")
-    public ResponseResult startRoute(@RequestBody String body){
+    public ResponseResult startRoute(@RequestBody String body,HttpServletRequest request){
+        HttpSession session=request.getSession();
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
         JSONObject json = JSON.parseObject(body);
         Long routeId = json.getLong("routeId"),secRouteId = json.getLong("secRouteId");
         String trid = json.getString("trid");
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return routeService.startRoute(routeId,secRouteId,trid,df.format(new Date()));
+        return routeService.startRoute(id,routeId,secRouteId,trid,df.format(new Date()));
     }
 
 

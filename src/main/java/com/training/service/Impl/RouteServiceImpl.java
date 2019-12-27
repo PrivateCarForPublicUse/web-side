@@ -198,8 +198,10 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public ResponseResult startRoute(Long RouteId, Long secRouteId, String trid,String carStartTime) {
+    public ResponseResult startRoute(Long userId,Long RouteId, Long secRouteId, String trid,String carStartTime) {
         Route route = routeRepository.findRouteById(RouteId);
+        if (userId != route.getUserId())
+            return new ResponseResult(500,"用户Id不一致，开始行程失败!");
         route.setStatus(2);
         carService.updateCarIsUseOrNot(route.getCarId(),2);
         Settlement settlement = new Settlement();
