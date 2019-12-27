@@ -25,7 +25,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public ResponseResult getCars(Long masterId){
         Master master = (Master) masterService.findMasterById(masterId).getData();
-        List<Car> cars = carRepository.findByCompany(master.getCompanyId());
+        List<Car> cars = carRepository.findAllByCompany(master.getCompanyId());
         if (cars.size() == 0)
             return new ResponseResult(500,"不存在任何车辆!");
         return new ResponseResult(cars);
@@ -132,6 +132,7 @@ public class CarServiceImpl implements CarService {
         return new ResponseResult(cars);
     }
 
+    //使用状态（0 空闲；1 审核中；2 使用中 ；审核不通过-1）
     @Override
     public ResponseResult updateCarIsUseOrNot(Long carId,int status) {
         try {
@@ -146,6 +147,15 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
+    public ResponseResult findCarWaitForCheck(Long masterId) {
+        Master master = (Master) masterService.findMasterById(masterId).getData();
+        List<Car> cars = carRepository.findCarWaitForCheck(master.getCompanyId());
+        if (cars.size() == 0)
+            return new ResponseResult(506,"不存在待审核的车辆!");
+        return new ResponseResult(cars);
+    }
+
+    @Override
     public ResponseResult findMyCarByIsPublicAndUserID(int isPublic, Long userId) {
         List<Car> cars = carRepository.findByIsPublicAndUserId(isPublic,userId);
         if (cars.size() == 0){
@@ -153,4 +163,5 @@ public class CarServiceImpl implements CarService {
         }
         return new ResponseResult(cars);
     }
+
 }

@@ -32,7 +32,7 @@ public class Car {
     private Long userId;
     //公私状态 （1 公车；0 私车）
     private int isPublic;
-    //使用状态（0 空闲；1 审核中；2 使用中 ）
+    //使用状态（0 空闲；1 审核中；2 使用中 ；审核不通过-1）
     private int isUse;
     //车辆公用开始时间
     private String starTime;

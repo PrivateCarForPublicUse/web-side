@@ -46,16 +46,17 @@ public class CarController {
     @ApiResponses({
             @ApiResponse(code=502,message="新建失败")
     })
-    @ApiOperation("添加车辆")
+    @ApiOperation("用户接口：添加车辆")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody Car car){
+        car.setIsUse(1);
         return carService.save(car);
     }
 
     @ApiResponses({
             @ApiResponse(code=503,message="更新失败")
     })
-    @ApiOperation("更新车辆")
+    @ApiOperation("用户接口：更新车辆")
     @PutMapping("/update")
     public ResponseResult update(@RequestBody Car car){
         return carService.save(car);
@@ -123,29 +124,12 @@ public class CarController {
     }
 
     @ApiResponses({
-            @ApiResponse(code=506,message="更新车辆状态失败!")
+            @ApiResponse(code=506,message="不存在待审核的车辆")
     })
-    @ApiOperation("用户接口：开始用车，更改carId对应车辆状态")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "carId", value = "车辆id"),
-            @ApiImplicitParam(name = "secRouteId", value = "段行程id")
-    })
-    @GetMapping("/startUse")
-    public ResponseResult startUse(@RequestParam("carId")Long carId,@RequestParam("secRouteId")Long secRouteId){
-        return carService.updateCarIsUseOrNot(carId,2);
-    }
-
-    @ApiResponses({
-            @ApiResponse(code=506,message="更新车辆状态失败!")
-    })
-    @ApiOperation("用户接口：结束用车，更改carId对应车辆状态")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name =  "carId", value = "车辆id"),
-            @ApiImplicitParam(name = "secRouteId", value = "段行程id")
-    })
-    @GetMapping("/endUse")
-    public ResponseResult endUse(@RequestParam("carId")Long carId,@RequestParam("secRouteId")Long secRouteId){
-        return carService.updateCarIsUseOrNot(carId,0);
+    @ApiOperation("管理员接口：查看待审核的车辆")
+    @GetMapping("/reviewAddCar")
+    public ResponseResult reviewAddCar(@RequestParam("masterId")Long masterId){
+        return carService.findCarWaitForCheck(masterId);
     }
 
     @ApiResponses({
@@ -159,5 +143,14 @@ public class CarController {
         User user= (User) session.getAttribute("user");
         Long id=user.getId();
         return carService.findMyCarByIsPublicAndUserID(isPublic,id);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code=508,message="不存在待审核的车辆")
+    })
+    @ApiOperation("管理员接口：审核车辆，审核通过isUse为0，不通过isUse为-1")
+    @GetMapping("/passAddCar")
+    public ResponseResult passAddCarOrNot(@RequestParam("carId")Long carId, @RequestParam("isUse")int isUse){
+        return carService.updateCarIsUseOrNot(carId,isUse);
     }
 }

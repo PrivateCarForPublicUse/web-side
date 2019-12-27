@@ -14,7 +14,7 @@ import java.util.List;
 public interface CarRepository extends JpaRepository<Car,Long> {
     // 根据公司ID查询
     @Query(value="select * from car where user_id in (select id from user where company_id = :companyId)",nativeQuery = true)
-    List<Car> findByCompany(@Param("companyId")Long companyId);
+    List<Car> findAllByCompany(@Param("companyId")Long companyId);
     // 根据isPublic查询
     @Query(value="select * from car where is_public = :is_public",nativeQuery = true)
     List<Car> findByIsPublic(@Param("is_public") int isPublic);
@@ -34,6 +34,9 @@ public interface CarRepository extends JpaRepository<Car,Long> {
                                         @Param("userId") Long userId,@Param("companyId") Long companyId);
     // 根据id获取
     Car getCarById(Long id);
+    //根据公司ID查看待审核车辆
+    @Query(value="select * from car where is_use = 1 and user_id in (select id from user where company_id = :companyId)",nativeQuery = true)
+    List<Car> findCarWaitForCheck(@Param("companyId") Long companyId);
     //根据userId和公私用状态获取
     List<Car> findByIsPublicAndUserId(int isPublic,Long userId);
 }
