@@ -134,6 +134,14 @@ public class RouteController {
     @GetMapping("/is_reimburse")
     public ResponseResult findFDRoutesByIsReimburse(@RequestParam("is")int is){return routeService.findFDRoutesByIsReimburse(is);}
 
+    @ApiOperation("根据userid返回总路程，花费信息")
+    @PostMapping("/total")
+    public ResponseResult findData(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
+        return routeService.findDataByUserIdAndStatus(id);
+    }
 
 
     /*

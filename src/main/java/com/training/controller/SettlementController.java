@@ -63,15 +63,6 @@ public class SettlementController {
         return settlementService.findSettlementBySecRouteId(secrouteid);
     }
 
-    @ApiOperation("根据员工id查询报销")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "userId", value = "员工id")
-    })
-    @GetMapping("/userId")
-    public ResponseResult findSettlementByUserId(@RequestParam("userId")Long userId) {
-        return settlementService.findSettlementByUserId(userId);
-    }
-
     @ApiOperation("新增结算表")
     @PostMapping("/save")
     public ResponseResult saveSettlement(@RequestBody Settlement settlement) {
@@ -88,14 +79,6 @@ public class SettlementController {
     @GetMapping("/fd")
     public ResponseResult findFDSettlements(){
         return settlementService.findFDSettlements();
-    }
-
-    @ApiOperation("根据userid返回总路程，花费信息")
-    @PostMapping("/total")
-    public ResponseResult findTotalSettlementByUserId(HttpServletRequest request) {
-        HttpSession session=request.getSession();
-        User user= (User) session.getAttribute("user");
-        return settlementService.findSettlementByUserIdAndStatus(user.getId());
     }
 
 }

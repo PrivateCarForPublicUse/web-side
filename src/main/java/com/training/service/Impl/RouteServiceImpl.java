@@ -4,7 +4,7 @@ import com.training.domain.Master;
 import com.training.domain.Route;
 import com.training.domain.SecRoute;
 import com.training.domain.Settlement;
-import com.training.model.RouteModel;
+import com.training.model.*;
 import com.training.repository.CarRepository;
 import com.training.repository.RouteRepository;
 import com.training.repository.SecRouteRepository;
@@ -154,19 +154,45 @@ public class RouteServiceImpl implements RouteService {
     }
 
     //包装返回的Route类型r
-    @Override
-    public RouteModel packRouteModel(Route r){
+    private RouteModel packRouteModel(Route r){
         if(r==null)return null;
         return new RouteModel(userRepository.getUserById(r.getUserId()),carRepository.getCarById(r.getCarId()),r,secRouteService.findFDSecRouteByRouteId(r.getId()));
     }
     //包装返回的Route类型routes
-    @Override
-    public List<RouteModel> packRouteModels(List<Route>routes){
+    private List<RouteModel> packRouteModels(List<Route>routes){
         if(routes==null)return null;
         List<RouteModel> routeModels=new ArrayList<>();
         for(Route r:routes){
             routeModels.add(this.packRouteModel(r));
         }
         return routeModels;
+    }
+
+    @Override
+    public ResponseResult findDataByUserIdAndStatus(Long userId) {
+        List<Route> routes = routeRepository.findRouteByUserIdAndStatus(userId);
+        List<RouteModel> routeModels = packRouteModels(routes);
+        List<DataModel> models = new ArrayList<>();
+        for (RouteModel routeModel: routeModels){
+            DataModel dataModel = new DataModel();
+            dataModel.setRoutId(routeModel.getRoute().getId());
+            dataModel.setApplyTime(routeModel.getRoute().getApplyTime());
+            dataModel.setReason(routeModel.getRoute().getReason());
+            dataModel.setIsReimburse(routeModel.getRoute().getIsReimburse());
+            Double total_cost = 0.0,total_dist = 0.0;
+            List<SecModel> secModels = new ArrayList<>();
+            List<SecRouteModel> secRouteModels = routeModel.getSecRoutes();
+            for (SecRouteModel secRouteModel: secRouteModels){
+                total_cost += secRouteModel.getSettlement().getDrivingCost();
+                total_dist += secRouteModel.getSettlement().getDrivingDistance();
+                SecModel secModel = new SecModel(secRouteModel.getSecRoute().getId(),secRouteModel.getSecRoute().getOrigin(),secRouteModel.getSecRoute().getDestination(),secRouteModel.getSettlement().getCarStartTime(),secRouteModel.getSettlement().getCarStopTime(),secRouteModel.getSettlement().getDrivingDistance(),secRouteModel.getSettlement().getDrivingCost());
+                secModels.add(secModel);
+            }
+            dataModel.setSecModels(secModels);
+            dataModel.setCost(total_cost);
+            dataModel.setRoutelength(total_dist);
+            models.add(dataModel);
+        }
+        return new ResponseResult(models);
     }
 }

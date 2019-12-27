@@ -57,13 +57,6 @@ public class SettlementServiceImpl implements SettlementService {
         return new ResponseResult(settlements);
     }
 
-    @Override
-    public ResponseResult findSettlementByUserId(Long userId) {
-        List<Settlement> settlements = settlementRepository.findSettlementBySecRouteId(userId);
-        if (settlements.size() == 0)
-            return new ResponseResult(503,"userId不存在!");
-        return new ResponseResult(settlements);
-    }
 
     @Override
     public ResponseResult saveSettlement(Settlement settlement) {
@@ -105,18 +98,5 @@ public class SettlementServiceImpl implements SettlementService {
             settlementModels.add(this.packSettlementModel(s));
         }
         return settlementModels;
-    }
-
-    //根据审核状态和用户Id返回包含所有信息(总路程，总费用)的段路程
-    @Override
-    public ResponseResult findSettlementByUserIdAndStatus(Long userId) {
-        List<Settlement> settlementList = (List<Settlement>)this.findSettlementByUserId(userId).getData();
-        Double tc = 0.0,td = 0.0;
-        for (Settlement s: settlementList){
-            tc += s.getDrivingCost();
-            td += s.getDrivingDistance();
-        }
-        List<SettlementModel> models = this.packSettlementModels(settlementList);
-        return new ResponseResult(new SettlementModelTwo(models,tc,td));
     }
 }

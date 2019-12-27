@@ -28,6 +28,6 @@ public interface RouteService {
     RouteModel findFDRouteByUserId(Long userId);
     //根据报销状态返回行程
     ResponseResult findFDRoutesByIsReimburse(int is);
-    RouteModel packRouteModel(Route r);
-    List<RouteModel> packRouteModels(List<Route>routes);
+    //根据审核状态和用户Id返回包含所有信息的路程
+    ResponseResult findDataByUserIdAndStatus(Long userId);
 }
