@@ -10,10 +10,7 @@ import com.training.repository.RouteRepository;
 import com.training.repository.SecRouteRepository;
 import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
-import com.training.service.MasterService;
-import com.training.service.RouteService;
-import com.training.service.SecRouteService;
-import com.training.service.SettlementService;
+import com.training.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +20,10 @@ import java.util.List;
 @Service
 public class RouteServiceImpl implements RouteService {
 
+    @Autowired
+    SettlementService settlementService;
+    @Autowired
+    CarService carService;
     @Autowired
     RouteRepository routeRepository;
     @Autowired
@@ -194,5 +195,19 @@ public class RouteServiceImpl implements RouteService {
             models.add(dataModel);
         }
         return new ResponseResult(models);
+    }
+
+    @Override
+    public ResponseResult startRoute(Long RouteId, Long secRouteId, String trid,String carStartTime) {
+        Route route = routeRepository.findRouteById(RouteId);
+        route.setStatus(2);
+        carService.updateCarIsUseOrNot(route.getCarId(),2);
+        Settlement settlement = new Settlement();
+        settlement.setRouteId(RouteId);
+        settlement.setSecRouteId(secRouteId);
+        settlement.setTrid(trid);
+        settlement.setCarStartTime(carStartTime);
+        settlement.setUserId(route.getUserId());
+        return new ResponseResult( settlementService.saveSettlement(settlement));
     }
 }

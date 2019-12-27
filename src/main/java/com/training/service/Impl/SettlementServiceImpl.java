@@ -1,9 +1,7 @@
 package com.training.service.Impl;
 
 import com.training.domain.Settlement;
-import com.training.model.RouteModel;
 import com.training.model.SettlementModel;
-import com.training.model.SettlementModelTwo;
 import com.training.repository.RouteRepository;
 import com.training.repository.SettlementRepository;
 import com.training.response.ResponseResult;
