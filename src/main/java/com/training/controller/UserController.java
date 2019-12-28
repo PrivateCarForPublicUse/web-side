@@ -63,4 +63,8 @@ public class UserController {
     @ApiImplicitParam(value="审核状态",name="status")
     @GetMapping("/status")
     public ResponseResult getByStatus(@RequestParam int status){return userService.getUsersByCheckStatus(status);}
+
+    @ApiOperation("修改传到后台的用户的所有数据")
+    @PutMapping("/fd/update")
+    public ResponseResult updateFDUser(@RequestBody User user){return userService.updateFDUser(user);}
 }

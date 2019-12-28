@@ -1,9 +1,11 @@
 package com.training.Interceptor;
 
 import com.training.domain.Account;
+import com.training.domain.Master;
 import com.training.domain.User;
 import com.training.repository.AccountRepository;
 import com.training.service.AccountService;
+import com.training.service.MasterService;
 import com.training.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,11 @@ public class SessionInterception implements HandlerInterceptor {
     @Autowired
     UserService userService;
 
+    @Autowired
+    MasterService masterService;
+
+    @Autowired
+    AccountService accountService;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Cookie[] cookies = request.getCookies();
@@ -33,9 +40,14 @@ public class SessionInterception implements HandlerInterceptor {
                     String token = cookie.getValue();
                     Account account = accountRepository.findByToken(token);
                     if(account != null){
-                        User user = (User)userService.getUserByAccount(account.getId()).getData();
                         request.getSession().setAttribute("account",account);
-                        request.getSession().setAttribute("user",user);
+                        if(account.getFlag()==0){
+                        User user = (User)userService.getUserByAccount(account.getId()).getData();
+                        request.getSession().setAttribute("user",user);}
+                        else{
+                            Master master = (Master)accountService.getMasterByAccountId(account.getId()).getData();
+                            request.getSession().setAttribute("master",master);
+                        }
                     }
                     break;
                 }

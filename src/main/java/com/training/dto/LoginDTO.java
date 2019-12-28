@@ -5,19 +5,19 @@ import com.training.domain.User;
 
 public class LoginDTO {
     private Account account;
-    private User user;
+    private Object userOrMaster;
 
-    public LoginDTO(Account account, User user) {
+    public LoginDTO(Account account, Object userOrMaster) {
         this.account = account;
-        this.user = user;
+        this.userOrMaster = userOrMaster;
     }
 
-    public User getUser() {
-        return user;
+    public Object getUserOrMaster() {
+        return userOrMaster;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUserOrMaster(User userOrMaster) {
+        this.userOrMaster = userOrMaster;
     }
 
     public Account getAccount() {

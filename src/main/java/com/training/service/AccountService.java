@@ -1,11 +1,10 @@
 package com.training.service;
 
 import com.training.domain.Account;
+import com.training.dto.LoginByMasterNameDTO;
 import com.training.dto.LoginByUserNameDTO;
 import com.training.dto.LoginDTO;
 import com.training.response.ResponseResult;
-
-import java.util.List;
 
 public interface AccountService {
     ResponseResult getAccounts();
@@ -16,4 +15,7 @@ public interface AccountService {
     ResponseResult delete(Long id);
     LoginDTO loginByUserName(LoginByUserNameDTO loginByUserNameDTO);
    // ResponseResult getAccountByUserId(Long id);
+    ResponseResult getMasterByAccountId(Long id);
+
+    LoginDTO loginByMasterName(LoginByMasterNameDTO loginByMasterNameDTO);
 }

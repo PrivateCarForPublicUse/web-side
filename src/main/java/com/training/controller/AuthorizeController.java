@@ -3,6 +3,7 @@ package com.training.controller;
 
 import com.training.domain.Account;
 import com.training.domain.User;
+import com.training.dto.LoginByMasterNameDTO;
 import com.training.dto.LoginByPhoneDTO;
 import com.training.dto.LoginByUserNameDTO;
 import com.training.dto.LoginDTO;
@@ -18,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(value="/authorize",tags="验证接口")
+@Api(value="/authorize",tags="登录认证接口")
 @RequestMapping("/authorize")
 @RestController
 public class AuthorizeController {
@@ -79,6 +80,17 @@ public class AuthorizeController {
 
 
         LoginDTO loginDTO = accountService.loginByUserName(loginByUserNameDTO);
+        if(loginDTO==null)
+            return new ResponseResult(500,"账号密码错误",null);
+        else return new ResponseResult(loginDTO);
+
+    }
+
+    @PostMapping("/login/masterName")
+    public ResponseResult loginByMasterName(@RequestBody LoginByMasterNameDTO loginByMasterNameDTO){
+
+
+        LoginDTO loginDTO = accountService.loginByMasterName(loginByMasterNameDTO);
         if(loginDTO==null)
             return new ResponseResult(500,"账号密码错误",null);
         else return new ResponseResult(loginDTO);

@@ -99,10 +99,10 @@ public class MasterController {
         return routeService.updateStatusOfRouteById(json.getLong("routeId"),json.getInteger("status"));
     }
 
-    @ApiOperation("管理员登录接口")
-    @PostMapping("/login")
-    public ResponseResult loginMaster(@RequestBody Master master){
-        return masterService.loginByMasterName(master.getMasterName(),master.getPassword());
-    }
+//    @ApiOperation("管理员登录接口")
+//    @PostMapping("/login")
+//    public ResponseResult loginMaster(@RequestBody Master master){
+//        return masterService.loginByMasterName(master.getMasterName(),master.getPassword());
+//    }
 
 }
