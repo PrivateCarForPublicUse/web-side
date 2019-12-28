@@ -28,6 +28,7 @@ public class CarController {
             @ApiResponse(code=500,message="不存在任何车辆")
     })
     @ApiOperation("管理员接口：查看本公司所有车辆")
+    @ApiImplicitParam(name="masterId",value = "管理员id")
     @GetMapping("/fd")
     public ResponseResult cars(@RequestParam("masterId")Long masterId){
         return carService.getCars(masterId);
@@ -73,30 +74,6 @@ public class CarController {
         return carService.delete(id);
     }
 
-//    @ApiResponses({
-//            @ApiResponse(code=505,message="没有私车"),
-//            @ApiResponse(code=506,message="没有公车"),
-//            @ApiResponse(code=507,message="无效的识别码")
-//    })
-//    @ApiOperation("根据公私状态1公车，0私车获取对应的车辆列表")
-//    @ApiImplicitParam(name="isPublic",value = "是否为私车")
-//    @GetMapping("/isPublic/{isPublic}")
-//    public ResponseResult findByIsPublic(@PathVariable("isPublic") int isPublic){
-//        return carService.findByIsPublic(isPublic);
-//    }
-//
-//    @ApiResponses({
-//            @ApiResponse(code=508,message="没有空闲的车"),
-//            @ApiResponse(code=509,message="没有审核中的车"),
-//            @ApiResponse(code=510,message="没有使用中的车"),
-//            @ApiResponse(code=507,message="无效的识别码")
-//    })
-//    @ApiOperation("根据使用状态0空闲,1审核中,2使用中获取对应的车辆列表")
-//    @ApiImplicitParam(name="isUse",value = "使用状态")
-//    @GetMapping("/isUse/{isUse}")
-//    public ResponseResult findByIsUse(@PathVariable("isUse") int isUse){
-//        return carService.findByIsUse(isUse);
-//    }
 //
 //    @ApiResponses({
 //            @ApiResponse(code=511,message="不存在有效的车辆"),
@@ -124,16 +101,31 @@ public class CarController {
     }
 
     @ApiResponses({
-            @ApiResponse(code=506,message="不存在待审核的车辆")
+            @ApiResponse(code=200,message="更新车辆状态成功"),
+            @ApiResponse(code=506,message="更新车辆状态失败")
+    })
+    @ApiOperation("管理员接口：审核车辆，审核通过置isUse为0，不通过isUse为-1")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "carId", value = "车辆id"),
+            @ApiImplicitParam(name = "isUse", value = "是否审核通过")
+    })
+    @GetMapping("/passAddCar")
+    public ResponseResult passAddCarOrNot(@RequestParam("carId")Long carId, @RequestParam("isUse")int isUse){
+        return carService.updateCarIsUseOrNot(carId,isUse);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code=507,message="不存在待审核的车辆")
     })
     @ApiOperation("管理员接口：查看待审核的车辆")
+    @ApiImplicitParam(name="masterId",value = "管理员ID")
     @GetMapping("/reviewAddCar")
     public ResponseResult reviewAddCar(@RequestParam("masterId")Long masterId){
         return carService.findCarWaitForCheck(masterId);
     }
 
     @ApiResponses({
-            @ApiResponse(code=507,message="您没有该状态的车辆")
+            @ApiResponse(code=508,message="没有该状态的车辆")
     })
     @ApiOperation("用户接口：管理我的车辆，isPublic为1表示公车，0表示私车")
     @ApiImplicitParam(name="isPublic",value = "是否公用")
@@ -146,11 +138,15 @@ public class CarController {
     }
 
     @ApiResponses({
-            @ApiResponse(code=508,message="不存在待审核的车辆")
+            @ApiResponse(code=508,message="没有该状态的车辆")
     })
-    @ApiOperation("管理员接口：审核车辆，审核通过isUse为0，不通过isUse为-1")
-    @GetMapping("/passAddCar")
-    public ResponseResult passAddCarOrNot(@RequestParam("carId")Long carId, @RequestParam("isUse")int isUse){
-        return carService.updateCarIsUseOrNot(carId,isUse);
+    @ApiOperation("管理员接口：查看本公司出行或空闲的车辆，isUse为2表示出行中，0表示空闲")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "isUse", value = "出行或者空闲"),
+            @ApiImplicitParam(name = "masterId", value = "管理员ID")
+    })
+    @GetMapping("/getRunningCar")
+    public ResponseResult getCarByIsUse(@RequestParam("isUse")int isUse,@RequestParam("masterId")Long masterId){
+        return carService.findCarByIsUse(isUse,masterId);
     }
 }

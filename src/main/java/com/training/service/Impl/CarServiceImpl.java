@@ -75,33 +75,9 @@ public class CarServiceImpl implements CarService {
         }
     }
 
-//    @Override
-//    public ResponseResult findByIsPublic(int isPublic) {
-//        List<Car> cars = carRepository.findByIsPublic(isPublic);
-//        if (cars.size() == 0){
-//            switch (isPublic){
-//                case 0:return new ResponseResult(505,"没有私车!");
-//                case 1:return new ResponseResult(506,"没有公车!");
-//                default:return new ResponseResult(507,"无效的识别码!");
-//            }
 //        }
 //        return new ResponseResult(cars);
 //    }
-
-//    @Override
-//    public ResponseResult findByIsUse(int isUse) {
-//        List<Car> cars = carRepository.findByIsUse(isUse);
-//        if (cars.size() == 0){
-//            switch (isUse){
-//                case 0:return new ResponseResult(508,"没有空闲的车!");
-//                case 1:return new ResponseResult(509,"没有审核中的车!");
-//                case 2:return new ResponseResult(510,"没有使用中的车!");
-//                default:return new ResponseResult(507,"无效的识别码!");
-//            }
-//        }
-//        return new ResponseResult(cars);
-//    }
-
 //    @Override
 //    public ResponseResult findByIsDeleted(int isDeleted) {
 //        List<Car> cars = carRepository.findByIsDeleted(isDeleted);
@@ -151,7 +127,7 @@ public class CarServiceImpl implements CarService {
         Master master = (Master) masterService.findMasterById(masterId).getData();
         List<Car> cars = carRepository.findCarWaitForCheck(master.getCompanyId());
         if (cars.size() == 0)
-            return new ResponseResult(506,"不存在待审核的车辆!");
+            return new ResponseResult(507,"不存在待审核的车辆!");
         return new ResponseResult(cars);
     }
 
@@ -159,9 +135,18 @@ public class CarServiceImpl implements CarService {
     public ResponseResult findMyCarByIsPublicAndUserID(int isPublic, Long userId) {
         List<Car> cars = carRepository.findByIsPublicAndUserId(isPublic,userId);
         if (cars.size() == 0){
-            return new ResponseResult(507,"您没有该状态的车辆!");
+            return new ResponseResult(508,"您没有该状态的车辆!");
         }
         return new ResponseResult(cars);
     }
 
+    @Override
+    public ResponseResult findCarByIsUse(int isUse, Long masterId) {
+        Master master = (Master) masterService.findMasterById(masterId).getData();
+        List<Car> cars = carRepository.findCarByIsUse(isUse,master.getCompanyId());
+        if (cars.size() == 0){
+            return new ResponseResult(508,"没有该状态的车辆!");
+        }
+        return new ResponseResult(cars);
+    }
 }
