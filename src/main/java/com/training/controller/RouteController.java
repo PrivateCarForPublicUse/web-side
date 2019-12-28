@@ -5,16 +5,15 @@ import com.alibaba.fastjson.JSONObject;
 import com.training.domain.*;
 import com.training.dto.ApplyCarDTO;
 import com.training.response.ResponseResult;
-import com.training.service.MasterService;
 import com.training.service.RouteService;
 import com.training.service.SecRouteService;
+import com.training.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.applet.Applet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,6 +22,9 @@ import java.util.Date;
 @RequestMapping("/Route")
 @RestController
 public class RouteController {
+
+    @Autowired
+    UserService userService;
     @Autowired
     RouteService routeService;
     @Autowired
@@ -153,8 +155,11 @@ public class RouteController {
         User user= (User) session.getAttribute("user");
         Long id=user.getId();
         JSONObject json = JSON.parseObject(body);
-        Long routeId = json.getLong("routeId"),secRouteId = json.getLong("secRouteId");
+        Long routeId = json.getLong("routeId"),secRouteId = json.getLong("secRouteId"),tid = json.getLong("tid");
         String trid = json.getString("trid");
+        User user1 = (User) userService.getUserById(id).getData();
+        user1.setTid(tid);
+        userService.update(user1);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return routeService.startRoute(id,routeId,secRouteId,trid,df.format(new Date()));
     }
