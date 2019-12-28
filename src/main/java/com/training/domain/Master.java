@@ -12,8 +12,6 @@ public class Master {
     private Long id;
     //管理员用户名
     private String name;
-    //管理员密码
-    private String password;
     //是否为企业管理员，0：不是 1：是
     private int isCompanyMaster;
     //对应的企业id
@@ -21,13 +19,13 @@ public class Master {
     //管理员昵称
     private String masterName;
 
-    private Integer accountId;
+    private Long accountId;
 
-    public Integer getAccountId() {
+    public Long getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Integer accountId) {
+    public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
 
@@ -35,7 +33,6 @@ public class Master {
 
     public Master(String name, String password, int isComMaster, Long companyId,String masterName) {
         this.name = name;
-        this.password = password;
         this.isCompanyMaster = isComMaster;
         this.companyId = companyId;
         this.masterName = masterName;
@@ -69,13 +66,6 @@ public class Master {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public int getIsCompanyMaster() {
         return isCompanyMaster;

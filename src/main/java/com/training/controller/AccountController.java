@@ -32,7 +32,7 @@ public class AccountController {
     @ApiOperation("通过id获取账号信息")
     @ApiImplicitParam(value = "账号id",paramType = "path")
     @GetMapping("/{id}")
-    public ResponseResult getUserById(@PathVariable("id") Long id){
+    public ResponseResult getAccountById(@PathVariable("id") Long id){
         return accountService.getAccountById(id);
     }
 

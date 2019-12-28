@@ -1,10 +1,13 @@
 package com.training.service.Impl;
 
 import com.training.domain.Account;
+import com.training.domain.Master;
 import com.training.domain.User;
+import com.training.dto.LoginByMasterNameDTO;
 import com.training.dto.LoginByUserNameDTO;
 import com.training.dto.LoginDTO;
 import com.training.repository.AccountRepository;
+import com.training.repository.MasterRepository;
 import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.AccountService;
@@ -21,6 +24,10 @@ public class AccountServiceImpl implements AccountService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MasterRepository masterRepository;
+
     @Override
     public ResponseResult getAccounts() {
         return new ResponseResult(accountRepository.findAll());
@@ -59,6 +66,22 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(user.getAccountId()).get();
         if(loginByUserNameDTO.getPassword().equals(account.getPassword())){
             return new LoginDTO(account,user);
+        }
+        else return null;
+    }
+
+    @Override
+    public ResponseResult getMasterByAccountId(Long id) {
+        Master master = masterRepository.findMasterByACountId(id);
+        return new ResponseResult(master);
+    }
+
+    @Override
+    public LoginDTO loginByMasterName(LoginByMasterNameDTO loginByMasterNameDTO) {
+        Master master = masterRepository.getMasterByMasterName(loginByMasterNameDTO.getUserName());
+        Account account = accountRepository.findById(master.getAccountId()).get();
+        if(loginByMasterNameDTO.getPassword().equals(account.getPassword())){
+            return new LoginDTO(account,master);
         }
         else return null;
     }

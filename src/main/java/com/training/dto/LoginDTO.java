@@ -5,14 +5,14 @@ import com.training.domain.User;
 
 public class LoginDTO {
     private Account account;
-    private User user;
+    private Object user;
 
-    public LoginDTO(Account account, User user) {
+    public LoginDTO(Account account, Object user) {
         this.account = account;
         this.user = user;
     }
 
-    public User getUser() {
+    public Object getUser() {
         return user;
     }
 

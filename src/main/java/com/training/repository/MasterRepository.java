@@ -2,6 +2,7 @@ package com.training.repository;
 
 import com.training.domain.Master;
 import com.training.domain.Route;
+import com.training.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -18,4 +19,11 @@ public interface MasterRepository extends JpaRepository<Master,Long>{
 
     //根据id返回数据
     Master findMasterByMasterName(String mastername);
+
+
+    @Query(value="select * from master where account_id = :accountId",nativeQuery = true)
+    Master findMasterByACountId(@Param("accountId")Long id);
+
+    @Query(value="select * from master where master_name = :masterName",nativeQuery = true)
+    Master getMasterByMasterName(@Param("masterName")String masterName);
 }
