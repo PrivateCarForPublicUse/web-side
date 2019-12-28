@@ -17,4 +17,5 @@ public interface UserService {
     ResponseResult getUserByAccount(Long id);
     //根据审核状态返回
     ResponseResult getUsersByCheckStatus(int status);
+    ResponseResult updateFDUser(User user);
 }
