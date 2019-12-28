@@ -15,11 +15,10 @@ public interface CarService {
     ResponseResult save(Car car);
     ResponseResult update(Car car);
     ResponseResult delete(Long id);
-//    ResponseResult findByIsPublic(int isPublic);
-//    ResponseResult findByIsUse(int isUse);
 //    ResponseResult findByIsDeleted(int isDeleted);
     ResponseResult findByTimeAndUserID(SelectCarModel model, Long userId,Long companyId);
     ResponseResult updateCarIsUseOrNot(Long carId,int status);
     ResponseResult findCarWaitForCheck(Long masterId);
     ResponseResult findMyCarByIsPublicAndUserID(int isPublic, Long userId);
+    ResponseResult findCarByIsUse(int isUse, Long masterId);
 }

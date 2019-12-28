@@ -39,4 +39,7 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     List<Car> findCarWaitForCheck(@Param("companyId") Long companyId);
     //根据userId和公私用状态获取
     List<Car> findByIsPublicAndUserId(int isPublic,Long userId);
+    //根据公司ID查看出行或空闲的车辆
+    @Query(value="select * from car where is_use = :isUse and user_id in (select id from user where company_id = :companyId)",nativeQuery = true)
+    List<Car> findCarByIsUse(@Param("isUse") int isUse,@Param("companyId") Long companyId);
 }
