@@ -71,4 +71,9 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.getUsersByCheckStatus(status);
         return new ResponseResult(users);
     }
+
+    @Override
+    public ResponseResult updateFDUser(User user){
+        return new ResponseResult(userRepository.save(user));
+    }
 }
