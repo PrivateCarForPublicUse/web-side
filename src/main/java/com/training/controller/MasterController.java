@@ -62,6 +62,7 @@ public class MasterController {
     @PostMapping("/add")
     public ResponseResult saveMaster(@RequestBody Master master) {
         masterService.saveMaster(master);
+        System.out.println(master.getCompanyId());
         return masterService.saveMaster(master);
     }
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -164,6 +165,17 @@ public class RouteController {
         return routeService.startRoute(id,routeId,secRouteId,trid,df.format(new Date()));
     }
 
+    @ApiOperation("开始行程")
+    @PostMapping("/stop")
+    public ResponseResult stopRoute(@RequestBody String body,HttpServletRequest request) throws ParseException {
+        HttpSession session=request.getSession();
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
+        JSONObject json = JSON.parseObject(body);
+        Long routeId = json.getLong("routeId"),secRouteId = json.getLong("secRouteId");
+        Double actualDistance = json.getDouble("actualDistance"),plannedDistance = json.getDouble("plannedDistance");
+        return routeService.stopRoute(id,routeId,secRouteId,plannedDistance,actualDistance);
+    }
 
     /*
     public void deleteRoute(Route route) {

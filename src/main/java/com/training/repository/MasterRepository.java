@@ -14,7 +14,7 @@ import java.util.List;
 public interface MasterRepository extends JpaRepository<Master,Long>{
     // 根据name查询，使用sql语句
     @Query(value="select * from master where name = :name",nativeQuery = true)
-    public List<Master> findAllByName(@Param("name") String name);
+    List<Master> findAllByName(@Param("name") String name);
 
     //根据id返回数据
     Master findMasterByMasterName(String mastername);

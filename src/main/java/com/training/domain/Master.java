@@ -23,34 +23,16 @@ public class Master {
 
     private Integer accountId;
 
-    public Integer getAccountId() {
-        return accountId;
+    public Master() {
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
-    }
-
-    public Master(){}
-
-    public Master(String name, String password, int isComMaster, Long companyId,String masterName) {
+    public Master(String name, String password, int isCompanyMaster, Long companyId, String masterName, Integer accountId) {
         this.name = name;
         this.password = password;
-        this.isCompanyMaster = isComMaster;
+        this.isCompanyMaster = isCompanyMaster;
         this.companyId = companyId;
         this.masterName = masterName;
-    }
-
-    public void setIsCompanyMaster(int isCompanyMaster) {
-        this.isCompanyMaster = isCompanyMaster;
-    }
-
-    public String getMasterName() {
-        return masterName;
-    }
-
-    public void setMasterName(String masterName) {
-        this.masterName = masterName;
+        this.accountId = accountId;
     }
 
     public Long getId() {
@@ -81,8 +63,8 @@ public class Master {
         return isCompanyMaster;
     }
 
-    public void setIsComMaster(int isComMaster) {
-        this.isCompanyMaster = isComMaster;
+    public void setIsCompanyMaster(int isCompanyMaster) {
+        this.isCompanyMaster = isCompanyMaster;
     }
 
     public Long getCompanyId() {
@@ -90,6 +72,22 @@ public class Master {
     }
 
     public void setCompanyId(Long companyId) {
-        companyId = this.companyId;
+        this.companyId = companyId;
+    }
+
+    public String getMasterName() {
+        return masterName;
+    }
+
+    public void setMasterName(String masterName) {
+        this.masterName = masterName;
+    }
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 }

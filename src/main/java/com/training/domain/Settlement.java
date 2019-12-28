@@ -21,6 +21,8 @@ public class Settlement {
     private String carStopTime;
     //行驶路程（公里）
     private double drivingDistance;
+    //计划行驶里程（公里）
+    private double plannedDistance;
     //行驶费用（元）
     private double drivingCost;
     //路径的traceId
@@ -104,6 +106,14 @@ public class Settlement {
 
     public String getRouteUrl() {
         return trid;
+    }
+
+    public double getPlannedDistance() {
+        return plannedDistance;
+    }
+
+    public void setPlannedDistance(double plannedDistance) {
+        this.plannedDistance = plannedDistance;
     }
 
     public Settlement() { }

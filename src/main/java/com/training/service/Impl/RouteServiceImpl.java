@@ -14,7 +14,10 @@ import com.training.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -210,6 +213,26 @@ public class RouteServiceImpl implements RouteService {
         settlement.setTrid(trid);
         settlement.setCarStartTime(carStartTime);
         settlement.setUserId(route.getUserId());
-        return new ResponseResult( settlementService.saveSettlement(settlement));
+        return new ResponseResult(settlementService.saveSettlement(settlement));
+    }
+
+    @Override
+    public ResponseResult stopRoute(Long UserId, Long RouteId, Long secRouteId, Double plannedDistance, Double actualDistance) throws ParseException {
+        Route route = routeRepository.findRouteById(RouteId);
+        if (UserId != route.getUserId())
+            return new ResponseResult(500,"用户Id不一致，结束行程失败!");
+        route.setStatus(3);
+        carService.updateCarIsUseOrNot(route.getCarId(),0);
+        Settlement settlement = (Settlement)settlementService.findSettlementBySecRouteId(secRouteId).getData();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        settlement.setCarStopTime(df.format(new Date()));
+        settlement.setDrivingDistance(actualDistance);
+        settlement.setPlannedDistance(plannedDistance);
+        Date startTime = df.parse(settlement.getCarStartTime());
+        Date stopTime = df.parse(settlement.getCarStopTime());
+        long t = ((stopTime.getTime() - startTime.getTime()) / 1000)%60;
+        Double cost = 0.35 * t + 0.71 * actualDistance;
+        settlement.setDrivingCost(cost);
+        return new ResponseResult(settlementService.saveSettlement(settlement));
     }
 }

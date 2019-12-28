@@ -4,6 +4,7 @@ import com.training.domain.Route;
 import com.training.model.RouteModel;
 import com.training.response.ResponseResult;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface RouteService {
@@ -32,4 +33,6 @@ public interface RouteService {
     ResponseResult findDataByUserIdAndStatus(Long userId);
     //开始行程
     ResponseResult startRoute(Long UserId,Long RouteId,Long secRouteId,String trid,String carStartTime);
+    //结束行程
+    ResponseResult stopRoute(Long UserId,Long RouteId,Long secRouteId,Double plannedDistance,Double actualDistance) throws ParseException;
 }
