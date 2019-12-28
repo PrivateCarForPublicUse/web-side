@@ -34,6 +34,6 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
     //根据报销状态返回行程
     List<Route> findRoutesByIsReimburse(int is);
 
-    @Query(value="select * from settlement WHERE sec_route_id in (SELECT id FROM sec_route WHERE route_id=:routeId)",nativeQuery = true)
-    List<Settlement> findSettlementById(@Param("routeId")Long routeId);
+//    @Query(value="select * from settlement WHERE sec_route_id in (SELECT id FROM sec_route WHERE route_id=:routeId)",nativeQuery = true)
+//    List<Settlement> findSettlementById(@Param("routeId")Long routeId);
 }
