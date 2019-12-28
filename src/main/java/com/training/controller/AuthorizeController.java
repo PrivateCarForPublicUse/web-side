@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Api(value="/authorize",tags="验证接口")
+@Api(value="/authorize",tags="登录认证接口")
 @RequestMapping("/authorize")
 @RestController
 public class AuthorizeController {

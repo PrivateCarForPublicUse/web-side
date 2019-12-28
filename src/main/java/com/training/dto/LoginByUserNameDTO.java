@@ -1,15 +1,15 @@
 package com.training.dto;
 
 public class LoginByUserNameDTO {
-    private String userName;
+    private String Name;
     private String password;
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return Name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.Name = name;
     }
 
     public String getPassword() {

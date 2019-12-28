@@ -14,7 +14,6 @@ import com.training.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -62,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public LoginDTO loginByUserName(LoginByUserNameDTO loginByUserNameDTO){
-        User user = userRepository.getUserByUserName(loginByUserNameDTO.getUserName());
+        User user = userRepository.getUserByUserName(loginByUserNameDTO.getName());
         Account account = accountRepository.findById(user.getAccountId()).get();
         if(loginByUserNameDTO.getPassword().equals(account.getPassword())){
             return new LoginDTO(account,user);
@@ -78,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public LoginDTO loginByMasterName(LoginByMasterNameDTO loginByMasterNameDTO) {
-        Master master = masterRepository.getMasterByMasterName(loginByMasterNameDTO.getUserName());
+        Master master = masterRepository.getMasterByMasterName(loginByMasterNameDTO.getMasterName());
         Account account = accountRepository.findById(master.getAccountId()).get();
         if(loginByMasterNameDTO.getPassword().equals(account.getPassword())){
             return new LoginDTO(account,master);

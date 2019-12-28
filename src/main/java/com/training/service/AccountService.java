@@ -6,8 +6,6 @@ import com.training.dto.LoginByUserNameDTO;
 import com.training.dto.LoginDTO;
 import com.training.response.ResponseResult;
 
-import java.util.List;
-
 public interface AccountService {
     ResponseResult getAccounts();
     ResponseResult getAccountById(Long id);
