@@ -153,6 +153,12 @@ public class CarServiceImpl implements CarService {
         return new ResponseResult(cars);
     }
 
+    //获取所有车辆 by pja
+    @Override
+    public ResponseResult findAllCars(){
+        return new ResponseResult(carRepository.findAll());
+    }
+
     private List<CarMessageModel> getUserOfCars(List<Car> cars){
         List<CarMessageModel> carMessageModels=new ArrayList<>();
         for(Car car:cars){
