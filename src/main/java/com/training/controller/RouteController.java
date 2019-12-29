@@ -165,7 +165,7 @@ public class RouteController {
         return routeService.startRoute(id,routeId,secRouteId,trid,df.format(new Date()));
     }
 
-    @ApiOperation("开始行程")
+    @ApiOperation("结束行程")
     @PostMapping("/stop")
     public ResponseResult stopRoute(@RequestBody String body,HttpServletRequest request) throws ParseException {
         HttpSession session=request.getSession();

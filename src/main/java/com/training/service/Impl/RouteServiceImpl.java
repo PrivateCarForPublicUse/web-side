@@ -5,10 +5,7 @@ import com.training.domain.Route;
 import com.training.domain.SecRoute;
 import com.training.domain.Settlement;
 import com.training.model.*;
-import com.training.repository.CarRepository;
-import com.training.repository.RouteRepository;
-import com.training.repository.SecRouteRepository;
-import com.training.repository.UserRepository;
+import com.training.repository.*;
 import com.training.response.ResponseResult;
 import com.training.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +22,8 @@ public class RouteServiceImpl implements RouteService {
 
     @Autowired
     SettlementService settlementService;
+    @Autowired
+    SettlementRepository settlementRepository;
     @Autowired
     CarService carService;
     @Autowired
@@ -221,9 +220,14 @@ public class RouteServiceImpl implements RouteService {
         Route route = routeRepository.findRouteById(RouteId);
         if (UserId != route.getUserId())
             return new ResponseResult(500,"用户Id不一致，结束行程失败!");
-        route.setStatus(3);
-        carService.updateCarIsUseOrNot(route.getCarId(),0);
-        Settlement settlement = (Settlement)settlementService.findSettlementBySecRouteId(secRouteId).getData();
+        List<Settlement> settlements=settlementRepository.findSettlementByRouteId(RouteId);
+        List<SecRoute> secRoutes=secRouteRepository.findSecRouteByRouteId(RouteId);
+        if(settlements.size()==secRoutes.size()){
+            carService.updateCarIsUseOrNot(route.getCarId(),0);
+            route.setStatus(3);
+            routeRepository.save(route);
+        }
+        Settlement settlement = settlementRepository.findSettlementBySecRouteId(secRouteId).get(0);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         settlement.setCarStopTime(df.format(new Date()));
         settlement.setDrivingDistance(actualDistance);
@@ -231,7 +235,7 @@ public class RouteServiceImpl implements RouteService {
         Date startTime = df.parse(settlement.getCarStartTime());
         Date stopTime = df.parse(settlement.getCarStopTime());
         long t = ((stopTime.getTime() - startTime.getTime()) / 1000)%60;
-        Double cost = 0.35 * t + 0.71 * actualDistance;
+        Double cost = 0.35 * t + 0.71 * actualDistance/1000;
         settlement.setDrivingCost(cost);
         return new ResponseResult(settlementService.saveSettlement(settlement));
     }
