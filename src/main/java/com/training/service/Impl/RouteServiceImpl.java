@@ -184,7 +184,7 @@ public class RouteServiceImpl implements RouteService {
             dataModel.setIsReimburse(routeModel.getRoute().getIsReimburse());
             Double total_cost = 0.0,total_dist = 0.0;
             List<SecModel> secModels = new ArrayList<>();
-            List<SecRouteModel> secRouteModels = routeModel.getSecRoutes();
+            List<SecRouteModel> secRouteModels = routeModel.getSecRoutesModel();
             for (SecRouteModel secRouteModel: secRouteModels){
                 total_cost += secRouteModel.getSettlement().getDrivingCost();
                 total_dist += secRouteModel.getSettlement().getDrivingDistance();

@@ -61,7 +61,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public LoginDTO loginByUserName(LoginByUserNameDTO loginByUserNameDTO){
-        User user = userRepository.getUserByUserName(loginByUserNameDTO.getName());
+        User user = userRepository.getUserByUserName(loginByUserNameDTO.getUserName());
         Account account = accountRepository.findById(user.getAccountId()).get();
         if(loginByUserNameDTO.getPassword().equals(account.getPassword())){
             return new LoginDTO(account,user);

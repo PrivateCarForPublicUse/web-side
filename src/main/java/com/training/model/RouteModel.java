@@ -35,12 +35,12 @@ public class RouteModel {
         this.route = route;
     }
 
-    public List<SecRouteModel> getSecRoutes() {
+    public List<SecRouteModel> getSecRoutesModel() {
         return secRoutesModel;
     }
 
-    public void setSecRoutes(List<SecRouteModel> secRoutes) {
-        this.secRoutesModel = secRoutes;
+    public void setSecRoutesModel(List<SecRouteModel> secRoutesModel) {
+        this.secRoutesModel = secRoutesModel;
     }
 
     public User getUser() {
