@@ -11,6 +11,9 @@ import java.util.List;
  * by Huang
  */
 public interface CarRateRepository extends JpaRepository<CarRate,Long> {
+    // 根据公司ID查询
+    @Query(value="select * from car_rate where user_id in (select id from user where company_id = :companyId)",nativeQuery = true)
+    List<CarRate> findAllByCompany(@Param("companyId")Long companyId);
     // 根据userId查询
     @Query(value="select * from car_rate where user_id = :user_id",nativeQuery = true)
     List<CarRate> findByUserId(@Param("user_id") Long userId);

@@ -18,8 +18,8 @@ public class UserRateServiceImpl implements UserRateService {
     UserRateRepository userRateRepository;
 
     @Override
-    public ResponseResult getUserRates(){
-        List<UserRate> userRates = userRateRepository.findAll();
+    public ResponseResult getUserRates(Long companyId){
+        List<UserRate> userRates = userRateRepository.findAllByCompany(companyId);
         if (userRates.size() == 0)
             return new ResponseResult(500,"不存在任何评价!");
         return new ResponseResult(userRates);

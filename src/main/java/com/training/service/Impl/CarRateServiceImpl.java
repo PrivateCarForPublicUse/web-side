@@ -18,8 +18,8 @@ public class CarRateServiceImpl implements CarRateService {
     CarRateRepository carRateRepository;
 
     @Override
-    public ResponseResult getCarRates(){
-        List<CarRate> carRates = carRateRepository.findAll();
+    public ResponseResult getCarRates(Long companyId){
+        List<CarRate> carRates = carRateRepository.findAllByCompany(companyId);
         if (carRates.size() == 0)
             return new ResponseResult(500,"不存在任何评价!");
         return new ResponseResult(carRates);

@@ -29,7 +29,6 @@ public class CarController {
             @ApiResponse(code=500,message="不存在任何车辆")
     })
     @ApiOperation("管理员接口：查看本公司所有车辆")
-    @ApiImplicitParam(name="masterId",value = "管理员id")
     @GetMapping("/fd")
     public ResponseResult cars(HttpServletRequest request){
         HttpSession session=request.getSession();
@@ -159,10 +158,7 @@ public class CarController {
             @ApiResponse(code=508,message="没有该状态的车辆")
     })
     @ApiOperation("管理员接口：查看本公司出行或空闲的车辆，isUse为2表示出行中，0表示空闲")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "isUse", value = "出行或者空闲"),
-            @ApiImplicitParam(name = "masterId", value = "管理员ID")
-    })
+    @ApiImplicitParam(name = "isUse", value = "出行或者空闲")
     @GetMapping("/getRunningCar")
     public ResponseResult getCarByIsUse(@RequestParam("isUse")int isUse,HttpServletRequest request){
         HttpSession session=request.getSession();

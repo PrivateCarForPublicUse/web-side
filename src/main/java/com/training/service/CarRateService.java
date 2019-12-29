@@ -9,7 +9,7 @@ import java.util.List;
  * by Huang
  */
 public interface CarRateService {
-    ResponseResult getCarRates();
+    ResponseResult getCarRates(Long companyId);
     ResponseResult save(CarRate carRate);
     ResponseResult update(CarRate carRate);
     ResponseResult findByUserId(Long userId);

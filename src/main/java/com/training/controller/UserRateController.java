@@ -1,5 +1,7 @@
 package com.training.controller;
 
+import com.training.domain.Account;
+import com.training.domain.Master;
 import com.training.domain.UserRate;
 import com.training.response.ResponseResult;
 import com.training.service.UserRateService;
@@ -7,6 +9,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -23,10 +27,19 @@ public class UserRateController {
     @ApiResponses({
             @ApiResponse(code=500,message="不存在任何评价")
     })
-    @ApiOperation("获取所有评价列表")
-    @GetMapping("/")
-    public ResponseResult userRates(){
-        return userRateService.getUserRates();
+    @ApiOperation("管理员接口：获取本公司所有对员工的评价列表")
+    @GetMapping("/fd")
+    public ResponseResult userRates(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        int flag=account.getFlag();
+        if(flag==1){
+            Master master= (Master) session.getAttribute("master");
+            Long companyId=master.getCompanyId();
+            return userRateService.getUserRates(companyId);
+        }else{
+            return new ResponseResult(600,"没有权限!");
+        }
     }
 
     @ApiResponses({

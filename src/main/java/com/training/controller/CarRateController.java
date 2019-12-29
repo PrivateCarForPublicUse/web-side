@@ -1,12 +1,16 @@
 package com.training.controller;
 
+import com.training.domain.Account;
 import com.training.domain.CarRate;
+import com.training.domain.Master;
 import com.training.response.ResponseResult;
 import com.training.service.CarRateService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -23,16 +27,25 @@ public class CarRateController {
     @ApiResponses({
             @ApiResponse(code=500,message="不存在任何评价")
     })
-    @ApiOperation("获取所有评价列表")
-    @GetMapping("/")
-    public ResponseResult carRates(){
-        return carRateService.getCarRates();
+    @ApiOperation("管理员接口：获取本公司所有车辆评价列表")
+    @GetMapping("/fd")
+    public ResponseResult carRates(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        int flag=account.getFlag();
+        if(flag==1){
+            Master master= (Master) session.getAttribute("master");
+            Long companyId=master.getCompanyId();
+            return carRateService.getCarRates(companyId);
+        }else{
+            return new ResponseResult(600,"没有权限!");
+        }
     }
 
     @ApiResponses({
             @ApiResponse(code=501,message="新建失败")
     })
-    @ApiOperation("新增评价")
+    @ApiOperation("用户接口：新增评价")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody CarRate carRate){
         return carRateService.save(carRate);
