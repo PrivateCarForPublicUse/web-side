@@ -2,6 +2,7 @@ package com.training.controller;
 
 import com.training.domain.Account;
 import com.training.domain.Car;
+import com.training.domain.Master;
 import com.training.domain.User;
 import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
@@ -30,8 +31,17 @@ public class CarController {
     @ApiOperation("管理员接口：查看本公司所有车辆")
     @ApiImplicitParam(name="masterId",value = "管理员id")
     @GetMapping("/fd")
-    public ResponseResult cars(@RequestParam("masterId")Long masterId){
-        return carService.getCars(masterId);
+    public ResponseResult cars(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        int flag=account.getFlag();
+        if(flag==1){
+            Master master= (Master) session.getAttribute("master");
+            Long companyId=master.getCompanyId();
+            return carService.getCars(companyId);
+        }else{
+            return new ResponseResult(600,"没有权限!");
+        }
     }
 
     @ApiResponses({
@@ -118,10 +128,18 @@ public class CarController {
             @ApiResponse(code=507,message="不存在待审核的车辆")
     })
     @ApiOperation("管理员接口：查看待审核的车辆")
-    @ApiImplicitParam(name="masterId",value = "管理员ID")
     @GetMapping("/reviewAddCar")
-    public ResponseResult reviewAddCar(@RequestParam("masterId")Long masterId){
-        return carService.findCarWaitForCheck(masterId);
+    public ResponseResult reviewAddCar(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        int flag=account.getFlag();
+        if(flag==1){
+            Master master= (Master) session.getAttribute("master");
+            Long companyId=master.getCompanyId();
+            return carService.findCarWaitForCheck(companyId);
+        }else{
+            return new ResponseResult(600,"没有权限!");
+        }
     }
 
     @ApiResponses({
@@ -146,7 +164,16 @@ public class CarController {
             @ApiImplicitParam(name = "masterId", value = "管理员ID")
     })
     @GetMapping("/getRunningCar")
-    public ResponseResult getCarByIsUse(@RequestParam("isUse")int isUse,@RequestParam("masterId")Long masterId){
-        return carService.findCarByIsUse(isUse,masterId);
+    public ResponseResult getCarByIsUse(@RequestParam("isUse")int isUse,HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        int flag=account.getFlag();
+        if(flag==1){
+            Master master= (Master) session.getAttribute("master");
+            Long companyId=master.getCompanyId();
+            return carService.findCarByIsUse(isUse,companyId);
+        }else{
+            return new ResponseResult(600,"没有权限!");
+        }
     }
 }

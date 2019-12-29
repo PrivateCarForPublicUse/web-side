@@ -10,7 +10,7 @@ import java.util.List;
  * by Huang
  */
 public interface CarService {
-    ResponseResult getCars(Long masterId);
+    ResponseResult getCars(Long companyId);
     ResponseResult getCarById(Long id);
     ResponseResult save(Car car);
     ResponseResult update(Car car);
@@ -18,7 +18,7 @@ public interface CarService {
 //    ResponseResult findByIsDeleted(int isDeleted);
     ResponseResult findByTimeAndUserID(SelectCarModel model, Long userId,Long companyId);
     ResponseResult updateCarIsUseOrNot(Long carId,int status);
-    ResponseResult findCarWaitForCheck(Long masterId);
+    ResponseResult findCarWaitForCheck(Long companyId);
     ResponseResult findMyCarByIsPublicAndUserID(int isPublic, Long userId);
-    ResponseResult findCarByIsUse(int isUse, Long masterId);
+    ResponseResult findCarByIsUse(int isUse, Long companyId);
 }
