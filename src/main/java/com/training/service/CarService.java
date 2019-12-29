@@ -21,4 +21,6 @@ public interface CarService {
     ResponseResult findCarWaitForCheck(Long companyId);
     ResponseResult findMyCarByIsPublicAndUserID(int isPublic, Long userId);
     ResponseResult findCarByIsUse(int isUse, Long companyId);
+    //获取所有车辆
+    ResponseResult findAllCars();
 }

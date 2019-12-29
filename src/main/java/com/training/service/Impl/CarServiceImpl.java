@@ -146,4 +146,10 @@ public class CarServiceImpl implements CarService {
         }
         return new ResponseResult(cars);
     }
+
+    //获取所有车辆 by pja
+    @Override
+    public ResponseResult findAllCars(){
+        return new ResponseResult(carRepository.findAll());
+    }
 }

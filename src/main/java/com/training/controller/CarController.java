@@ -172,4 +172,13 @@ public class CarController {
             return new ResponseResult(600,"没有权限!");
         }
     }
+
+    @ApiResponse(code=200,message="返回所有车辆")
+    @ApiOperation("返回所有车辆，不区分公司")
+    @GetMapping("/all")
+    public ResponseResult getAllCars(){
+        return carService.findAllCars();
+    }
+
+
 }
