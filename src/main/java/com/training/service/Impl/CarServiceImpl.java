@@ -2,14 +2,18 @@ package com.training.service.Impl;
 
 import com.training.domain.Car;
 import com.training.domain.Master;
+import com.training.domain.User;
+import com.training.model.CarMessageModel;
 import com.training.model.SelectCarModel;
 import com.training.repository.CarRepository;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
 import com.training.service.MasterService;
+import com.training.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,6 +25,8 @@ public class CarServiceImpl implements CarService {
     CarRepository carRepository;
     @Autowired
     MasterService masterService;
+    @Autowired
+    UserService userService;
 
     @Override
     public ResponseResult getCars(Long companyId){
@@ -104,7 +110,7 @@ public class CarServiceImpl implements CarService {
         if (cars.size() == 0){
             return new ResponseResult(505,"不存在该时间段可用的车辆!");
         }
-        return new ResponseResult(cars);
+        return new ResponseResult(getUserOfCars(cars));
     }
 
     //使用状态（0 空闲；1 审核中；2 使用中 ；审核不通过-1）
@@ -147,9 +153,16 @@ public class CarServiceImpl implements CarService {
         return new ResponseResult(cars);
     }
 
-    //获取所有车辆 by pja
-    @Override
-    public ResponseResult findAllCars(){
-        return new ResponseResult(carRepository.findAll());
+    private List<CarMessageModel> getUserOfCars(List<Car> cars){
+        List<CarMessageModel> carMessageModels=new ArrayList<>();
+        for(Car car:cars){
+            carMessageModels.add(getUserOfCar(car));
+        }
+        return carMessageModels;
+    }
+
+    private CarMessageModel getUserOfCar(Car car){
+        User user=(User) userService.getUserById(car.getUserId()).getData();
+        return new CarMessageModel(user,car);
     }
 }
