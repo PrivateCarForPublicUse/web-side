@@ -80,6 +80,6 @@ public class Master {
     }
 
     public void setCompanyId(Long companyId) {
-        companyId = this.companyId;
+        this.companyId = companyId;
     }
 }
