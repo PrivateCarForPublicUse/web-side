@@ -139,9 +139,15 @@ public class RouteServiceImpl implements RouteService {
 
     //根据审核状态和管理员Id返回包含所有信息的路程
     @Override
-    public ResponseResult findRoutesByStatus(int status,Long masterId) {
+    public ResponseResult findRoutesByStatusAndMasterId(int status,Long masterId) {
         Master master = (Master) masterService.findMasterById(masterId).getData();
-        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatus(status,master.getCompanyId())));
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatusAndCompanyId(status,master.getCompanyId())));
+    }
+
+    //根据审核状态返回包含所有信息的路程
+    @Override
+    public ResponseResult findRoutesByStatus(int status) {
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatus(status)));
     }
 
     //获取包含所有数据的所有路程信息
@@ -243,5 +249,10 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public ResponseResult findUserRouteByStatus(Long userId,int status,int isReimburse) {
         return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByUserIdAndAndStatusAndIsReimburse(userId,status,isReimburse)));
+    }
+
+    @Override
+    public ResponseResult findRoutesByStatusAndIsReimburse(int status, int isReimburse) {
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatusAndIsReimburse(status,isReimburse)));
     }
 }

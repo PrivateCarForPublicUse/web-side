@@ -124,8 +124,18 @@ public class RouteController {
             @ApiImplicitParam(name = "masterId", value = "管理员ID")
     })
     @GetMapping("/status")
-    public ResponseResult findRoutesByStatus(@RequestParam("status")int status,@RequestParam("masterId")Long masterId){
-        return routeService.findRoutesByStatus(status,masterId);
+    public ResponseResult findRoutesByStatusAndCompanyId(@RequestParam("status")int status,@RequestParam("masterId")Long masterId){
+        return routeService.findRoutesByStatusAndMasterId(status,masterId);
+    }
+
+
+    @ApiOperation("根据审核状态和管理员Id返回路程信息，返回包含用户、车辆、段路程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
+    })
+    @GetMapping("/by-status")
+    public ResponseResult findRoutesByStatusAndCompanyId(@RequestParam("status")int status){
+        return routeService.findRoutesByStatus(status);
     }
 
     @ApiOperation("获取包含所有信息的所有路程")
@@ -184,6 +194,16 @@ public class RouteController {
         User user= (User) session.getAttribute("user");
         Long id=user.getId();
         return routeService.findUserRouteByStatus(id,3,0);
+    }
+
+    @ApiOperation("根据行程完成情况(Route.status)和报销情况(Route.isReimburse)返回行程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
+            @ApiImplicitParam(name = "isReimburse", value = "报销状态（-1 报销失败；0 未报销；1 已报销；2 审核中）")
+    })
+    @GetMapping("/status-isreimburse")
+    public ResponseResult findRoutesByStatusAndIsReimburse(@RequestParam("status")int status,@RequestParam("isReimburse")int isReimburse){
+        return routeService.findRoutesByStatusAndIsReimburse(status,isReimburse);
     }
 
     /*
