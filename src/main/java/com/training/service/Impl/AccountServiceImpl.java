@@ -55,18 +55,17 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public ResponseResult delete(Long id) {
-        Account account= accountRepository.findById(id).get();
+        Account account = accountRepository.findById(id).get();
         accountRepository.deleteById(id);
         return new ResponseResult(account);
     }
 
-    public LoginDTO loginByUserName(LoginByUserNameDTO loginByUserNameDTO){
+    public LoginDTO loginByUserName(LoginByUserNameDTO loginByUserNameDTO) {
         User user = userRepository.getUserByUserName(loginByUserNameDTO.getUserName());
         Account account = accountRepository.findById(user.getAccountId()).get();
-        if(loginByUserNameDTO.getPassword().equals(account.getPassword())){
-            return new LoginDTO(account,user);
-        }
-        else return null;
+        if (loginByUserNameDTO.getPassword().equals(account.getPassword())) {
+            return new LoginDTO(account, user);
+        } else return null;
     }
 
     @Override
@@ -79,10 +78,25 @@ public class AccountServiceImpl implements AccountService {
     public LoginDTO loginByMasterName(LoginByMasterNameDTO loginByMasterNameDTO) {
         Master master = masterRepository.getMasterByMasterName(loginByMasterNameDTO.getMasterName());
         Account account = accountRepository.findById(master.getAccountId()).get();
-        if(loginByMasterNameDTO.getPassword().equals(account.getPassword())){
-            return new LoginDTO(account,master);
+        if (loginByMasterNameDTO.getPassword().equals(account.getPassword())) {
+            return new LoginDTO(account, master);
+        } else return null;
+    }
+
+    // 由token返回使用者信息，请勿修改 by pja
+    @Override
+    public ResponseResult getInfo(String token) {
+        Account account=accountRepository.findByToken(token);
+        if(account==null){
+            return new ResponseResult(510,"请求错误，请重新登录");
         }
-        else return null;
+        User user=userRepository.findByAccount(account.getId());
+        if(user == null){
+            Master master=masterRepository.findMasterByACountId(account.getId());
+            if(master==null)return new ResponseResult(510,"请求错误，请重新登录");
+            return new ResponseResult(master);
+        }
+        return new ResponseResult(user);
     }
 
 }

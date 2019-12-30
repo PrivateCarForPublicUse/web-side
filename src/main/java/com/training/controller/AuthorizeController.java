@@ -14,10 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Api(value="/authorize",tags="登录认证接口")
 @RequestMapping("/authorize")
@@ -51,6 +48,12 @@ public class AuthorizeController {
         }
 
         else return new ResponseResult(500,"账号密码错误",null);
+    }
+
+    // 由token返回使用者信息，请勿修改 by pja
+    @PostMapping("/info")
+    public ResponseResult getInfo(@RequestBody Account account){
+        return accountService.getInfo(account.getToken());
     }
 
     @PostMapping("/login/token")

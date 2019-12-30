@@ -18,4 +18,6 @@ public interface AccountService {
     ResponseResult getMasterByAccountId(Long id);
 
     LoginDTO loginByMasterName(LoginByMasterNameDTO loginByMasterNameDTO);
+    // 由token返回使用者信息，请勿修改 by pja
+    ResponseResult getInfo(String token);
 }
