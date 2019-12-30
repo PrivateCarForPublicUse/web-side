@@ -159,6 +159,11 @@ public class CarServiceImpl implements CarService {
         return new ResponseResult(carRepository.findAll());
     }
 
+    @Override
+    public ResponseResult findCarsByUserId(Long userId) {
+        return new ResponseResult(carRepository.findCarsByUserId(userId));
+    }
+
     private List<CarMessageModel> getUserOfCars(List<Car> cars){
         List<CarMessageModel> carMessageModels=new ArrayList<>();
         for(Car car:cars){

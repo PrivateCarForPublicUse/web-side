@@ -129,7 +129,7 @@ public class RouteController {
     }
 
 
-    @ApiOperation("根据审核状态和管理员Id返回路程信息，返回包含用户、车辆、段路程")
+    @ApiOperation("根据审核状态返回路程信息，返回包含用户、车辆、段路程")
     @ApiImplicitParams({
             @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
     })

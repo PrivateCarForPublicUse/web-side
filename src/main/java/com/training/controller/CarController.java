@@ -154,6 +154,16 @@ public class CarController {
         return carService.findMyCarByIsPublicAndUserID(isPublic,id);
     }
 
+    @ApiResponse(code=200,message="成功")
+    @ApiOperation("返回我的所有车辆（不区分公私）")
+    @GetMapping("/myAllCar")
+    public ResponseResult getMyAllCar(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
+        return carService.findCarsByUserId(id);
+    }
+
     @ApiResponses({
             @ApiResponse(code=508,message="没有该状态的车辆")
     })

@@ -23,4 +23,6 @@ public interface CarService {
     ResponseResult findCarByIsUse(int isUse, Long companyId);
     //获取所有车辆
     ResponseResult findAllCars();
+    //返回当前用户的所有车辆
+    ResponseResult findCarsByUserId(Long userId);
 }
