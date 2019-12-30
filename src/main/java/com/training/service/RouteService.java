@@ -35,4 +35,6 @@ public interface RouteService {
     ResponseResult startRoute(Long UserId,Long RouteId,Long secRouteId,String trid,String carStartTime);
     //结束行程
     ResponseResult stopRoute(Long UserId,Long RouteId,Long secRouteId,Double plannedDistance,Double actualDistance) throws ParseException;
+    //返回当前登录用户的未报销行程
+    ResponseResult findUserRouteByStatus(Long userId,int status,int isReimburse);
 }

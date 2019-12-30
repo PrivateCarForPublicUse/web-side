@@ -177,6 +177,15 @@ public class RouteController {
         return routeService.stopRoute(id,routeId,secRouteId,plannedDistance,actualDistance);
     }
 
+    @ApiOperation("返回当前用户已完成(Route.status==3)、未报销(Route.isReimburse==0)的行程")
+    @PostMapping("/my-toreimburse-route")
+    public ResponseResult myToReimburseRoute(HttpServletRequest request) throws ParseException {
+        HttpSession session=request.getSession();
+        User user= (User) session.getAttribute("user");
+        Long id=user.getId();
+        return routeService.findUserRouteByStatus(id,3,0);
+    }
+
     /*
     public void deleteRoute(Route route) {
         routeService.deleteRoute(route);

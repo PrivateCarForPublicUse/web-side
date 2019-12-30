@@ -239,4 +239,9 @@ public class RouteServiceImpl implements RouteService {
         settlement.setDrivingCost(cost);
         return new ResponseResult(settlementService.saveSettlement(settlement));
     }
+
+    @Override
+    public ResponseResult findUserRouteByStatus(Long userId,int status,int isReimburse) {
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByUserIdAndAndStatusAndIsReimburse(userId,status,isReimburse)));
+    }
 }
