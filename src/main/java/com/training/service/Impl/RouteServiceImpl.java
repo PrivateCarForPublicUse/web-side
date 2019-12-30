@@ -192,6 +192,8 @@ public class RouteServiceImpl implements RouteService {
             List<SecModel> secModels = new ArrayList<>();
             List<SecRouteModel> secRouteModels = routeModel.getSecRoutesModel();
             for (SecRouteModel secRouteModel: secRouteModels){
+                Settlement s=secRouteModel.getSettlement();
+                if(s==null)continue;
                 total_cost += secRouteModel.getSettlement().getDrivingCost();
                 total_dist += secRouteModel.getSettlement().getDrivingDistance();
                 SecModel secModel = new SecModel(secRouteModel.getSecRoute().getId(),secRouteModel.getSecRoute().getOrigin(),secRouteModel.getSecRoute().getDestination(),secRouteModel.getSettlement().getCarStartTime(),secRouteModel.getSettlement().getCarStopTime(),secRouteModel.getSettlement().getDrivingDistance(),secRouteModel.getSettlement().getDrivingCost());
