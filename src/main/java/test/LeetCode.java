@@ -2,7 +2,12 @@ package test;
 
 
 
-import java.lang.annotation.ElementType;
+
+import javafx.scene.input.DataFormat;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
@@ -58,9 +63,10 @@ public class LeetCode {
 
 
     public static void main(String[] args) {
-        String s="ccd";
-        Solution solution = new Solution();
-        System.out.println(solution.longestPalindrome(s));
+        DateFormat df=new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        Date date = new Date();
+
+        System.out.println(df.format(date));
 
     }
 

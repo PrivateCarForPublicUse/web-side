@@ -11,6 +11,11 @@ import com.training.service.ReviewReimburseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,8 +42,7 @@ public class ReviewReimburseImpl implements ReviewReimburseService {
                 List<Settlement> list= settlementRepository.findSettlementByRouteId(reviewReimburseDTO.getRouteId());
                 Double sum=0.0;
                 for (Settlement settlement : list) {
-                    settlement.setDrivingCost(111);
-                    settlementRepository.save(settlement);
+                    settlement.setDrivingCost(settlement.getDrivingCost());
                     sum+=settlement.getDrivingCost();
                 }
                 Route route= routeRepository.findById(reviewReimburseDTO.getRouteId()).get();
