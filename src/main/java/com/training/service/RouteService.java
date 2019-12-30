@@ -19,8 +19,11 @@ public interface RouteService {
     ResponseResult saveRoute(Route route);
     ResponseResult updateRoute(Route route);
     ResponseResult updateStatusOfRouteById(Long id, int st);
+    // 根据审核状态返回行程
+    ResponseResult findRoutesByStatus(int status);
     // 根据审核状态和管理员id返回行程
-    ResponseResult findRoutesByStatus(int status,Long masterId);
+    ResponseResult findRoutesByStatusAndMasterId(int status,Long masterId);
+
     // 获取包含所有信息的所有路程
     ResponseResult findFDRoutes();
     // 根据id获取包含所有信息的路程
@@ -37,4 +40,6 @@ public interface RouteService {
     ResponseResult stopRoute(Long UserId,Long RouteId,Long secRouteId,Double plannedDistance,Double actualDistance) throws ParseException;
     //返回当前登录用户的未报销行程
     ResponseResult findUserRouteByStatus(Long userId,int status,int isReimburse);
+    //根据行程完成情况和报销情况返回行程
+    ResponseResult findRoutesByStatusAndIsReimburse(int status,int isReimburse);
 }

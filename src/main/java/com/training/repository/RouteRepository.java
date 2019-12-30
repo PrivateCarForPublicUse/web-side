@@ -26,7 +26,10 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
 
     // 根据审核状态和公司Id返回行程，使用sql语句
     @Query(value="select * from route where user_id in (select id from user where company_id = :companyId) and status = :status",nativeQuery = true)
-    List<Route> findRoutesByStatus(int status,Long companyId);
+    List<Route> findRoutesByStatusAndCompanyId(int status,Long companyId);
+
+    //根据审核状态返回行程
+    List<Route> findRoutesByStatus(int status);
 
     //根据id返回数据
     Route findRouteById(Long id);
@@ -36,6 +39,9 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
 
     //根据报销状态、用户id、行程状态返回路程
     List<Route> findRoutesByUserIdAndAndStatusAndIsReimburse(Long userId,int status,int isReimburse);
+
+    //根据报销状态、行程状态返回路程
+    List<Route> findRoutesByStatusAndIsReimburse(int status,int isReimburse);
 
 //    @Query(value="select * from settlement WHERE sec_route_id in (SELECT id FROM sec_route WHERE route_id=:routeId)",nativeQuery = true)
 //    List<Settlement> findSettlementById(@Param("routeId")Long routeId);
