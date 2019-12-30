@@ -1,8 +1,10 @@
 package com.training.service.Impl;
 
+import com.training.domain.Route;
 import com.training.domain.SecRoute;
 import com.training.domain.Settlement;
 import com.training.model.SecRouteModel;
+import com.training.repository.RouteRepository;
 import com.training.repository.SecRouteRepository;
 import com.training.repository.SettlementRepository;
 import com.training.response.ResponseResult;
@@ -18,6 +20,8 @@ public class SecRouteServiceImpl implements SecRouteService {
 
     @Autowired
     SecRouteRepository secRouteRepository;
+    @Autowired
+    RouteRepository routeRepository;
     @Autowired
     SettlementRepository settlementRepository;
 
@@ -105,5 +109,20 @@ public class SecRouteServiceImpl implements SecRouteService {
             secRouteModels.add(this.packSecRouteModel(secRoute));
         }
         return secRouteModels;
+    }
+
+    @Override
+    public ResponseResult findRemainSecRouteByRouteId(Long routeid, Long userId) {
+        Route route = routeRepository.findRouteById(routeid);
+        if (route.getUserId().longValue() != userId) {
+            return new ResponseResult(507, "没有操作权限!");
+        }
+        List<SecRoute> secRoutes = secRouteRepository.findSecRouteByRouteId(routeid);
+        List<SecRoute> result = new ArrayList<>();
+        for (SecRoute secRoute : secRoutes) {
+            if (settlementRepository.findSettlementBySecRouteId(secRoute.getId()).size() == 0)
+                result.add(secRoute);
+        }
+        return new ResponseResult(result);
     }
 }

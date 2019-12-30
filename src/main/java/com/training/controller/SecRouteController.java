@@ -1,12 +1,16 @@
 package com.training.controller;
 
 import com.training.domain.SecRoute;
+import com.training.domain.User;
 import com.training.response.ResponseResult;
 import com.training.service.SecRouteService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
 @Api(value="/SecRoute",tags="用于测试段路程表相关接口")
@@ -58,6 +62,18 @@ public class SecRouteController {
     @PostMapping("/update")
     public ResponseResult updateSecRoute(@RequestBody SecRoute secroute) {
         return secRouteService.updateSecRoute(secroute);
+    }
+
+    @ApiOperation("根据行程id查找剩余段行程")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "routeid", value = "行程id")
+    })
+    @GetMapping("/findRemainSec")
+    public ResponseResult findRemainSecRouteByRouteId(@RequestParam("routeId") Long routeId, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        Long userId = user.getId();
+        return secRouteService.findRemainSecRouteByRouteId(routeId, userId);
     }
 
     /*

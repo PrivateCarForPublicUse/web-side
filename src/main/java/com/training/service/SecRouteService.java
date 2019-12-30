@@ -16,6 +16,8 @@ public interface SecRouteService {
     void deleteSecRouteByRouteId(Long routeid);
     ResponseResult saveSecRoute(SecRoute secroute);
     ResponseResult updateSecRoute(SecRoute secroute);
+
+    ResponseResult findRemainSecRouteByRouteId(Long routeid, Long userId);
     //根据routeId返回集合settlement的数据
     List<SecRouteModel> findFDSecRouteByRouteId(Long id);
 }
