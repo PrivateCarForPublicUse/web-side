@@ -24,12 +24,12 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     // 根据isDeleted查询
     @Query(value="select * from car where is_deleted = :is_deleted",nativeQuery = true)
     List<Car> findByIsDeleted(@Param("is_deleted") int isDeleted);
-    // 根据time查询My
+    // 根据time查询My且不在使用中
     @Query(value="select * from car where ((star_time <= :startTime and end_time >= :endTime) or (is_public = 0)) and user_id = :id and is_use = 0",nativeQuery = true)
     List<Car> findByTimeAndMy(@Param("startTime") String startTime,@Param("endTime") String endTime,@Param("id") Long id);
-    // 根据time查询NotMy
+    // 根据time查询NotMy公车且不在使用中
     @Query(value="select * from car where is_public = 1 and star_time <= :startTime and end_time >= :endTime and user_id != :userId" +
-            " and user_id and is_use = 0 in (select id from user where company_id = :companyId)",nativeQuery = true)
+            " and is_use = 0 and user_id in (select id from user where company_id = :companyId)",nativeQuery = true)
     List<Car> findByTimeAndNotMy(@Param("startTime") String startTime,@Param("endTime") String endTime,
                                         @Param("userId") Long userId,@Param("companyId") Long companyId);
     // 根据id获取
