@@ -108,10 +108,10 @@ public class RouteController {
             return r;
         Route route1 = (Route) r.getData();
         int i = 0,j = 0;
-        while (i < applyCarDTO.getNames().size()){
+        while (i < applyCarDTO.getNames().size() - 1) {
             SecRoute secRoute = new SecRoute(route1.getId(),applyCarDTO.getNames().get(i),applyCarDTO.getNames().get(i+1),applyCarDTO.getLats().get(j).getLongitude(),applyCarDTO.getLats().get(j).getLatitude(), applyCarDTO.getLats().get(j+1).getLongitude(),applyCarDTO.getLats().get(j+1).getLatitude());
-            i += 2;
-            j += 2;
+            i += 1;
+            j += 1;
             secRouteService.saveSecRoute(secRoute);
         }
         return r;
@@ -190,20 +190,20 @@ public class RouteController {
     @ApiOperation("返回当前用户已完成(Route.status==3)、未报销(Route.isReimburse==0)的行程")
     @PostMapping("/my-toreimburse-route")
     public ResponseResult myToReimburseRoute(HttpServletRequest request) throws ParseException {
-        HttpSession session=request.getSession();
-        User user= (User) session.getAttribute("user");
-        Long id=user.getId();
-        return routeService.findUserRouteByStatus(id,3,0);
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        Long id = user.getId();
+        return routeService.findUserRouteByStatus(id, 3, 0);
     }
 
     @ApiOperation("根据行程完成情况(Route.status)和报销情况(Route.isReimburse)返回行程")
     @ApiImplicitParams({
-            @ApiImplicitParam(name="status",value="审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
+            @ApiImplicitParam(name = "status", value = "审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
             @ApiImplicitParam(name = "isReimburse", value = "报销状态（-1 报销失败；0 未报销；1 已报销；2 审核中）")
     })
     @GetMapping("/status-isreimburse")
-    public ResponseResult findRoutesByStatusAndIsReimburse(@RequestParam("status")int status,@RequestParam("isReimburse")int isReimburse){
-        return routeService.findRoutesByStatusAndIsReimburse(status,isReimburse);
+    public ResponseResult findRoutesByStatusAndIsReimburse(@RequestParam("status") int status, @RequestParam("isReimburse") int isReimburse) {
+        return routeService.findRoutesByStatusAndIsReimburse(status, isReimburse);
     }
 
     /*
