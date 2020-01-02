@@ -99,6 +99,12 @@ public class MasterController {
         return routeService.updateStatusOfRouteById(json.getLong("routeId"),json.getInteger("status"));
     }
 
+    @ApiOperation("管理员获取需要审核的相关信息")
+    @GetMapping("/audit-info")
+    public ResponseResult getAudit(){
+        return masterService.getAuditNum();
+    }
+
 //    @ApiOperation("管理员登录接口")
 //    @PostMapping("/login")
 //    public ResponseResult loginMaster(@RequestBody Master master){

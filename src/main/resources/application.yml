@@ -14,4 +14,4 @@ spring:
       #none
       #validate 验证类中的属性是否与表结构一致，不一致 会报错
       ddl-auto: update
-    show-sql: true
+#    show-sql: true

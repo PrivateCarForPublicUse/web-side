@@ -2,7 +2,11 @@ package com.training.service.Impl;
 
 
 import com.training.domain.Master;
+import com.training.model.AuditModel;
+import com.training.repository.CarRepository;
 import com.training.repository.MasterRepository;
+import com.training.repository.RouteRepository;
+import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.MasterService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +19,12 @@ public class MasterServiceImpl implements MasterService {
 
     @Autowired
     MasterRepository masterRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    CarRepository carRepository;
+    @Autowired
+    RouteRepository routeRepository;
 
     @Override
     public ResponseResult findAllMasters() {
@@ -102,4 +112,12 @@ public class MasterServiceImpl implements MasterService {
 //        return new ResponseResult(506,"密码错误!");
         return null;
     }
+
+    @Override
+    public ResponseResult getAuditNum() {
+        AuditModel auditModel=new AuditModel(userRepository.getUsersByCheckStatus(0),carRepository.findByIsUse(1),routeRepository.findRoutesByStatus(0),routeRepository.findRoutesByStatusAndIsReimburse(3,2));
+        return new ResponseResult(auditModel);
+    }
+
+
 }
