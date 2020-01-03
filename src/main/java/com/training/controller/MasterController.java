@@ -3,10 +3,13 @@ package com.training.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.training.domain.Master;
+import com.training.domain.User;
+import com.training.dto.AuditUserDTO;
 import com.training.response.ResponseResult;
 import com.training.service.Impl.MasterServiceImpl;
 import com.training.service.MasterService;
 import com.training.service.RouteService;
+import com.training.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,7 +27,8 @@ public class MasterController {
     RouteService routeService;
     @Autowired
     MasterService masterService;
-
+    @Autowired
+    UserService userService;
     @ApiResponses({
             @ApiResponse(code=200,message="ok"),
             @ApiResponse(code=500,message="管理员不存在"),
@@ -116,11 +120,22 @@ public class MasterController {
 
     @ApiOperation("管理员获取需要审核的人员信息")
     @GetMapping("/audit-user-info")
-    public ResponseResult getAuditUser(HttpServletRequest httpServletRequest){
+    public ResponseResult getAuditUsers(HttpServletRequest httpServletRequest){
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
         if(master==null) return new ResponseResult(500,"权限不足",null);
         return masterService.getAuditUser(master);
     }
 
+    @ApiOperation("管理员同意或驳回人员申请")
+    @PostMapping("/audit-user-info")
+    public ResponseResult AuditUser(@RequestBody AuditUserDTO auditUserDTO , HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        User user = (User)userService.getUserById(auditUserDTO.getUserId()).getData();
+        if(user ==null) return new ResponseResult(500,"用户不存在",null);
+        else if(master==null) return new ResponseResult(500,"权限不足",null);
+        else if(!master.getCompanyId().equals(user.getCompanyId())) return new ResponseResult(500,"公司不同",null);
+        return masterService.AuditUser(auditUserDTO);
+    }
 }

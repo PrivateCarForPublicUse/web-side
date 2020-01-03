@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.Master;
+import com.training.dto.AuditUserDTO;
 import com.training.response.ResponseResult;
 
 public interface MasterService {
@@ -19,4 +20,6 @@ public interface MasterService {
     Master getMasterByName(String name);
 
     ResponseResult getAuditUser(Master master);
+
+    ResponseResult AuditUser(AuditUserDTO auditUserDTO);
 }

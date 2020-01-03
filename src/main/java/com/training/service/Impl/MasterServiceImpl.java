@@ -3,6 +3,7 @@ package com.training.service.Impl;
 
 import com.training.domain.Master;
 import com.training.domain.User;
+import com.training.dto.AuditUserDTO;
 import com.training.model.AuditModel;
 import com.training.repository.CarRepository;
 import com.training.repository.MasterRepository;
@@ -129,5 +130,13 @@ public class MasterServiceImpl implements MasterService {
     public ResponseResult getAuditUser(Master master) {
         List<User> list = userRepository.getUsersByCheckStatusAndCompanyId(0, master.getCompanyId());
         return new ResponseResult(list);
+    }
+
+    @Override
+    public ResponseResult AuditUser(AuditUserDTO auditUserDTO) {
+        User user = userRepository.findById(auditUserDTO.getUserId()).get();
+        user.setCheckStatus(auditUserDTO.getIsAccept());
+        userRepository.save(user);
+        return new ResponseResult(user);
     }
 }
