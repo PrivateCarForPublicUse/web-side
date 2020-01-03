@@ -15,4 +15,6 @@ public interface MasterService {
     ResponseResult loginByMasterName(String mastername,String password);
     //获取当前需要审批的数量
     ResponseResult getAuditNum();
+
+    Master getMasterByName(String name);
 }

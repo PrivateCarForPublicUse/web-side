@@ -119,5 +119,10 @@ public class MasterServiceImpl implements MasterService {
         return new ResponseResult(auditModel);
     }
 
+    @Override
+    public Master getMasterByName(String name) {
+        return masterRepository.findMasterByMasterName(name);
+    }
+
 
 }
