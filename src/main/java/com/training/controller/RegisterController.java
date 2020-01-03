@@ -61,7 +61,7 @@ public class RegisterController {
 
         HttpSession session = request.getSession();
         Master masterX = (Master) session.getAttribute("master");
-        if(masterX==null)
+        if(masterX==null||masterX.getIsCompanyMaster()!=1)
             return new ResponseResult(500,"权限不足",null);
         Master master = masterService.getMasterByName(addMasterDTO.getName());
         if(master!=null){
