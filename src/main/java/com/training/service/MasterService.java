@@ -22,4 +22,6 @@ public interface MasterService {
     ResponseResult getAuditUser(Master master);
 
     ResponseResult AuditUser(AuditUserDTO auditUserDTO);
+
+    ResponseResult findAllMastersByCompanyId(Long id);
 }

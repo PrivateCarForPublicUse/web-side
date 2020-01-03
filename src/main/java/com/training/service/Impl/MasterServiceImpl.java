@@ -139,4 +139,10 @@ public class MasterServiceImpl implements MasterService {
         userRepository.save(user);
         return new ResponseResult(user);
     }
+
+    @Override
+    public ResponseResult findAllMastersByCompanyId(Long id) {
+        List<Master> masterByCompanyId = masterRepository.findMasterByCompanyId(id);
+        return new ResponseResult(masterByCompanyId);
+    }
 }

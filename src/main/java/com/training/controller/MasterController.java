@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.training.domain.Master;
 import com.training.domain.User;
 import com.training.dto.AuditUserDTO;
+import com.training.dto.DeleteMasterDTO;
 import com.training.response.ResponseResult;
 import com.training.service.Impl.MasterServiceImpl;
 import com.training.service.MasterService;
@@ -137,5 +138,28 @@ public class MasterController {
         else if(master==null) return new ResponseResult(500,"权限不足",null);
         else if(!master.getCompanyId().equals(user.getCompanyId())) return new ResponseResult(500,"公司不同",null);
         return masterService.AuditUser(auditUserDTO);
+    }
+
+
+    @ApiOperation("查询所有本公司管理员的接口")
+    @GetMapping("/masterList")
+    public ResponseResult findAllMastersByCompanyId(HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null) return new ResponseResult(500,"权限不足",null);
+        return masterService.findAllMastersByCompanyId(master.getCompanyId());
+    }
+
+
+    @ApiOperation("删除管理员的接口")
+    @PostMapping("/deleteMaster")
+    public ResponseResult deleteMaster(@RequestBody DeleteMasterDTO deleteMasterDTO, HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+
+        Master master1 = (Master) masterService.findMasterById(deleteMasterDTO.getMasterId()).getData();
+
+        if(master==null||master.getIsCompanyMaster()!=1||!master1.getCompanyId().equals(master.getCompanyId())) return new ResponseResult(500,"权限不足",null);
+        return masterService.deleteMasterById(deleteMasterDTO.getMasterId());
     }
 }
