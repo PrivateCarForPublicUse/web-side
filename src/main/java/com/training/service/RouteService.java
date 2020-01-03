@@ -41,8 +41,8 @@ public interface RouteService {
     ResponseResult stopRoute(Long UserId,Long RouteId,Long secRouteId,Double plannedDistance,Double actualDistance) throws ParseException;
     //返回当前登录用户的未报销行程
     ResponseResult findUserRouteByStatus(Long userId,int status,int isReimburse);
-    //根据行程完成情况和报销情况返回行程
-    ResponseResult findRoutesByStatusAndIsReimburse(int status,int isReimburse);
+    //根据行程完成情况和报销情况和公司id返回行程
+    ResponseResult findRoutesByStatusAndIsReimburseAndCompanyId(int status,int isReimburse,Long companyId);
     //返回用户的所有行程信息
     ResponseResult findRoutesByUserId(Long userId);
     //批量修改route的isReimburse字段，改变审核状态

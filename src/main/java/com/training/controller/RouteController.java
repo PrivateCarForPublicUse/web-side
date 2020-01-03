@@ -201,14 +201,18 @@ public class RouteController {
         return routeService.findUserRouteByStatus(id, 3, 0);
     }
 
-    @ApiOperation("根据行程完成情况(Route.status)和报销情况(Route.isReimburse)返回行程")
+    @ApiOperation("根据行程完成情况(Route.status)和报销情况(Route.isReimburse)返回行程，获取需要审核列表为status=3,isReimburse=2")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "status", value = "审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
             @ApiImplicitParam(name = "isReimburse", value = "报销状态（-1 报销失败；0 未报销；1 已报销；2 审核中）")
     })
     @GetMapping("/status-isreimburse")
-    public ResponseResult findRoutesByStatusAndIsReimburse(@RequestParam("status") int status, @RequestParam("isReimburse") int isReimburse) {
-        return routeService.findRoutesByStatusAndIsReimburse(status, isReimburse);
+    public ResponseResult findRoutesByStatusAndIsReimburse(@RequestParam("status") int status, @RequestParam("isReimburse") int isReimburse,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null)return new ResponseResult(500,"操作失败，没有管理员信息，请检查账户");
+        Long companyId = master.getCompanyId();
+        return routeService.findRoutesByStatusAndIsReimburseAndCompanyId(status, isReimburse, companyId);
     }
 
     @ApiOperation("返回当前登录用户的车辆的行程信息")

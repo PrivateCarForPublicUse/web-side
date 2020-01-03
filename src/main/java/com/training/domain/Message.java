@@ -14,11 +14,14 @@ public class Message {
     private String tableName;
     //对应的表内的id
     private Long idInTable;
+    //对应的反馈消息
+    private String message;
 
     public Message(){}
-    public Message(String tableName, Long idInTable) {
+    public Message(String tableName, Long idInTable,String message) {
         this.tableName = tableName;
         this.idInTable = idInTable;
+        this.message=message;
     }
 
     public Long getId() {
@@ -43,5 +46,13 @@ public class Message {
 
     public void setIdInTable(Long idInTable) {
         this.idInTable = idInTable;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

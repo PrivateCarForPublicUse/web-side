@@ -254,8 +254,8 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public ResponseResult findRoutesByStatusAndIsReimburse(int status, int isReimburse) {
-        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatusAndIsReimburse(status,isReimburse)));
+    public ResponseResult findRoutesByStatusAndIsReimburseAndCompanyId(int status, int isReimburse, Long companyId) {
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatusAndIsReimburseAndCompanyId(status,isReimburse,companyId)));
     }
 
     @Override
