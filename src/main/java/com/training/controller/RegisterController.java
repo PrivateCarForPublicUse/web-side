@@ -77,6 +77,7 @@ public class RegisterController {
         master.setAccountId(account2.getId());
         master.setMasterName(addMasterDTO.getName());
         master.setCompanyId(masterX.getCompanyId());
+        master.setIsCompanyMaster(0);
         masterService.saveMaster(master);
 
         LoginDTO loginDTO = new LoginDTO(account2,master);

@@ -12,6 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 
 @Api(value="/Master",tags="用于测试管理员相关接口")
 @RequestMapping("/Master")
@@ -110,5 +113,14 @@ public class MasterController {
 //    public ResponseResult loginMaster(@RequestBody Master master){
 //        return masterService.loginByMasterName(master.getMasterName(),master.getPassword());
 //    }
+
+    @ApiOperation("管理员获取需要审核的人员信息")
+    @GetMapping("/audit-user-info")
+    public ResponseResult getAuditUser(HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null) return new ResponseResult(500,"权限不足",null);
+        return masterService.getAuditUser(master);
+    }
 
 }

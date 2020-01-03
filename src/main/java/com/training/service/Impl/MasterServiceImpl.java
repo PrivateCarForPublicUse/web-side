@@ -2,6 +2,7 @@ package com.training.service.Impl;
 
 
 import com.training.domain.Master;
+import com.training.domain.User;
 import com.training.model.AuditModel;
 import com.training.repository.CarRepository;
 import com.training.repository.MasterRepository;
@@ -124,5 +125,9 @@ public class MasterServiceImpl implements MasterService {
         return masterRepository.findMasterByMasterName(name);
     }
 
-
+    @Override
+    public ResponseResult getAuditUser(Master master) {
+        List<User> list = userRepository.getUsersByCheckStatusAndCompanyId(0, master.getCompanyId());
+        return new ResponseResult(list);
+    }
 }

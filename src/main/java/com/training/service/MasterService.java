@@ -17,4 +17,6 @@ public interface MasterService {
     ResponseResult getAuditNum();
 
     Master getMasterByName(String name);
+
+    ResponseResult getAuditUser(Master master);
 }
