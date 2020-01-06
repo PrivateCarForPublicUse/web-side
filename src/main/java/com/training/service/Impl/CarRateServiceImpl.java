@@ -1,9 +1,12 @@
 package com.training.service.Impl;
 
+import com.training.domain.Car;
 import com.training.domain.CarRate;
 import com.training.repository.CarRateRepository;
+import com.training.repository.CarRepository;
 import com.training.response.ResponseResult;
 import com.training.service.CarRateService;
+import com.training.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +19,10 @@ import java.util.List;
 public class CarRateServiceImpl implements CarRateService {
     @Autowired
     CarRateRepository carRateRepository;
+    @Autowired
+    CarRepository carRepository;
+    @Autowired
+    CarService carService;
 
     @Override
     public ResponseResult getCarRates(Long companyId){
@@ -29,6 +36,10 @@ public class CarRateServiceImpl implements CarRateService {
     public ResponseResult save(CarRate carRate){
         try {
             CarRate c = carRateRepository.save(carRate);
+            int count = carRateRepository.findByCarId(carRate.getCarId()).size();
+            Car car = carRepository.findById(carRate.getCarId()).get();
+            car.setStarOfCar((car.getStarOfCar() + carRate.getRate())/(count+1));
+            carService.save(car);
             return new ResponseResult(c);
         }
         catch (Exception e){

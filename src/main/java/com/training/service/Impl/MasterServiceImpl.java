@@ -1,10 +1,13 @@
 package com.training.service.Impl;
 
 
+import com.training.domain.Car;
 import com.training.domain.Master;
+import com.training.domain.Route;
 import com.training.domain.User;
 import com.training.dto.AuditUserDTO;
 import com.training.model.AuditModel;
+import com.training.model.CarAndUserModel;
 import com.training.repository.CarRepository;
 import com.training.repository.MasterRepository;
 import com.training.repository.RouteRepository;
@@ -14,6 +17,7 @@ import com.training.service.MasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -144,5 +148,20 @@ public class MasterServiceImpl implements MasterService {
     public ResponseResult findAllMastersByCompanyId(Long id) {
         List<Master> masterByCompanyId = masterRepository.findMasterByCompanyId(id);
         return new ResponseResult(masterByCompanyId);
+    }
+
+    @Override
+    public ResponseResult findUsersAndCars(Long companyId){
+        List<Route> routes = routeRepository.findRoutesByStatusAndCompanyId(2,companyId);
+        if (routes.size() == 0)
+            return new ResponseResult(500,"没有正在进行中的行程!");
+        List<Car> cars = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+        for (Route r : routes){
+            cars.add(carRepository.findById(r.getCarId()).get());
+            users.add(userRepository.findById(r.getUserId()).get());
+        }
+        CarAndUserModel carAndUserModel = new CarAndUserModel(cars,users);
+        return new ResponseResult(carAndUserModel);
     }
 }

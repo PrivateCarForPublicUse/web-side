@@ -24,4 +24,5 @@ public interface MasterService {
     ResponseResult AuditUser(AuditUserDTO auditUserDTO);
 
     ResponseResult findAllMastersByCompanyId(Long id);
+    ResponseResult findUsersAndCars(Long companyId);
 }

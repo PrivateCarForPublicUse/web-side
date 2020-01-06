@@ -162,4 +162,13 @@ public class MasterController {
         if(master==null||master.getIsCompanyMaster()!=1||!master1.getCompanyId().equals(master.getCompanyId())) return new ResponseResult(500,"权限不足",null);
         return masterService.deleteMasterById(deleteMasterDTO.getMasterId());
     }
+
+    @ApiOperation("实时监控")
+    @GetMapping("/monitor")
+    public ResponseResult realTimeMonitoring(HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        return masterService.findUsersAndCars(master.getCompanyId());
+    }
+
 }
