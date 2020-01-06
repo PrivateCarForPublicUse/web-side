@@ -25,4 +25,5 @@ public interface CarService {
     ResponseResult findAllCars();
     //返回当前用户的所有车辆
     ResponseResult findCarsByUserId(Long userId);
+    ResponseResult findCarPassed(Long companyId);
 }

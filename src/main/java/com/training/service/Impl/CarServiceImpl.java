@@ -153,6 +153,15 @@ public class CarServiceImpl implements CarService {
         return new ResponseResult(cars);
     }
 
+    @Override
+    public ResponseResult findCarPassed(Long companyId) {
+        List<Car> cars = carRepository.findCarPassed(companyId);
+        if (cars.size() == 0){
+            return new ResponseResult(508,"没有该状态的车辆!");
+        }
+        return new ResponseResult(cars);
+    }
+
     //获取所有车辆 by pja
     @Override
     public ResponseResult findAllCars(){

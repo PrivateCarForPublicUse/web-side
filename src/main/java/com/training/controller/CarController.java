@@ -56,7 +56,7 @@ public class CarController {
     @ApiResponses({
             @ApiResponse(code=502,message="新建失败")
     })
-    @ApiOperation("用户接口：添加车辆")
+    @ApiOperation("用户接口：新增车辆")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody Car car){
         car.setIsUse(1);
@@ -155,7 +155,7 @@ public class CarController {
     }
 
     @ApiResponse(code=200,message="成功")
-    @ApiOperation("返回我的所有车辆（不区分公私）")
+    @ApiOperation("用户接口：返回我的所有车辆（不区分公私）")
     @GetMapping("/myAllCar")
     public ResponseResult getMyAllCar(HttpServletRequest request){
         HttpSession session=request.getSession();
@@ -191,5 +191,21 @@ public class CarController {
         return carService.findAllCars();
     }
 
-
+    @ApiResponses({
+            @ApiResponse(code=508,message="没有该状态的车辆")
+    })
+    @ApiOperation("管理员接口：查看审核通过的车辆列表")
+    @GetMapping("/getCarPassed")
+    public ResponseResult getCarPassed(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        int flag=account.getFlag();
+        if(flag==1){
+            Master master= (Master) session.getAttribute("master");
+            Long companyId=master.getCompanyId();
+            return carService.findCarPassed(companyId);
+        }else{
+            return new ResponseResult(600,"没有权限!");
+        }
+    }
 }
