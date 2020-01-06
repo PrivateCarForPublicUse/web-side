@@ -1,13 +1,12 @@
 package com.training.service.Impl;
 
 
-import com.training.domain.Car;
 import com.training.domain.Master;
 import com.training.domain.Route;
 import com.training.domain.User;
 import com.training.dto.AuditUserDTO;
 import com.training.model.AuditModel;
-import com.training.model.CarAndUserModel;
+import com.training.model.CarMessageModel;
 import com.training.repository.CarRepository;
 import com.training.repository.MasterRepository;
 import com.training.repository.RouteRepository;
@@ -155,13 +154,13 @@ public class MasterServiceImpl implements MasterService {
         List<Route> routes = routeRepository.findRoutesByStatusAndCompanyId(2,companyId);
         if (routes.size() == 0)
             return new ResponseResult(500,"没有正在进行中的行程!");
-        List<Car> cars = new ArrayList<>();
-        List<User> users = new ArrayList<>();
+        List<CarMessageModel> carMessageModels = new ArrayList<>();
         for (Route r : routes){
-            cars.add(carRepository.findById(r.getCarId()).get());
-            users.add(userRepository.findById(r.getUserId()).get());
+            CarMessageModel carMessageModel = new CarMessageModel();
+            carMessageModel.setCar(carRepository.findById(r.getCarId()).get());
+            carMessageModel.setUser(userRepository.findById(r.getUserId()).get());
+            carMessageModels.add(carMessageModel);
         }
-        CarAndUserModel carAndUserModel = new CarAndUserModel(cars,users);
-        return new ResponseResult(carAndUserModel);
+        return new ResponseResult(carMessageModels);
     }
 }
