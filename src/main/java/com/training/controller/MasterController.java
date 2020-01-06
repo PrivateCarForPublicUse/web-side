@@ -168,6 +168,8 @@ public class MasterController {
     public ResponseResult realTimeMonitoring(HttpServletRequest httpServletRequest){
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
+        if(master ==null)
+            return new ResponseResult(500,"权限不足!",null);
         return masterService.findUsersAndCars(master.getCompanyId());
     }
 
