@@ -2,13 +2,16 @@ package com.training.service.Impl;
 
 import com.training.domain.Car;
 import com.training.domain.Master;
+import com.training.domain.Message;
 import com.training.domain.User;
+import com.training.dto.AuditCarDTO;
 import com.training.model.CarMessageModel;
 import com.training.model.SelectCarModel;
 import com.training.repository.CarRepository;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
 import com.training.service.MasterService;
+import com.training.service.MessageService;
 import com.training.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +30,8 @@ public class CarServiceImpl implements CarService {
     MasterService masterService;
     @Autowired
     UserService userService;
+    @Autowired
+    MessageService messageService;
 
     @Override
     public ResponseResult getCars(Long companyId){
@@ -171,6 +176,19 @@ public class CarServiceImpl implements CarService {
     @Override
     public ResponseResult findCarsByUserId(Long userId) {
         return new ResponseResult(carRepository.findCarsByUserId(userId));
+    }
+
+    @Override
+    public ResponseResult passAddCarOrNot(AuditCarDTO auditCarDTO) {
+        Car car = (Car) getCarById(auditCarDTO.getCarId()).getData();
+        if(car == null) return new ResponseResult(501,"id不存在！");
+        car.setIsUse(auditCarDTO.getIsAccept());
+        carRepository.save(car);
+        if(auditCarDTO.getIsAccept()==-1){
+            Message message= new Message("car",auditCarDTO.getCarId(),auditCarDTO.getReason());
+            messageService.save(message);
+        }
+        return new ResponseResult(200,"更新车辆状态成功");
     }
 
     private List<CarMessageModel> getUserOfCars(List<Car> cars){

@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.Car;
+import com.training.dto.AuditCarDTO;
 import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
 
@@ -26,4 +27,5 @@ public interface CarService {
     //返回当前用户的所有车辆
     ResponseResult findCarsByUserId(Long userId);
     ResponseResult findCarPassed(Long companyId);
+    ResponseResult passAddCarOrNot(AuditCarDTO auditCarDTO);
 }

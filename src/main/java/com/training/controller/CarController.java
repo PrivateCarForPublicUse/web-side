@@ -4,6 +4,7 @@ import com.training.domain.Account;
 import com.training.domain.Car;
 import com.training.domain.Master;
 import com.training.domain.User;
+import com.training.dto.AuditCarDTO;
 import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
@@ -111,16 +112,15 @@ public class CarController {
 
     @ApiResponses({
             @ApiResponse(code=200,message="更新车辆状态成功"),
-            @ApiResponse(code=506,message="更新车辆状态失败")
+            @ApiResponse(code=600,message="没有权限")
     })
-    @ApiOperation("管理员接口：审核车辆，审核通过置isUse为0，不通过isUse为-1")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "carId", value = "车辆id"),
-            @ApiImplicitParam(name = "isUse", value = "是否审核通过")
-    })
+    @ApiOperation("管理员接口：修改车辆审核状态，审核通过置isAccept为0，不通过isAccept为-1")
     @GetMapping("/passAddCar")
-    public ResponseResult passAddCarOrNot(@RequestParam("carId")Long carId, @RequestParam("isUse")int isUse){
-        return carService.updateCarIsUseOrNot(carId,isUse);
+    public ResponseResult passAddCarOrNot(@RequestBody AuditCarDTO auditCarDTO,HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null) return new ResponseResult(600,"没有权限");
+        return carService.passAddCarOrNot(auditCarDTO);
     }
 
     @ApiResponses({
