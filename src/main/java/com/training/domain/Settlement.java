@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Settlement {
+public class Settlement implements Comparable<Settlement>{
     @Id
     @GeneratedValue
     private Long id;
@@ -127,5 +127,11 @@ public class Settlement {
         this.drivingCost = drivingCost;
         this.drivingDistance = drivingDistance;
         this.trid = trid;
+    }
+
+    @Override
+    public int compareTo(Settlement o) {
+
+        return this.getCarStartTime().compareTo(o.getCarStartTime());
     }
 }

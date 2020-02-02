@@ -1,8 +1,10 @@
 package com.training.service.Impl;
 
 import com.training.domain.Reimburse;
+import com.training.domain.Route;
+import com.training.domain.Settlement;
+import com.training.model.ReimburseListOfUser;
 import com.training.model.ReimburseModel;
-import com.training.model.RouteModel;
 import com.training.repository.*;
 import com.training.response.ResponseResult;
 import com.training.service.ReimburseService;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,8 +26,11 @@ public class ReimburseServiceImpl implements ReimburseService {
     RouteService routeService;
     @Autowired
     ReimburseRepository reimburseRepository;
+    @Autowired
+    SettlementRepository settlementRepository;
 
-
+    @Autowired
+    SecRouteRepository secRouteRepository;
     @Override
     public ResponseResult getReimburses(){
         List<Reimburse> reimburses = reimburseRepository.findAll();
@@ -101,6 +108,24 @@ public class ReimburseServiceImpl implements ReimburseService {
         catch (Exception e){
             return new ResponseResult(507,"更新失败!");
         }
+    }
+
+    @Override
+    public ResponseResult getReimburse(Long userId) {
+        ResponseResult routeByUserId = routeService.findRouteByUserId(userId);
+        List<Route> list = (List<Route>)routeByUserId.getData();
+        List<ReimburseListOfUser> dtoList=new ArrayList<>();
+        for (Route route : list) {
+            ReimburseListOfUser reimburseListOfUser = new ReimburseListOfUser();
+            this.searchStartAndEndPlaceByRouteId(route.getId(),reimburseListOfUser);
+        }
+        return null;
+    }
+
+    private void searchStartAndEndPlaceByRouteId(Long id, ReimburseListOfUser reimburseListOfUser) {
+        List<Settlement> settlementByRouteId = settlementRepository.findSettlementByRouteId(id);
+        Collections.sort(settlementByRouteId);
+     //   reimburseListOfUser.setStartPlace(settlementByRouteId.get().s);
     }
 
     //包装

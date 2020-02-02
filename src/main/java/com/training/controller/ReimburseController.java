@@ -73,4 +73,11 @@ public class ReimburseController {
         return reimburseService.applyReimburse(routeIds);
     }
 
+
+
+    @ApiOperation("获取个人的报销列表")
+    @GetMapping("/getReimburseList")
+    public  ResponseResult getReimburseList(){
+        return new ResponseResult("ok!");
+    }
 }
