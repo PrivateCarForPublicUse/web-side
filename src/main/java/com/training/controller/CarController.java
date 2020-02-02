@@ -4,6 +4,7 @@ import com.training.domain.Account;
 import com.training.domain.Car;
 import com.training.domain.Master;
 import com.training.domain.User;
+import com.training.dto.AuditCarDTO;
 import com.training.model.SelectCarModel;
 import com.training.response.ResponseResult;
 import com.training.service.CarService;
@@ -56,7 +57,7 @@ public class CarController {
     @ApiResponses({
             @ApiResponse(code=502,message="新建失败")
     })
-    @ApiOperation("用户接口：添加车辆")
+    @ApiOperation("用户接口：新增车辆")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody Car car){
         car.setIsUse(1);
@@ -111,16 +112,15 @@ public class CarController {
 
     @ApiResponses({
             @ApiResponse(code=200,message="更新车辆状态成功"),
-            @ApiResponse(code=506,message="更新车辆状态失败")
+            @ApiResponse(code=600,message="没有权限")
     })
-    @ApiOperation("管理员接口：审核车辆，审核通过置isUse为0，不通过isUse为-1")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "carId", value = "车辆id"),
-            @ApiImplicitParam(name = "isUse", value = "是否审核通过")
-    })
+    @ApiOperation("管理员接口：修改车辆审核状态，审核通过置isAccept为0，不通过isAccept为-1")
     @GetMapping("/passAddCar")
-    public ResponseResult passAddCarOrNot(@RequestParam("carId")Long carId, @RequestParam("isUse")int isUse){
-        return carService.updateCarIsUseOrNot(carId,isUse);
+    public ResponseResult passAddCarOrNot(@RequestBody AuditCarDTO auditCarDTO,HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null) return new ResponseResult(600,"没有权限");
+        return carService.passAddCarOrNot(auditCarDTO);
     }
 
     @ApiResponses({
@@ -155,7 +155,7 @@ public class CarController {
     }
 
     @ApiResponse(code=200,message="成功")
-    @ApiOperation("返回我的所有车辆（不区分公私）")
+    @ApiOperation("用户接口：返回我的所有车辆（不区分公私）")
     @GetMapping("/myAllCar")
     public ResponseResult getMyAllCar(HttpServletRequest request){
         HttpSession session=request.getSession();
@@ -191,5 +191,21 @@ public class CarController {
         return carService.findAllCars();
     }
 
-
+    @ApiResponses({
+            @ApiResponse(code=508,message="没有该状态的车辆")
+    })
+    @ApiOperation("管理员接口：查看审核通过的车辆列表")
+    @GetMapping("/getCarPassed")
+    public ResponseResult getCarPassed(HttpServletRequest request){
+        HttpSession session=request.getSession();
+        Account account= (Account) session.getAttribute("account");
+        int flag=account.getFlag();
+        if(flag==1){
+            Master master= (Master) session.getAttribute("master");
+            Long companyId=master.getCompanyId();
+            return carService.findCarPassed(companyId);
+        }else{
+            return new ResponseResult(600,"没有权限!");
+        }
+    }
 }

@@ -1,12 +1,17 @@
 package com.training.service.Impl;
 
+import com.training.domain.User;
 import com.training.domain.UserRate;
 import com.training.repository.UserRateRepository;
+import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.UserRateService;
+import com.training.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 /**
@@ -16,6 +21,8 @@ import java.util.List;
 public class UserRateServiceImpl implements UserRateService {
     @Autowired
     UserRateRepository userRateRepository;
+    @Autowired
+    UserService userService;
 
     @Override
     public ResponseResult getUserRates(Long companyId){
@@ -29,6 +36,10 @@ public class UserRateServiceImpl implements UserRateService {
     public ResponseResult save(UserRate userRate){
         try {
             UserRate u = userRateRepository.save(userRate);
+            int count = userRateRepository.findByUserId(userRate.getUserId()).size();
+            User user = (User)userService.getUserById(userRate.getUserId()).getData();
+            user.setStarLevel((user.getStarLevel() + userRate.getRate())/(count+1));
+            userService.save(user);
             return new ResponseResult(u);
         }
         catch (Exception e){

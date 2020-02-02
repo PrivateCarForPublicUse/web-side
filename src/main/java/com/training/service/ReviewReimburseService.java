@@ -7,7 +7,8 @@ import com.training.dto.ReviewReimburseDTO;
 import com.training.response.ResponseResult;
 
 public interface ReviewReimburseService {
-    ResponseResult acceptReimburse(ReviewReimburseDTO reviewReimburseDTO, Account account);
+    ResponseResult acceptReimburse(ReviewReimburseDTO reviewReimburseDTO, Master master);
+    ResponseResult rejectReimburse(ReviewReimburseDTO reviewReimburseDTO, Master master);
 
     Long getCompanyId(ReviewReimburseDTO reviewReimburseDTO);
 }

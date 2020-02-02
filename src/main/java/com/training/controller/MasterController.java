@@ -3,14 +3,21 @@ package com.training.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.training.domain.Master;
+import com.training.domain.User;
+import com.training.dto.AuditUserDTO;
+import com.training.dto.DeleteMasterDTO;
 import com.training.response.ResponseResult;
 import com.training.service.Impl.MasterServiceImpl;
 import com.training.service.MasterService;
 import com.training.service.RouteService;
+import com.training.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 
 @Api(value="/Master",tags="用于测试管理员相关接口")
@@ -21,7 +28,8 @@ public class MasterController {
     RouteService routeService;
     @Autowired
     MasterService masterService;
-
+    @Autowired
+    UserService userService;
     @ApiResponses({
             @ApiResponse(code=200,message="ok"),
             @ApiResponse(code=500,message="管理员不存在"),
@@ -99,10 +107,70 @@ public class MasterController {
         return routeService.updateStatusOfRouteById(json.getLong("routeId"),json.getInteger("status"));
     }
 
+    @ApiOperation("管理员获取需要审核的相关信息")
+    @GetMapping("/audit-info")
+    public ResponseResult getAudit(){
+        return masterService.getAuditNum();
+    }
+
 //    @ApiOperation("管理员登录接口")
 //    @PostMapping("/login")
 //    public ResponseResult loginMaster(@RequestBody Master master){
 //        return masterService.loginByMasterName(master.getMasterName(),master.getPassword());
 //    }
+
+    @ApiOperation("管理员获取需要审核的人员信息")
+    @GetMapping("/audit-user-info")
+    public ResponseResult getAuditUsers(HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null) return new ResponseResult(500,"权限不足",null);
+        return masterService.getAuditUser(master);
+    }
+
+    @ApiOperation("管理员同意或驳回人员申请")
+    @PostMapping("/audit-user-info")
+    public ResponseResult AuditUser(@RequestBody AuditUserDTO auditUserDTO , HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        User user = (User)userService.getUserById(auditUserDTO.getUserId()).getData();
+        if(user ==null) return new ResponseResult(500,"用户不存在",null);
+        else if(master==null) return new ResponseResult(500,"权限不足",null);
+        else if(!master.getCompanyId().equals(user.getCompanyId())) return new ResponseResult(500,"公司不同",null);
+        return masterService.AuditUser(auditUserDTO);
+    }
+
+
+    @ApiOperation("查询所有本公司管理员的接口")
+    @GetMapping("/masterList")
+    public ResponseResult findAllMastersByCompanyId(HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null) return new ResponseResult(500,"权限不足",null);
+        return masterService.findAllMastersByCompanyId(master.getCompanyId());
+    }
+
+
+    @ApiOperation("删除管理员的接口")
+    @PostMapping("/deleteMaster")
+    public ResponseResult deleteMaster(@RequestBody DeleteMasterDTO deleteMasterDTO, HttpServletRequest httpServletRequest) {
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+
+        Master master1 = (Master) masterService.findMasterById(deleteMasterDTO.getMasterId()).getData();
+
+        if(master==null||master.getIsCompanyMaster()!=1||!master1.getCompanyId().equals(master.getCompanyId())) return new ResponseResult(500,"权限不足",null);
+        return masterService.deleteMasterById(deleteMasterDTO.getMasterId());
+    }
+
+    @ApiOperation("实时监控")
+    @GetMapping("/monitor")
+    public ResponseResult realTimeMonitoring(HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master ==null)
+            return new ResponseResult(500,"权限不足!",null);
+        return masterService.findUsersAndCars(master.getCompanyId());
+    }
 
 }

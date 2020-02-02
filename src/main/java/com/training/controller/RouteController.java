@@ -2,8 +2,10 @@ package com.training.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.deploy.nativesandbox.comm.Response;
 import com.training.domain.*;
 import com.training.dto.ApplyCarDTO;
+import com.training.dto.IsReimburseIdsDTO;
 import com.training.response.ResponseResult;
 import com.training.service.RouteService;
 import com.training.service.SecRouteService;
@@ -16,7 +18,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 //涉及到参数传递的目前用不了，得等前端页面做出来
 @Api(value="/Route",tags="用于测试路程表相关接口")
@@ -196,15 +201,54 @@ public class RouteController {
         return routeService.findUserRouteByStatus(id, 3, 0);
     }
 
-    @ApiOperation("根据行程完成情况(Route.status)和报销情况(Route.isReimburse)返回行程")
+    @ApiOperation("根据行程完成情况(Route.status)和报销情况(Route.isReimburse)返回行程，获取需要审核列表为status=3,isReimburse=2")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "status", value = "审核状态（-1 审核不通过；0 未审核；1 审核通过；2 行程中；3 已完成；4 已取消）"),
             @ApiImplicitParam(name = "isReimburse", value = "报销状态（-1 报销失败；0 未报销；1 已报销；2 审核中）")
     })
     @GetMapping("/status-isreimburse")
-    public ResponseResult findRoutesByStatusAndIsReimburse(@RequestParam("status") int status, @RequestParam("isReimburse") int isReimburse) {
-        return routeService.findRoutesByStatusAndIsReimburse(status, isReimburse);
+    public ResponseResult findRoutesByStatusAndIsReimburse(@RequestParam("status") int status, @RequestParam("isReimburse") int isReimburse,HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master==null)return new ResponseResult(500,"操作失败，没有管理员信息，请检查账户");
+        Long companyId = master.getCompanyId();
+        return routeService.findRoutesByStatusAndIsReimburseAndCompanyId(status, isReimburse, companyId);
     }
+
+    @ApiOperation("返回当前登录用户的车辆的行程信息")
+    @GetMapping("/my-car-route")
+    public ResponseResult findMyCarRoute(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        Long id = user.getId();
+        return new ResponseResult(routeService.findFDRouteByUserId(id));
+    }
+
+    @ApiOperation("返回当前用户的所有行程信息")
+    @GetMapping("/my-route")
+    public ResponseResult findMyRoute(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        Long id = user.getId();
+        return routeService.findRoutesByUserId(id);
+    }
+
+    @ApiOperation("用户向管理员发起报销申请，修改的是route中的isReimburse字段，修改为2（审核中）")
+    @PutMapping("/applyReimburse")
+    public ResponseResult applyReimburse(@RequestBody IsReimburseIdsDTO idsDTO){
+        List<Long>ids=new ArrayList<>();
+        int[] a=idsDTO.getIds();
+        for (int value : a) {
+            ids.add((long) value);
+        }
+        return routeService.updateRoutesIsReimburseByIds(ids,2);
+    }
+
+//    @ApiOperation("管理员审核报销申请，修改的是route中的isReimburse字段，修改为1（已审核）或-1（审核失败）")
+//    @PostMapping("/applyReimburse")
+//    public ResponseResult auditReimburse(@RequestParam(value="reimburseIds")List<Long>ids){
+//        return routeService.updateRoutesIsReimburseByIds(ids,2);
+//    }
 
     /*
     public void deleteRoute(Route route) {

@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.Master;
+import com.training.dto.AuditUserDTO;
 import com.training.response.ResponseResult;
 
 public interface MasterService {
@@ -13,4 +14,15 @@ public interface MasterService {
     ResponseResult findMasterById(Long id);
     ResponseResult updateNameOfMastersById(Long id, String name);
     ResponseResult loginByMasterName(String mastername,String password);
+    //获取当前需要审批的数量
+    ResponseResult getAuditNum();
+
+    Master getMasterByName(String name);
+
+    ResponseResult getAuditUser(Master master);
+
+    ResponseResult AuditUser(AuditUserDTO auditUserDTO);
+
+    ResponseResult findAllMastersByCompanyId(Long id);
+    ResponseResult findUsersAndCars(Long companyId);
 }

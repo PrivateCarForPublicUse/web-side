@@ -2,12 +2,21 @@ package com.training.service.Impl;
 
 
 import com.training.domain.Master;
+import com.training.domain.Route;
+import com.training.domain.User;
+import com.training.dto.AuditUserDTO;
+import com.training.model.AuditModel;
+import com.training.model.CarMessageModel;
+import com.training.repository.CarRepository;
 import com.training.repository.MasterRepository;
+import com.training.repository.RouteRepository;
+import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.MasterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -15,6 +24,12 @@ public class MasterServiceImpl implements MasterService {
 
     @Autowired
     MasterRepository masterRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    CarRepository carRepository;
+    @Autowired
+    RouteRepository routeRepository;
 
     @Override
     public ResponseResult findAllMasters() {
@@ -101,5 +116,51 @@ public class MasterServiceImpl implements MasterService {
 //            return new ResponseResult(200,"登录成功！",master);
 //        return new ResponseResult(506,"密码错误!");
         return null;
+    }
+
+    @Override
+    public ResponseResult getAuditNum() {
+        AuditModel auditModel=new AuditModel(userRepository.getUsersByCheckStatus(0),carRepository.findByIsUse(1),routeRepository.findRoutesByStatus(0),routeRepository.findRoutesByStatusAndIsReimburse(3,2));
+        return new ResponseResult(auditModel);
+    }
+
+    @Override
+    public Master getMasterByName(String name) {
+        return masterRepository.findMasterByMasterName(name);
+    }
+
+    @Override
+    public ResponseResult getAuditUser(Master master) {
+        List<User> list = userRepository.getUsersByCheckStatusAndCompanyId(0, master.getCompanyId());
+        return new ResponseResult(list);
+    }
+
+    @Override
+    public ResponseResult AuditUser(AuditUserDTO auditUserDTO) {
+        User user = userRepository.findById(auditUserDTO.getUserId()).get();
+        user.setCheckStatus(auditUserDTO.getIsAccept());
+        userRepository.save(user);
+        return new ResponseResult(user);
+    }
+
+    @Override
+    public ResponseResult findAllMastersByCompanyId(Long id) {
+        List<Master> masterByCompanyId = masterRepository.findMasterByCompanyId(id);
+        return new ResponseResult(masterByCompanyId);
+    }
+
+    @Override
+    public ResponseResult findUsersAndCars(Long companyId){
+        List<Route> routes = routeRepository.findRoutesByStatusAndCompanyId(2,companyId);
+        if (routes.size() == 0)
+            return new ResponseResult(500,"没有正在进行中的行程!");
+        List<CarMessageModel> carMessageModels = new ArrayList<>();
+        for (Route r : routes){
+            CarMessageModel carMessageModel = new CarMessageModel();
+            carMessageModel.setCar(carRepository.findById(r.getCarId()).get());
+            carMessageModel.setUser(userRepository.findById(r.getUserId()).get());
+            carMessageModels.add(carMessageModel);
+        }
+        return new ResponseResult(carMessageModels);
     }
 }

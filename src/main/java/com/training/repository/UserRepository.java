@@ -22,4 +22,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     List<User> getUsersByCheckStatus(int status);
     //根据id获取
     User getUserById(Long id);
+
+    List<User> getUsersByCheckStatusAndCompanyId(int status,Long companyId);
 }

@@ -133,8 +133,8 @@ public class RouteServiceImpl implements RouteService {
 
     //根据userid返回包含所有信息的路程
     @Override
-    public RouteModel findFDRouteByUserId(Long userId){
-        return this.packRouteModel(routeRepository.findRouteById(userId));
+    public List<RouteModel> findFDRouteByUserId(Long userId){
+        return this.packRouteModels(routeRepository.findRouteByUserId(userId));
     }
 
     //根据审核状态和管理员Id返回包含所有信息的路程
@@ -254,7 +254,22 @@ public class RouteServiceImpl implements RouteService {
     }
 
     @Override
-    public ResponseResult findRoutesByStatusAndIsReimburse(int status, int isReimburse) {
-        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatusAndIsReimburse(status,isReimburse)));
+    public ResponseResult findRoutesByStatusAndIsReimburseAndCompanyId(int status, int isReimburse, Long companyId) {
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByStatusAndIsReimburseAndCompanyId(status,isReimburse,companyId)));
+    }
+
+    @Override
+    public ResponseResult findRoutesByUserId(Long userId) {
+        return new ResponseResult(this.packRouteModels(routeRepository.findRouteByUserId(userId)));
+    }
+
+    //-1 报销失败；0 未报销；1 已报销；2 审核中
+    @Override
+    public ResponseResult updateRoutesIsReimburseByIds(List<Long> ids,int status) {
+        List<Route>routes=routeRepository.findRoutesByIdIn(ids);
+        for(int i=0;i<routes.size();i++){
+            routes.get(i).setIsReimburse(status);
+        }
+        return new ResponseResult(routeRepository.saveAll(routes));
     }
 }

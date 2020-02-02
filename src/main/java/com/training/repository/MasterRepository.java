@@ -26,4 +26,6 @@ public interface MasterRepository extends JpaRepository<Master,Long>{
 
     @Query(value="select * from master where master_name = :masterName",nativeQuery = true)
     Master getMasterByMasterName(@Param("masterName")String masterName);
+
+    List<Master> findMasterByCompanyId(Long id);
 }

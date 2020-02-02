@@ -12,6 +12,7 @@ public interface RouteService {
     ResponseResult findRouteById(Long id);
     ResponseResult findRouteByCarId(Long carid);
     ResponseResult findRouteByUserId(Long userId);
+    //根据UserId返回路程的详细信息
     void deleteRoute(Route route);
     void deleteRouteById(Long id);
     void deleteRouteByCarId(Long carid);
@@ -29,7 +30,7 @@ public interface RouteService {
     // 根据id获取包含所有信息的路程
     RouteModel findFDRouteById(Long id);
     // 根据UserId获取包含所有信息的路程
-    RouteModel findFDRouteByUserId(Long userId);
+    List<RouteModel> findFDRouteByUserId(Long userId);
     //根据报销状态返回行程
     ResponseResult findFDRoutesByIsReimburse(int is);
     //根据审核状态和用户Id返回包含所有信息的路程
@@ -40,6 +41,10 @@ public interface RouteService {
     ResponseResult stopRoute(Long UserId,Long RouteId,Long secRouteId,Double plannedDistance,Double actualDistance) throws ParseException;
     //返回当前登录用户的未报销行程
     ResponseResult findUserRouteByStatus(Long userId,int status,int isReimburse);
-    //根据行程完成情况和报销情况返回行程
-    ResponseResult findRoutesByStatusAndIsReimburse(int status,int isReimburse);
+    //根据行程完成情况和报销情况和公司id返回行程
+    ResponseResult findRoutesByStatusAndIsReimburseAndCompanyId(int status,int isReimburse,Long companyId);
+    //返回用户的所有行程信息
+    ResponseResult findRoutesByUserId(Long userId);
+    //批量修改route的isReimburse字段，改变审核状态
+    ResponseResult updateRoutesIsReimburseByIds(List<Long>ids,int status);
 }
