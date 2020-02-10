@@ -50,6 +50,11 @@ public class RegisterController {
         User user = new User();
         user.setAccountId(account2.getId());
         user.setPhoneNumber(registerDTO.getPhoneNumber());
+        user.setCompanyId(registerDTO.getCompanyId());
+        user.setWorkNumber(registerDTO.getWorkNumber());
+       // user.setDriverLicenseBackUrl(registerDTO.getDriverLicense().getUrl());
+        user.setIdCardNumber(registerDTO.getIdCard().getIdNumber());
+        user.setDriverLicenseNumber(registerDTO.getDriverLicense().getLicenceId());
         userService.save(user);
 
         LoginDTO loginDTO = new LoginDTO(account2,user);
