@@ -2,24 +2,26 @@ package com.training.controller;
 
 
 import com.training.domain.Account;
+import com.training.domain.Company;
 import com.training.domain.Master;
 import com.training.domain.User;
 import com.training.dto.AddMasterDTO;
+import com.training.dto.CompanyCityDTO;
 import com.training.dto.LoginDTO;
 import com.training.dto.RegisterDTO;
+import com.training.repository.CompanyRepository;
 import com.training.response.ResponseResult;
 import com.training.service.AccountService;
 import com.training.service.MasterService;
 import com.training.service.UserService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 
 @Api(value="/register",tags="注册接口")
 @RequestMapping("/register")
@@ -32,7 +34,8 @@ public class RegisterController {
     UserService userService;
     @Autowired
     MasterService masterService;
-
+    @Autowired
+    CompanyRepository companyRepository;
 
     @PostMapping("/")
     public ResponseResult register(@RequestBody RegisterDTO registerDTO){
@@ -88,5 +91,19 @@ public class RegisterController {
         LoginDTO loginDTO = new LoginDTO(account2,master);
 
         return new ResponseResult(loginDTO);
+    }
+
+    @GetMapping("/CompanyCity")
+    public ResponseResult getCompanyCity(){
+        CompanyCityDTO companyCitys = new CompanyCityDTO();
+        List<String> list = companyRepository.findCities();
+        return new ResponseResult(list);
+    }
+
+    @PostMapping("/Companies")
+    public ResponseResult getCompaniesBycity(@RequestBody String cityName){
+        //CompanyCityDTO companyCitys = new CompanyCityDTO();
+        List<Company> list = companyRepository.findCompaniesByCity(cityName);
+        return new ResponseResult(list);
     }
 }
