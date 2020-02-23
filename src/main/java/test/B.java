@@ -1,10 +1,14 @@
 package test;
 
 public class B extends A{
-    private int xxx;
+    private int b;
+    public B(){
+        super(4);
+        b = 3;
+    }
     public static void main(String[] args) {
         B b = new B();
-        B.b=3;
-        System.out.println(B.b);
+        System.out.println(b.getA());
     }
+
 }

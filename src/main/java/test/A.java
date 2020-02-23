@@ -2,5 +2,16 @@ package test;
 
 public class A {
     private int a;
-    static int b;
+
+    public A(int x){
+        a=x;
+    }
+
+    public int getA() {
+        return a;
+    }
+
+    public void setA(int a) {
+        this.a = a;
+    }
 }

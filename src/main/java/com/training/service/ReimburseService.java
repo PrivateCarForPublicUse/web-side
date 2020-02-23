@@ -17,4 +17,7 @@ public interface ReimburseService {
     ResponseResult update(Reimburse reimburse);
     ResponseResult applyReimburse(List<Long> routeIds);
     ResponseResult getReimburse(Long userId);
+    ResponseResult GetReimburseStatistic(Long companyId);
+
+    ResponseResult GetReimburseStatistic_person(Long id);
 }

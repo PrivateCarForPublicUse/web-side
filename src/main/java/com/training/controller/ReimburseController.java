@@ -1,5 +1,6 @@
 package com.training.controller;
 
+import com.training.domain.Master;
 import com.training.domain.Reimburse;
 import com.training.response.ResponseResult;
 import com.training.service.ReimburseService;
@@ -7,6 +8,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -80,4 +83,24 @@ public class ReimburseController {
     public  ResponseResult getReimburseList(){
         return new ResponseResult("ok!");
     }
+
+    @ApiOperation("统计该公司所有的报销")
+    @GetMapping("/ReimburseStatics")
+    public  ResponseResult getReimburseStatics(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Master master = (Master) session.getAttribute("master");
+        return reimburseService.GetReimburseStatistic(master.getCompanyId());
+     //   return new ResponseResult("ok!");
+    }
+
+    @ApiOperation("统计某员工所有的报销")
+    @GetMapping("/ReimburseStatics-person/{id}")
+    public  ResponseResult getReimburseStatics_person(@PathVariable("id") Long id,HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Master master = (Master) session.getAttribute("master");
+        //此处省去权限验证
+        return reimburseService.GetReimburseStatistic_person(id);
+        //   return new ResponseResult("ok!");
+    }
+
 }
