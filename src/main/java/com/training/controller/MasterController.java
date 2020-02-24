@@ -2,28 +2,31 @@ package com.training.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.sun.prism.impl.ps.BaseShaderContext;
 import com.training.domain.Master;
 import com.training.domain.User;
 import com.training.dto.AuditUserDTO;
 import com.training.dto.DeleteMasterDTO;
 import com.training.response.ResponseResult;
-import com.training.service.Impl.MasterServiceImpl;
+import com.training.service.CarService;
 import com.training.service.MasterService;
 import com.training.service.RouteService;
 import com.training.service.UserService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 
 @Api(value="/Master",tags="用于测试管理员相关接口")
 @RequestMapping("/Master")
 @RestController
 public class MasterController {
+    @Autowired
+    CarService carService;
     @Autowired
     RouteService routeService;
     @Autowired
@@ -173,4 +176,23 @@ public class MasterController {
         return masterService.findUsersAndCars(master.getCompanyId());
     }
 
+    @ApiOperation("查询私车/公车数量")
+    @GetMapping("/isPublic")
+    public ResponseResult findCarByIsPublicAndCompanyId(HttpServletRequest httpServletRequest,int isPublic){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master ==null)
+            return new ResponseResult(500,"权限不足!",null);
+        return carService.findCarByIsPublicAndCompanyId(isPublic,master.getCompanyId());
+    }
+
+    @ApiOperation("查询员工数量")
+    @GetMapping("/findUser")
+    public ResponseResult getUsersByCompanyId(HttpServletRequest httpServletRequest){
+        HttpSession session = httpServletRequest.getSession();
+        Master master = (Master) session.getAttribute("master");
+        if(master ==null)
+            return new ResponseResult(500,"权限不足!",null);
+        return userService.getUsersByCompanyId(master.getCompanyId());
+    }
 }

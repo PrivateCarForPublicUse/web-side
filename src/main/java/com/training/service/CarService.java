@@ -28,4 +28,5 @@ public interface CarService {
     ResponseResult findCarsByUserId(Long userId);
     ResponseResult findCarPassed(Long companyId);
     ResponseResult passAddCarOrNot(AuditCarDTO auditCarDTO);
+    ResponseResult findCarByIsPublicAndCompanyId(int isPublic, Long companyId);
 }

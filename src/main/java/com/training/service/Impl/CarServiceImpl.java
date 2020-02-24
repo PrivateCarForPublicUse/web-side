@@ -203,4 +203,10 @@ public class CarServiceImpl implements CarService {
         User user=(User) userService.getUserById(car.getUserId()).getData();
         return new CarMessageModel(user,car);
     }
+
+    @Override
+    public ResponseResult findCarByIsPublicAndCompanyId(int isPublic, Long companyId) {
+        List<Car> cars = carRepository.findCarByIsPublicAndCompanyId(isPublic,companyId);
+        return new ResponseResult(cars);
+    }
 }

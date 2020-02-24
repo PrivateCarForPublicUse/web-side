@@ -76,4 +76,10 @@ public class UserServiceImpl implements UserService {
     public ResponseResult updateFDUser(User user){
         return new ResponseResult(userRepository.save(user));
     }
+
+    @Override
+    public ResponseResult getUsersByCompanyId(Long companyId){
+        List<User> users = userRepository.getUserByCompanyId(companyId);
+        return new ResponseResult(users);
+    }
 }

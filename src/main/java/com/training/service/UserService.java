@@ -18,4 +18,5 @@ public interface UserService {
     //根据审核状态返回
     ResponseResult getUsersByCheckStatus(int status);
     ResponseResult updateFDUser(User user);
+    ResponseResult getUsersByCompanyId(Long companyId);
 }

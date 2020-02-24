@@ -47,4 +47,7 @@ public interface CarRepository extends JpaRepository<Car,Long> {
     //根据公司ID查看所有审核通过的车辆
     @Query(value="select * from car where (is_use = 0 or is_use = 2) and user_id in (select id from user where company_id = :companyId)",nativeQuery = true)
     List<Car> findCarPassed(@Param("companyId") Long companyId);
+    //根据公司ID和是否公用状态来查看车辆
+    @Query(value = "select * from car where is_public = :is_public and user_id in (select id from user where company_id = :companyId",nativeQuery = true)
+    List<Car> findCarByIsPublicAndCompanyId(@Param("is_public")int isPublic, @Param("companyId")Long companyId);
 }
