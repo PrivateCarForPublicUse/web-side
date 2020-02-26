@@ -53,6 +53,53 @@ public class User {
     //是否删除
     private int isDeleted;
 
+    public User(){}
+
+    public User(String userName, Long companyId, String name,int gender,String phoneNumber,Long workNumber){
+        this.userName=userName;
+        this.companyId=companyId;
+        this.name=name;
+        this.gender=gender;
+        this.phoneNumber=phoneNumber;
+        this.workNumber=workNumber;
+    }
+
+    public User(String userName, Long accountId, Long workNumber, String name, int gender, String phoneNumber, Long companyId, String headPhotoUrl, String idCardNumber, String idCardFrontUrl, String idCardBackUrl, String driverLicenseNumber, String driverLicenseFrontUrl, String driverLicenseBackUrl, int checkStatus) {
+        this.userName = userName;
+        this.accountId = accountId;
+        this.workNumber = workNumber;
+        this.name = name;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.companyId = companyId;
+        this.headPhotoUrl = headPhotoUrl;
+        this.idCardNumber = idCardNumber;
+        this.idCardFrontUrl = idCardFrontUrl;
+        this.idCardBackUrl = idCardBackUrl;
+        this.driverLicenseNumber = driverLicenseNumber;
+        this.driverLicenseFrontUrl = driverLicenseFrontUrl;
+        this.driverLicenseBackUrl = driverLicenseBackUrl;
+        this.checkStatus = checkStatus;
+    }
+
+    public User(String userName, Long accountId, Long workNumber, String name, int gender, String phoneNumber, Long companyId, String idCardNumber, String driverLicenseNumber, int checkStatus,String[] uuid) {
+        this.userName = userName;
+        this.accountId = accountId;
+        this.workNumber = workNumber;
+        this.name = name;
+        this.gender = gender;
+        this.phoneNumber = phoneNumber;
+        this.companyId = companyId;
+        this.headPhotoUrl = uuid[4];//headPhotoUrl;
+        this.idCardNumber = idCardNumber;
+        this.idCardFrontUrl = uuid[0];//idCardFrontUrl;
+        this.idCardBackUrl = uuid[1];//idCardBackUrl;
+        this.driverLicenseNumber = driverLicenseNumber;
+        this.driverLicenseFrontUrl = uuid[2];//driverLicenseFrontUrl;
+        this.driverLicenseBackUrl = uuid[3];//driverLicenseBackUrl;
+        this.checkStatus = checkStatus;
+    }
+
     public int getIsDeleted() {
         return isDeleted;
     }

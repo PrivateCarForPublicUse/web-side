@@ -14,4 +14,5 @@ public interface CompanyRepository extends JpaRepository<Company,Long> {
     List<String> findCities();
     @Query(value="select * from company where city = :city",nativeQuery = true)
     List<Company> findCompaniesByCity(@Param("city") String city);
+    List<Company> findAll();
 }

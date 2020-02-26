@@ -14,6 +14,14 @@ public class Account {
 
     private Integer flag;//1:管理员 0：用户
 
+    public Account(){}
+
+    public Account(String password, String token, Integer flag) {
+        this.password = password;
+        this.token = token;
+        this.flag = flag;
+    }
+
     public Integer getFlag() {
         return flag;
     }
@@ -22,8 +30,6 @@ public class Account {
         this.flag = flag;
     }
 
-
-
     public String getToken() {
         return token;
     }
@@ -31,8 +37,6 @@ public class Account {
     public void setToken(String token) {
         this.token = token;
     }
-
-
 
     public Long getId() {
         return id;

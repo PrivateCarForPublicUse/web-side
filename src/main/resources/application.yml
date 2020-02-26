@@ -6,7 +6,7 @@ spring:
     initialize: true
     #schema: classpath:schema.sql #初始化数据表
     username: root
-    password: 123456
+    password: 12
   jpa:
     hibernate:
       #create 程序运行时 重新创建一张表
