@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 
-@Api(value="/Master",tags="用于测试管理员相关接口")
+@Api(value = "/Master", tags = "用于测试管理员相关接口")
 @RequestMapping("/Master")
 @RestController
 public class MasterController {
@@ -33,15 +33,16 @@ public class MasterController {
     MasterService masterService;
     @Autowired
     UserService userService;
+
     @ApiResponses({
-            @ApiResponse(code=200,message="ok"),
-            @ApiResponse(code=500,message="管理员不存在"),
-            @ApiResponse(code=501,message="id不存在"),
-            @ApiResponse(code=502,message="name不存在"),
-            @ApiResponse(code=503,message="插入失败"),
-            @ApiResponse(code=504,message="删除失败"),
-            @ApiResponse(code=505,message="更新失败"),
-            @ApiResponse(code=506,message="密码错误")
+            @ApiResponse(code = 200, message = "ok"),
+            @ApiResponse(code = 500, message = "管理员不存在"),
+            @ApiResponse(code = 501, message = "id不存在"),
+            @ApiResponse(code = 502, message = "name不存在"),
+            @ApiResponse(code = 503, message = "插入失败"),
+            @ApiResponse(code = 504, message = "删除失败"),
+            @ApiResponse(code = 505, message = "更新失败"),
+            @ApiResponse(code = 506, message = "密码错误")
     })
 
 
@@ -82,7 +83,7 @@ public class MasterController {
             @ApiImplicitParam(name = "id", value = "管理员id")
     })
     @DeleteMapping("/del")
-    public ResponseResult deleteMaster(@RequestParam("id")Long id) {
+    public ResponseResult deleteMaster(@RequestParam("id") Long id) {
         masterService.deleteMasterById(id);
         return new ResponseResult("SUCCESS");
     }
@@ -99,20 +100,20 @@ public class MasterController {
             @ApiImplicitParam(name = "name", value = "修改后的管理员名字")
     })
     @PostMapping("/update_name")
-    public ResponseResult updateUser(@RequestParam("id")Long id, @RequestParam("name")String name) {
+    public ResponseResult updateUser(@RequestParam("id") Long id, @RequestParam("name") String name) {
         return masterService.updateNameOfMastersById(id, name);
     }
 
     @ApiOperation("管理员审核申请用车")
     @PostMapping("/reviewUseCar")
-    public ResponseResult reviewUseCar(@RequestBody String body){
+    public ResponseResult reviewUseCar(@RequestBody String body) {
         JSONObject json = JSON.parseObject(body);
-        return routeService.updateStatusOfRouteById(json.getLong("routeId"),json.getInteger("status"));
+        return routeService.updateStatusOfRouteById(json.getLong("routeId"), json.getInteger("status"));
     }
 
     @ApiOperation("管理员获取需要审核的相关信息")
     @GetMapping("/audit-info")
-    public ResponseResult getAudit(){
+    public ResponseResult getAudit() {
         return masterService.getAuditNum();
     }
 
@@ -124,22 +125,22 @@ public class MasterController {
 
     @ApiOperation("管理员获取需要审核的人员信息")
     @GetMapping("/audit-user-info")
-    public ResponseResult getAuditUsers(HttpServletRequest httpServletRequest){
+    public ResponseResult getAuditUsers(HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
-        if(master==null) return new ResponseResult(500,"权限不足",null);
+        if (master == null) return new ResponseResult(500, "权限不足", null);
         return masterService.getAuditUser(master);
     }
 
     @ApiOperation("管理员同意或驳回人员申请")
     @PostMapping("/audit-user-info")
-    public ResponseResult AuditUser(@RequestBody AuditUserDTO auditUserDTO , HttpServletRequest httpServletRequest){
+    public ResponseResult AuditUser(@RequestBody AuditUserDTO auditUserDTO, HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
-        User user = (User)userService.getUserById(auditUserDTO.getUserId()).getData();
-        if(user ==null) return new ResponseResult(500,"用户不存在",null);
-        else if(master==null) return new ResponseResult(500,"权限不足",null);
-        else if(!master.getCompanyId().equals(user.getCompanyId())) return new ResponseResult(500,"公司不同",null);
+        User user = (User) userService.getUserById(auditUserDTO.getUserId()).getData();
+        if (user == null) return new ResponseResult(500, "用户不存在", null);
+        else if (master == null) return new ResponseResult(500, "权限不足", null);
+        else if (!master.getCompanyId().equals(user.getCompanyId())) return new ResponseResult(500, "公司不同", null);
         return masterService.AuditUser(auditUserDTO);
     }
 
@@ -149,7 +150,7 @@ public class MasterController {
     public ResponseResult findAllMastersByCompanyId(HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
-        if(master==null) return new ResponseResult(500,"权限不足",null);
+        if (master == null) return new ResponseResult(500, "权限不足", null);
         return masterService.findAllMastersByCompanyId(master.getCompanyId());
     }
 
@@ -162,37 +163,57 @@ public class MasterController {
 
         Master master1 = (Master) masterService.findMasterById(deleteMasterDTO.getMasterId()).getData();
 
-        if(master==null||master.getIsCompanyMaster()!=1||!master1.getCompanyId().equals(master.getCompanyId())) return new ResponseResult(500,"权限不足",null);
+        if (master == null || master.getIsCompanyMaster() != 1 || !master1.getCompanyId().equals(master.getCompanyId()))
+            return new ResponseResult(500, "权限不足", null);
         return masterService.deleteMasterById(deleteMasterDTO.getMasterId());
     }
 
     @ApiOperation("实时监控")
     @GetMapping("/monitor")
-    public ResponseResult realTimeMonitoring(HttpServletRequest httpServletRequest){
+    public ResponseResult realTimeMonitoring(HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
-        if(master ==null)
-            return new ResponseResult(500,"权限不足!",null);
+        if (master == null)
+            return new ResponseResult(500, "权限不足!", null);
         return masterService.findUsersAndCars(master.getCompanyId());
     }
 
     @ApiOperation("查询私车/公车数量")
     @GetMapping("/isPublic")
-    public ResponseResult findCarByIsPublicAndCompanyId(HttpServletRequest httpServletRequest,int isPublic){
+    public ResponseResult findCarByIsPublicAndCompanyId(HttpServletRequest httpServletRequest, int isPublic) {
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
-        if(master ==null)
-            return new ResponseResult(500,"权限不足!",null);
-        return carService.findCarByIsPublicAndCompanyId(isPublic,master.getCompanyId());
+        if (master == null)
+            return new ResponseResult(500, "权限不足!", null);
+        return carService.findCarByIsPublicAndCompanyId(isPublic, master.getCompanyId());
     }
 
     @ApiOperation("查询员工数量")
     @GetMapping("/findUser")
-    public ResponseResult getUsersByCompanyId(HttpServletRequest httpServletRequest){
+    public ResponseResult getUsersByCompanyId(HttpServletRequest httpServletRequest) {
         HttpSession session = httpServletRequest.getSession();
         Master master = (Master) session.getAttribute("master");
-        if(master ==null)
-            return new ResponseResult(500,"权限不足!",null);
+        if (master == null)
+            return new ResponseResult(500, "权限不足!", null);
         return userService.getUsersByCompanyId(master.getCompanyId());
     }
+
+    @ApiOperation("查询各个别类需要审核的数量")
+    @GetMapping("/to-review-num")
+    public ResponseResult getToReviewNum(HttpServletRequest httpServletRequest) {
+        Master master = (Master) httpServletRequest.getSession().getAttribute("master");
+        if (master == null)
+            return new ResponseResult(501, "权限不足");
+        return new ResponseResult(masterService.poll(master.getCompanyId()));
+    }
+
+    @ApiOperation("返回当前公司的用户")
+    @ApiImplicitParam(value = "审核状态", name = "status")
+    @GetMapping("/users")
+    public ResponseResult getByStatusInCompany(HttpServletRequest request) {
+        Master master = (Master) request.getSession().getAttribute("master");
+        if (master == null) return new ResponseResult(502, "权限不足");
+        return userService.getUsersByCompanyId(master.getCompanyId());
+    }
+
 }

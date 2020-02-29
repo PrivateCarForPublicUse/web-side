@@ -13,11 +13,14 @@ import com.training.repository.RouteRepository;
 import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.MasterService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MasterServiceImpl implements MasterService {
@@ -162,5 +165,20 @@ public class MasterServiceImpl implements MasterService {
             carMessageModels.add(carMessageModel);
         }
         return new ResponseResult(carMessageModels);
+    }
+
+    @Override
+    public Map<String,Integer>poll(Long companyId){
+        Map<String, Integer>map=new HashMap<>();
+        //轮询审核中的用户
+        int userToReviewNum = userRepository.getUsersByCheckStatusAndCompanyId(0,companyId).size();
+        int carToReviewNum = carRepository.findCarWaitForCheck(companyId).size();
+        int routeToReviewNum = routeRepository.findRoutesByStatusAndCompanyId(0,companyId).size();
+        int reimburseToReviewNum = routeRepository.findRoutesByStatusAndIsReimburseAndCompanyId(3,2,companyId).size();
+        map.put("userToReviewNum",userToReviewNum);
+        map.put("carToReviewNum",carToReviewNum);
+        map.put("routeToReviewNum",routeToReviewNum);
+        map.put("reimburseToReviewNum",reimburseToReviewNum);
+        return map;
     }
 }

@@ -4,6 +4,8 @@ import com.training.domain.Master;
 import com.training.dto.AuditUserDTO;
 import com.training.response.ResponseResult;
 
+import java.util.Map;
+
 public interface MasterService {
     ResponseResult findAllMasters();
     ResponseResult findMastersByName(String newname);
@@ -25,4 +27,6 @@ public interface MasterService {
 
     ResponseResult findAllMastersByCompanyId(Long id);
     ResponseResult findUsersAndCars(Long companyId);
+    //轮询审核中的用户、车辆、路程等
+    Map<String,Integer> poll(Long companyId);
 }

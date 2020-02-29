@@ -1,6 +1,7 @@
 package com.training.controller;
 
 
+import com.training.domain.Master;
 import com.training.domain.User;
 import com.training.response.ResponseResult;
 import com.training.service.UserService;
@@ -8,6 +9,7 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(value="/user",tags="用户信息接口")
@@ -67,4 +69,5 @@ public class UserController {
     @ApiOperation("修改传到后台的用户的所有数据")
     @PutMapping("/fd/update")
     public ResponseResult updateFDUser(@RequestBody User user){return userService.updateFDUser(user);}
+
 }

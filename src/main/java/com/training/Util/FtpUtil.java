@@ -12,7 +12,7 @@ import java.io.*;
 public class FtpUtil {
 
     //ftp服务器ip地址
-    private static final String FTP_ADDRESS = "192.168.159.130";
+    private static final String FTP_ADDRESS = "192.168.159.131";
     //端口号
     private static final int FTP_PORT = 21;
     //用户名

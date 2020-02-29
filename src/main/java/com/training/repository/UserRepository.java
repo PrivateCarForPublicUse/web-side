@@ -18,10 +18,10 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByAccount(@Param("id")Long id);
     @Query(value="select * from user where user_name = :user_name",nativeQuery = true)
     User getUserByUserName(@Param("user_name")String userName);
-    //电话号码 审核状态
-    User findByPhoneNumberAndCheckStatus(String phoneNumber,int checkStatus);
-    //用户名 审核状态
-    User findByUserNameAndCheckStatus(String userName,int checkStatus);
+    //电话号码 审核状态 公司id
+    User findByPhoneNumberAndCheckStatusAndCompanyId(String phoneNumber,int checkStatus,Long companyId);
+    //用户名 审核状态 公司id
+    User findByUserNameAndCheckStatusAndCompanyId(String userName,int checkStatus,Long companyId);
     //根据用户审核状态查询
     List<User> getUsersByCheckStatus(int status);
     //根据id获取
@@ -30,4 +30,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     List<User> getUsersByCheckStatusAndCompanyId(int status,Long companyId);
 
     List<User> getUserByCompanyId(Long companyId);
+
+
 }

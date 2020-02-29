@@ -14,6 +14,7 @@ import com.training.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 @Service
@@ -85,7 +86,7 @@ public class AccountServiceImpl implements AccountService {
 
     // 由token返回使用者信息，请勿修改 by pja
     @Override
-    public ResponseResult getInfo(String token) {
+    public ResponseResult getInfo(HttpServletRequest request,String token) {
         Account account=accountRepository.findByToken(token);
         if(account==null){
             return new ResponseResult(510,"请求错误，请重新登录");
@@ -93,9 +94,11 @@ public class AccountServiceImpl implements AccountService {
         User user=userRepository.findByAccount(account.getId());
         if(user == null){
             Master master=masterRepository.findMasterByACountId(account.getId());
-            if(master==null)return new ResponseResult(510,"请求错误，请重新登录");
+            if(master==null)return new ResponseResult(510,"请求错误，    请重新登录");
+            request.getSession().setAttribute("master",master);
             return new ResponseResult(master);
         }
+        request.getSession().setAttribute("user",user);
         return new ResponseResult(user);
     }
 

@@ -16,6 +16,8 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Api(value="/authorize",tags="登录认证接口")
 @RequestMapping("/authorize")
 @RestController
@@ -52,8 +54,8 @@ public class AuthorizeController {
 
     // 由token返回使用者信息，请勿修改 by pja
     @PostMapping("/info")
-    public ResponseResult getInfo(@RequestBody Account account){
-        return accountService.getInfo(account.getToken());
+    public ResponseResult getInfo(@RequestBody Account account, HttpServletRequest request){
+        return accountService.getInfo(request,account.getToken());
     }
 
     @PostMapping("/login/token")

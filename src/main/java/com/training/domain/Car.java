@@ -32,6 +32,8 @@ public class Car {
     private Long userId;
     //公私状态 （1 公车；0 私车）
     private int isPublic;
+
+
     //使用状态（0 空闲；1 审核中；2 使用中 ；审核不通过-1）
     private int isUse;
     //车辆公用开始时间
@@ -56,6 +58,20 @@ public class Car {
     public Car() {
     }
 
+    public Car(String license, String picture, String drivingLicenseUrl, String band, String type, Long userId, int isPublic, int isUse, String starTime, String endTime, double displacement, int isDeleted) {
+        this.license = license;
+        this.picture = picture;
+        DrivingLicenseUrl = drivingLicenseUrl;
+        this.band = band;
+        this.type = type;
+        this.userId = userId;
+        this.isPublic = isPublic;
+        this.isUse = isUse;
+        this.starTime = starTime;
+        this.endTime = endTime;
+        this.displacement = displacement;
+        this.isDeleted = isDeleted;
+    }
     public Car(String license, String picture, String drivingLicenseUrl, String band, String type, double starOfCar, String insuranceCompany, String strongInsurancePolicy, String commercialInsurancePolicy, Long carHostId, int isPublic, int isUse, String starTime, String endTime, double displacement) {
         this.license = license;
         this.picture = picture;

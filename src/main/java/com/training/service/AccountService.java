@@ -6,6 +6,8 @@ import com.training.dto.LoginByUserNameDTO;
 import com.training.dto.LoginDTO;
 import com.training.response.ResponseResult;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface AccountService {
     ResponseResult getAccounts();
     ResponseResult getAccountById(Long id);
@@ -19,5 +21,5 @@ public interface AccountService {
 
     LoginDTO loginByMasterName(LoginByMasterNameDTO loginByMasterNameDTO);
     // 由token返回使用者信息，请勿修改 by pja
-    ResponseResult getInfo(String token);
+    ResponseResult getInfo(HttpServletRequest request,String token);
 }
