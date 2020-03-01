@@ -11,7 +11,7 @@ import java.util.List;
 public interface UserRateService {
     ResponseResult getUserRates(Long companyId);
     ResponseResult save(UserRate userRate);
-    ResponseResult update(UserRate userRate);
+//    ResponseResult update(UserRate userRate);
     ResponseResult findByUserId(Long userId);
     ResponseResult findByEvaluateeId(Long valuateeId);
 }

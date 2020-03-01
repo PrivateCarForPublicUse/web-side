@@ -11,7 +11,7 @@ import java.util.List;
 public interface CarRateService {
     ResponseResult getCarRates(Long companyId);
     ResponseResult save(CarRate carRate);
-    ResponseResult update(CarRate carRate);
+//    ResponseResult update(CarRate carRate);
     ResponseResult findByUserId(Long userId);
     ResponseResult findByCarId(Long carId);
 }

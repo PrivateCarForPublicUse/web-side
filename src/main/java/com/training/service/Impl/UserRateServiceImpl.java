@@ -10,6 +10,7 @@ import com.training.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
@@ -36,9 +37,9 @@ public class UserRateServiceImpl implements UserRateService {
     public ResponseResult save(UserRate userRate){
         try {
             UserRate u = userRateRepository.save(userRate);
-            int count = userRateRepository.findByUserId(userRate.getUserId()).size();
-            User user = (User)userService.getUserById(userRate.getUserId()).getData();
-            user.setStarLevel((user.getStarLevel() + userRate.getRate())/(count+1));
+            int count = userRateRepository.findByEvaluateeId(userRate.getEvaluateeId()).size();
+            User user = (User)userService.getUserById(userRate.getEvaluateeId()).getData();
+            user.setStarLevel((user.getStarLevel()*(count-1) + userRate.getRate())/count);
             userService.save(user);
             return new ResponseResult(u);
         }
@@ -47,16 +48,16 @@ public class UserRateServiceImpl implements UserRateService {
         }
     }
 
-    @Override
-    public ResponseResult update(UserRate userRate) {
-        try {
-            UserRate u = userRateRepository.save(userRate);
-            return new ResponseResult(u);
-        }
-        catch (Exception e){
-            return new ResponseResult(504,"更新失败!");
-        }
-    }
+//    @Override
+//    public ResponseResult update(UserRate userRate) {
+//        try {
+//            UserRate u = userRateRepository.save(userRate);
+//            return new ResponseResult(u);
+//        }
+//        catch (Exception e){
+//            return new ResponseResult(504,"更新失败!");
+//        }
+//    }
 
     @Override
     public ResponseResult findByUserId(Long userId) {

@@ -34,13 +34,13 @@ public class ReimburseServiceImpl implements ReimburseService {
     @Autowired
     SecRouteRepository secRouteRepository;
 
-    @Override
-    public ResponseResult getReimburses() {
-        List<Reimburse> reimburses = reimburseRepository.findAll();
-        if (reimburses.size() == 0)
-            return new ResponseResult(500, "不存在任何记录!");
-        return new ResponseResult(reimburses);
-    }
+//    @Override
+//    public ResponseResult getReimburses(Long companyId) {
+//        List<Reimburse> reimburses = reimburseRepository.findAllByCompany(companyId);
+//        if (reimburses.size() == 0)
+//            return new ResponseResult(500, "不存在任何记录!");
+//        return new ResponseResult(reimburses);
+//    }
 
     @Override
     public ResponseResult getReimbursesByStatus(int isReimburse) {
@@ -125,7 +125,9 @@ public class ReimburseServiceImpl implements ReimburseService {
         }
         return null;
     }
+    //上面的方法暂时都不要了
 
+    //一些小修改
     @Override
     public ResponseResult GetReimburseStatistic(Long companyId) {
         Map<String, List<Route>> temp = new HashMap<>();
@@ -210,6 +212,91 @@ public class ReimburseServiceImpl implements ReimburseService {
 
         return new ResponseResult(ans);
     }
+
+//    @Override
+//    public ResponseResult GetReimburseStatistic(Long companyId) {
+//        Map<String, List<Route>> temp = new HashMap<>();
+//        List<Route> reject = routeRepository.findRoutesByStatusAndCompanyId(-1, companyId);
+//        List<Route> accepted = routeRepository.findRoutesByStatusAndCompanyId(1, companyId);
+//        List<Route> reimbursing = routeRepository.findRoutesByStatusAndCompanyId(0, companyId);
+//
+//        for (Route route : reject) {
+//            String time = route.getApplyTime().substring(0, 10);
+//            if(temp.keySet().contains(time)){
+//                temp.get(time).add(route);
+//            }
+//            else{
+//                List<Route> list = new LinkedList<>();
+//                list.add(route);
+//                temp.put(time,list);
+//            }
+//        }
+//
+//        for (Route route : accepted) {
+//            String time = route.getApplyTime().substring(0, 10);
+//            if(temp.keySet().contains(time)){
+//                temp.get(time).add(route);
+//            }
+//            else{
+//                List<Route> list = new LinkedList<>();
+//                list.add(route);
+//                temp.put(time,list);
+//            }
+//        }
+//
+//        for (Route route : reimbursing) {
+//            String time = route.getApplyTime().substring(0, 10);
+//            if(temp.keySet().contains(time)){
+//                temp.get(time).add(route);
+//            }
+//            else{
+//                List<Route> list = new LinkedList<>();
+//                list.add(route);
+//                temp.put(time,list);
+//            }
+//        }
+//
+//        Set<String> keys = temp.keySet();
+//
+//        List<ReimburseStatisticByDay> list = new LinkedList<>();
+//        double sum=0;int time=0;
+//        for (Iterator iter = keys.iterator(); iter.hasNext(); ) {
+//            String keyStr = (String) iter.next();
+//            ReimburseStatisticByDay day = new ReimburseStatisticByDay();
+//            day.setDate(keyStr);
+//            ReimburseDetail is0 = new ReimburseDetail();
+//            ReimburseDetail is1 = new ReimburseDetail();
+//            ReimburseDetail isfu1 = new ReimburseDetail();
+//            for (Route route : temp.get(keyStr)) {
+//                if(route.getIsReimburse()==-1){
+//                    isfu1.setMoney(isfu1.getMoney()+route.getPrice());
+//                    isfu1.setTime(isfu1.getTime()+1);
+//                }
+//                if(route.getIsReimburse()==0){
+//                    is0.setMoney(is0.getMoney()+route.getPrice());
+//                    is0.setTime(is0.getTime()+1);
+//                }
+//                if(route.getIsReimburse()==1){
+//                    is1.setMoney(is1.getMoney()+route.getPrice());
+//                    is1.setTime(is1.getTime()+1);
+//                }
+//            }
+//            sum+=is1.getMoney();
+//            time+=is1.getTime();
+//            day.setRejected(isfu1);
+//            day.setImbursed(is1);
+//            day.setIsimbursing(is0);
+//            list.add(day);
+//        }
+//        ReimburseStatistic ans = new ReimburseStatistic();
+//        ans.setDataOfEveryDay(list);
+//        ReimburseDetail summ = new ReimburseDetail();
+//        summ.setTime(time);
+//        summ.setMoney(sum);
+//        ans.setSum(summ);
+//
+//        return new ResponseResult(ans);
+//    }
 
     @Override
     public ResponseResult GetReimburseStatistic_person(Long id) {

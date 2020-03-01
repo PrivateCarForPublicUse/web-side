@@ -35,10 +35,10 @@ public class CarRateServiceImpl implements CarRateService {
     @Override
     public ResponseResult save(CarRate carRate){
         try {
-            CarRate c = carRateRepository.save(carRate);
             int count = carRateRepository.findByCarId(carRate.getCarId()).size();
+            CarRate c = carRateRepository.save(carRate);
             Car car = carRepository.findById(carRate.getCarId()).get();
-            car.setStarOfCar((car.getStarOfCar() + carRate.getRate())/(count+1));
+            car.setStarOfCar((car.getStarOfCar()*count + carRate.getRate())/(count+1));
             carService.save(car);
             return new ResponseResult(c);
         }
@@ -47,16 +47,16 @@ public class CarRateServiceImpl implements CarRateService {
         }
     }
 
-    @Override
-    public ResponseResult update(CarRate carRate) {
-        try {
-            CarRate c = carRateRepository.save(carRate);
-            return new ResponseResult(c);
-        }
-        catch (Exception e){
-            return new ResponseResult(504,"更新失败!");
-        }
-    }
+//    @Override
+//    public ResponseResult update(CarRate carRate) {
+//        try {
+//            CarRate c = carRateRepository.save(carRate);
+//            return new ResponseResult(c);
+//        }
+//        catch (Exception e){
+//            return new ResponseResult(504,"更新失败!");
+//        }
+//    }
 
     @Override
     public ResponseResult findByUserId(Long userId) {

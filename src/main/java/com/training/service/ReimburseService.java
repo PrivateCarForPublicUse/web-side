@@ -9,7 +9,7 @@ import java.util.List;
  * by Huang
  */
 public interface ReimburseService {
-    ResponseResult getReimburses();
+//    ResponseResult getReimburses(Long companyId);
     ResponseResult getReimbursesByStatus(int isReimburse);
     ResponseResult getReimburseById(Long id);
     ResponseResult getReimburseByRouteId(Long routeId);

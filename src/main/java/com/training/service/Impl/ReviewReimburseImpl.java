@@ -1,5 +1,6 @@
 package com.training.service.Impl;
 
+import com.training.Util.TimeToStringUtil;
 import com.training.domain.*;
 import com.training.dto.ReviewReimburseDTO;
 import com.training.repository.MessageRepository;
@@ -45,11 +46,12 @@ public class ReviewReimburseImpl implements ReviewReimburseService {
                 List<Settlement> list= settlementRepository.findSettlementByRouteId(reviewReimburseDTO.getRouteId());
                 Double sum=0.0;
                 for (Settlement settlement : list) {
-                    settlement.setDrivingCost(settlement.getDrivingCost());
+//                    settlement.setDrivingCost(settlement.getDrivingCost());
                     sum+=settlement.getDrivingCost();
                 }
                 Route route= routeRepository.findById(reviewReimburseDTO.getRouteId()).get();
                 route.setIsReimburse(1);
+                route.setHandleTime(TimeToStringUtil.getCurrentTime());
                 routeRepository.save(route);
                 User user = userRepository.findById(route.getUserId()).get();
                 user.setRemainMoney(user.getRemainMoney()+sum);
@@ -67,6 +69,8 @@ public class ReviewReimburseImpl implements ReviewReimburseService {
         if(route==null)return new ResponseResult(501,"相应路程不存在");
         //设置路程状态为报销审核失败
         route.setIsReimburse(-1);
+        route.setHandleTime(TimeToStringUtil.getCurrentTime());
+        routeRepository.save(route);
         //增加反馈信息
         return new ResponseResult(messageRepository.save(new Message("route",route.getId(),reviewReimburseDTO.getMessage())));
     }

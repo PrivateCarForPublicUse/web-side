@@ -25,6 +25,16 @@ public class Route {
     private int isReimburse;
     //申请时间
     private String applyTime;
+    //管理员处理报销申请时间
+    private String handleTime;
+
+    public String getHandleTime() {
+        return handleTime;
+    }
+
+    public void setHandleTime(String handleTime) {
+        this.handleTime = handleTime;
+    }
 
     private double price;
 
