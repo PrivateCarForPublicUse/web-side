@@ -1,10 +1,7 @@
 package com.training.service.Impl;
 
 import com.training.Util.TimeToStringUtil;
-import com.training.domain.Master;
-import com.training.domain.Route;
-import com.training.domain.SecRoute;
-import com.training.domain.Settlement;
+import com.training.domain.*;
 import com.training.model.*;
 import com.training.repository.*;
 import com.training.response.ResponseResult;
@@ -17,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class RouteServiceImpl implements RouteService {
@@ -132,10 +130,16 @@ public class RouteServiceImpl implements RouteService {
         return this.packRouteModel(routeRepository.findRouteById(id));
     }
 
-    //根据userid返回包含所有信息的路程
+    //根据userid返获取该用户车辆的行程信息
     @Override
-    public List<RouteModel> findFDRouteByUserId(Long userId){
-        return this.packRouteModels(routeRepository.findRouteByUserId(userId));
+    public ResponseResult findCarRouteByUserId(Long userId){
+        List<Car> cars = carRepository.findCarsByUserId(userId);
+        List<CarRouteModel> carRouteModels = new ArrayList<>();
+        for (Car car : cars){
+            List<RouteModel> routeModels = this.packRouteModels(routeRepository.findRouteByCarId(car.getId()));
+            carRouteModels.add(new CarRouteModel(car,routeModels));
+        }
+        return new ResponseResult(carRouteModels);
     }
 
     //根据审核状态和管理员Id返回包含所有信息的路程
@@ -214,6 +218,7 @@ public class RouteServiceImpl implements RouteService {
         if (userId != route.getUserId())
             return new ResponseResult(500,"用户Id不一致，开始行程失败!");
         route.setStatus(2);
+        routeRepository.save(route);
         carService.updateCarIsUseOrNot(route.getCarId(),2);
         Settlement settlement = new Settlement();
         settlement.setRouteId(RouteId);
@@ -229,13 +234,6 @@ public class RouteServiceImpl implements RouteService {
         Route route = routeRepository.findRouteById(RouteId);
         if (UserId != route.getUserId())
             return new ResponseResult(500,"用户Id不一致，结束行程失败!");
-        List<Settlement> settlements=settlementRepository.findSettlementByRouteId(RouteId);
-        List<SecRoute> secRoutes=secRouteRepository.findSecRouteByRouteId(RouteId);
-        if(settlements.size()==secRoutes.size()){
-            carService.updateCarIsUseOrNot(route.getCarId(),0);
-            route.setStatus(3);
-            routeRepository.save(route);
-        }
         Settlement settlement = settlementRepository.findSettlementBySecRouteId(secRouteId).get(0);
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         settlement.setCarStopTime(df.format(new Date()));
@@ -243,15 +241,23 @@ public class RouteServiceImpl implements RouteService {
         settlement.setPlannedDistance(plannedDistance);
         Date startTime = df.parse(settlement.getCarStartTime());
         Date stopTime = df.parse(settlement.getCarStopTime());
-        long t = ((stopTime.getTime() - startTime.getTime()) / 1000)%60;
+        long t = ((stopTime.getTime() - startTime.getTime()) / 1000)/60;
         Double cost = 0.35 * t + 0.71 * actualDistance/1000;
         settlement.setDrivingCost(cost);
-        return new ResponseResult(settlementService.saveSettlement(settlement));
+        ResponseResult result=settlementService.saveSettlement(settlement);
+        List<Settlement> settlements=settlementRepository.findSettlementByRouteId(RouteId);
+        List<SecRoute> secRoutes=secRouteRepository.findSecRouteByRouteId(RouteId);
+        if(settlements.size()==secRoutes.size()){
+            carService.updateCarIsUseOrNot(route.getCarId(),0);
+            route.setStatus(3);
+            routeRepository.save(route);
+        }
+        return result;
     }
 
     @Override
     public ResponseResult findUserRouteByStatus(Long userId,int status,int isReimburse) {
-        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByUserIdAndAndStatusAndIsReimburse(userId,status,isReimburse)));
+        return new ResponseResult(this.packRouteModels(routeRepository.findRoutesByUserIdAndStatusAndIsReimburse(userId,status,isReimburse)));
     }
 
     @Override

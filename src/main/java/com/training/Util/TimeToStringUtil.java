@@ -1,5 +1,6 @@
 package com.training.Util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,6 +14,10 @@ public class TimeToStringUtil {
 
     public static String getCurrentDay(){
         return dfToDay.format(new Date());
+    }
+
+    public static Date getTimeFromString(String time) throws ParseException {
+        return dfToTime.parse(time);
     }
 
     public static void main(String[] args) {

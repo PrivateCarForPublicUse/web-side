@@ -6,14 +6,13 @@ import com.training.domain.Route;
 import com.training.domain.User;
 import com.training.dto.AuditUserDTO;
 import com.training.model.AuditModel;
-import com.training.model.CarMessageModel;
+import com.training.model.CarUserModel;
 import com.training.repository.CarRepository;
 import com.training.repository.MasterRepository;
 import com.training.repository.RouteRepository;
 import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
 import com.training.service.MasterService;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -101,6 +100,7 @@ public class MasterServiceImpl implements MasterService {
         try {
             Master m = masterRepository.findById(id).get();
             m.setName(name);
+            masterRepository.save(m);
             return new ResponseResult(m);
         }
         catch (Exception e){
@@ -157,14 +157,14 @@ public class MasterServiceImpl implements MasterService {
         List<Route> routes = routeRepository.findRoutesByStatusAndCompanyId(2,companyId);
         if (routes.size() == 0)
             return new ResponseResult(500,"没有正在进行中的行程!");
-        List<CarMessageModel> carMessageModels = new ArrayList<>();
+        List<CarUserModel> carUserModels = new ArrayList<>();
         for (Route r : routes){
-            CarMessageModel carMessageModel = new CarMessageModel();
-            carMessageModel.setCar(carRepository.findById(r.getCarId()).get());
-            carMessageModel.setUser(userRepository.findById(r.getUserId()).get());
-            carMessageModels.add(carMessageModel);
+            CarUserModel carUserModel = new CarUserModel();
+            carUserModel.setCar(carRepository.findById(r.getCarId()).get());
+            carUserModel.setUser(userRepository.findById(r.getUserId()).get());
+            carUserModels.add(carUserModel);
         }
-        return new ResponseResult(carMessageModels);
+        return new ResponseResult(carUserModels);
     }
 
     @Override

@@ -1,11 +1,10 @@
 package com.training.service.Impl;
 
 import com.training.domain.Car;
-import com.training.domain.Master;
 import com.training.domain.Message;
 import com.training.domain.User;
 import com.training.dto.AuditCarDTO;
-import com.training.model.CarMessageModel;
+import com.training.model.CarUserModel;
 import com.training.model.SelectCarModel;
 import com.training.repository.CarRepository;
 import com.training.response.ResponseResult;
@@ -191,17 +190,17 @@ public class CarServiceImpl implements CarService {
         return new ResponseResult(200,"更新车辆状态成功");
     }
 
-    private List<CarMessageModel> getUserOfCars(List<Car> cars){
-        List<CarMessageModel> carMessageModels=new ArrayList<>();
+    private List<CarUserModel> getUserOfCars(List<Car> cars){
+        List<CarUserModel> carUserModels=new ArrayList<>();
         for(Car car:cars){
-            carMessageModels.add(getUserOfCar(car));
+            carUserModels.add(getUserOfCar(car));
         }
-        return carMessageModels;
+        return carUserModels;
     }
 
-    private CarMessageModel getUserOfCar(Car car){
+    private CarUserModel getUserOfCar(Car car){
         User user=(User) userService.getUserById(car.getUserId()).getData();
-        return new CarMessageModel(user,car);
+        return new CarUserModel(user,car);
     }
 
     @Override

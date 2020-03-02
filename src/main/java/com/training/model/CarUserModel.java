@@ -3,14 +3,14 @@ package com.training.model;
 import com.training.domain.Car;
 import com.training.domain.User;
 
-public class CarMessageModel {
+public class CarUserModel {
     private User user;
     private Car car;
 
-    public CarMessageModel() {
+    public CarUserModel() {
     }
 
-    public CarMessageModel(User user, Car car) {
+    public CarUserModel(User user, Car car) {
         this.user = user;
         this.car = car;
     }

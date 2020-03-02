@@ -221,7 +221,7 @@ public class RouteController {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
         Long id = user.getId();
-        return new ResponseResult(routeService.findFDRouteByUserId(id));
+        return routeService.findCarRouteByUserId(id);
     }
 
     @ApiOperation("返回当前用户的所有行程信息")

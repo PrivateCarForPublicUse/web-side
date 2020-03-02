@@ -42,7 +42,7 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
     List<Route> findRoutesByIsReimburse(int is);
 
     //根据报销状态、用户id、行程状态返回路程
-    List<Route> findRoutesByUserIdAndAndStatusAndIsReimburse(Long userId,int status,int isReimburse);
+    List<Route> findRoutesByUserIdAndStatusAndIsReimburse(Long userId, int status, int isReimburse);
 
     //根据报销状态、行程状态返回路程
     List<Route> findRoutesByStatusAndIsReimburse(int status,int isReimburse);
