@@ -4,12 +4,18 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class TimeToStringUtil {
-    public static SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat dfToTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat dfToDay = new SimpleDateFormat("yyyy-MM-dd");
+
     public static String getCurrentTime(){
-        return df.format(new Date());
+        return dfToTime.format(new Date());
+    }
+
+    public static String getCurrentDay(){
+        return dfToDay.format(new Date());
     }
 
     public static void main(String[] args) {
-        System.out.println(getCurrentTime());
+        System.out.println(getCurrentDay());
     }
 }

@@ -1,5 +1,6 @@
 package com.training.service.Impl;
 
+import com.training.Util.TimeToStringUtil;
 import com.training.domain.Master;
 import com.training.domain.Route;
 import com.training.domain.SecRoute;
@@ -269,6 +270,7 @@ public class RouteServiceImpl implements RouteService {
         List<Route>routes=routeRepository.findRoutesByIdIn(ids);
         for(int i=0;i<routes.size();i++){
             routes.get(i).setIsReimburse(status);
+            routes.get(i).setReimburseTime(TimeToStringUtil.getCurrentTime());
         }
         return new ResponseResult(routeRepository.saveAll(routes));
     }

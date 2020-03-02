@@ -23,10 +23,20 @@ public class Route {
     private String reason;
     //-1 报销失败；0 未报销；1 已报销；2 审核中
     private int isReimburse;
-    //申请时间
+    //申请行程时间
     private String applyTime;
-    //管理员处理报销申请时间
+    //发起报销申请时间
+    private String reimburseTime;
+    //管理员处理报销时间
     private String handleTime;
+
+    public String getReimburseTime() {
+        return reimburseTime;
+    }
+
+    public void setReimburseTime(String reimburseTime) {
+        this.reimburseTime = reimburseTime;
+    }
 
     public String getHandleTime() {
         return handleTime;
