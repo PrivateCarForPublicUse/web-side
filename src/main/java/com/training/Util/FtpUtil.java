@@ -12,7 +12,7 @@ import java.io.*;
 public class FtpUtil {
 
     //ftp服务器ip地址
-    private static final String FTP_ADDRESS = "192.168.159.131";
+    private static final String FTP_ADDRESS = "192.168.159.132";
     //端口号
     private static final int FTP_PORT = 21;
     //用户名
@@ -21,6 +21,8 @@ public class FtpUtil {
     private static final String FTP_PASSWORD = "123";
     //路径都是/home/加上用户名
     public final String FTP_BASEPATH = "/home/cloud2/Documents/";
+    //默认保存路径
+    public static final String localpath=System.getProperty("user.home")+System.getProperty("file.separator")+"Documents"+System.getProperty("file.separator")+"PrivateCarPublicUse";
     //
 //    @Autowired
 //    private ResourceRepository resourceRepository;
@@ -65,8 +67,8 @@ public class FtpUtil {
         return success;
     }
 
-    public boolean downloadFile(String pathname, String filename, String localpath) {
-        localpath=System.getProperty("user.home")+System.getProperty("file.separator")+"Documents"+System.getProperty("file.separator")+"PrivateCarPublicUse";
+    public boolean downloadFile(String pathname, String filename, String l) {
+        // localpath=System.getProperty("user.home")+System.getProperty("file.separator")+"Documents"+System.getProperty("file.separator")+"PrivateCarPublicUse";
         System.out.println(localpath);
         boolean flag = false;
         FTPClient ftp = new FTPClient();

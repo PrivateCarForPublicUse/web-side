@@ -1,6 +1,10 @@
 package com.training.controller;
 
+import com.training.Util.FtpUtil;
+import com.training.response.ResponseResult;
 import com.training.service.UploadService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +21,7 @@ public class MyController {
     UploadService uploadService;
     //上传文件
     @PostMapping("/uploadwork")
+    @ApiOperation("向服务器上传文件")
     public String uploadWork(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file) throws IOException {
 
         request.setCharacterEncoding("UTF-8");
@@ -58,5 +63,14 @@ public class MyController {
         }else {
             return "error";
         }
+    }
+    //下载文件
+    @GetMapping("/download")
+    @ApiOperation("从服务器下载文件")
+    @ApiImplicitParam(name="url",value="对应的各种***url，实际上是uuid码，到服务器上找对应的文件")
+    public ResponseResult download(@RequestParam("url")String url) throws IOException {
+        boolean b=uploadService.downfile("",url+".jpg","");
+        if(!b)return new ResponseResult(500,"下载失败");
+        return new ResponseResult(FtpUtil.localpath+"\\"+url+".jpg");
     }
 }

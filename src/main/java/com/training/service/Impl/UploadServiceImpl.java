@@ -44,15 +44,15 @@ public class UploadServiceImpl implements UploadService {
 //@Autowired  private FtpUtil ftpUtil;service层上面引入了这个方法。
         Boolean flag = ftpUtil.uploadFile(fileName, inputStream);//主要就是这里实现了ftp的文件上传
         //数据库保存图片uuid
-        resourceRepository.save(new Resource(uuid,suffixName));
+        // resourceRepository.save(new Resource(uuid,suffixName));
         if (flag == true) {
             //log.info("上传文件成功!");
-            filePath = ftpUtil.FTP_BASEPATH + fileName; // todo 改到服务器上，需要修改上传的目录
+            filePath = ftpUtil.FTP_BASEPATH + fileName; // todo 改到校园服务器时，需要修改上传的目录
             map.put("code", "200");
             map.put("msg", "上传文件成功");
         }
         map.put("path", filePath);
-        map.put("uuid",uuid);
+        map.put("uuid",fileName);
         System.out.println(map);
         return map;
     }
