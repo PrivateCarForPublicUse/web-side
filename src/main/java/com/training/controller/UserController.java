@@ -3,6 +3,7 @@ package com.training.controller;
 
 import com.training.domain.Master;
 import com.training.domain.User;
+import com.training.model.ChgPwdModel;
 import com.training.response.ResponseResult;
 import com.training.service.UserService;
 import io.swagger.annotations.*;
@@ -70,5 +71,14 @@ public class UserController {
     @ApiOperation("修改传到后台的用户的所有数据")
     @PutMapping("/fd/update")
     public ResponseResult updateFDUser(@RequestBody User user){return userService.updateFDUser(user);}
+
+    @ApiOperation("用户修改密码")
+    @PostMapping("/change-password")
+    public ResponseResult changePassword(HttpServletRequest request,@RequestBody ChgPwdModel chgPwdModel){
+        User user=(User)request.getSession().getAttribute("user");
+        if(user == null)
+            return new ResponseResult("用户未登录");
+        return userService.changePassword(user,chgPwdModel);
+    }
 
 }

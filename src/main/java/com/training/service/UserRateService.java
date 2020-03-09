@@ -14,4 +14,5 @@ public interface UserRateService {
 //    ResponseResult update(UserRate userRate);
     ResponseResult findByUserId(Long userId);
     ResponseResult findByEvaluateeId(Long valuateeId);
+    ResponseResult findByEvaluateeId2(Long valuateeId);
 }

@@ -31,6 +31,8 @@ public interface RouteService {
     RouteModel findFDRouteById(Long id);
     // 根据UserId获取该用户车辆的行程信息
     ResponseResult findCarRouteByUserId(Long userId);
+    // 根据UserId获取该用户车辆的行程信息
+    ResponseResult findCarRouteByUserId2(Long userId);
     //根据报销状态返回行程
     ResponseResult findFDRoutesByIsReimburse(int is);
     //根据审核状态和用户Id返回包含所有信息的路程

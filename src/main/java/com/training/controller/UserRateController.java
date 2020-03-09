@@ -2,6 +2,7 @@ package com.training.controller;
 
 import com.training.domain.Account;
 import com.training.domain.Master;
+import com.training.domain.User;
 import com.training.domain.UserRate;
 import com.training.response.ResponseResult;
 import com.training.service.UserRateService;
@@ -62,12 +63,28 @@ public class UserRateController {
         return userRateService.findByEvaluateeId(evaluateeId);
     }
 
+    @ApiOperation("根据被评论人id获取其受到的所有评论，没有返回503的版本")
+    @ApiImplicitParam(name="evaluateeId",value = "被评论人id")
+    @GetMapping("/evaluateeId2/{evaluateeId}")
+    public ResponseResult findByEvaluateeId2(@PathVariable("evaluateeId") Long evaluateeId){
+        return userRateService.findByEvaluateeId2(evaluateeId);
+    }
+
     @ApiResponses({
             @ApiResponse(code=501,message="新建失败")
     })
     @ApiOperation("新增评价")
     @PostMapping("/add")
     public ResponseResult add(@RequestBody UserRate userRate){
+        return userRateService.save(userRate);
+    }
+
+    @ApiOperation("根据但当前登录用户新增评价")
+    @PostMapping("/add-user")
+    public ResponseResult addUserRate(HttpServletRequest request, @RequestBody UserRate userRate){
+        User user=(User)request.getSession().getAttribute("user");
+        if(user==null)return new ResponseResult(501,"用户未登录");
+        userRate.setUserId(user.getId());
         return userRateService.save(userRate);
     }
 
