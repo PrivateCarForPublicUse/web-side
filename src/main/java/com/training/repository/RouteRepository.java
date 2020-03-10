@@ -57,6 +57,10 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
     @Query(value="select * from route where status=:status && is_reimburse=:isReimburse && user_id in (select id from user where company_id=:companyId)",nativeQuery = true)
     List<Route> findRoutesByStatusAndIsReimburseAndCompanyId(@Param("status")int status,@Param("isReimburse")int isReimburse,@Param("companyId")Long companyId);
 
+
+    @Query(value = "SELECT user_id ,count(price) as count FROM route where  user_id in (select id from user where company_id = :companyId) group by user_id ORDER BY count DESC",nativeQuery = true)
+    List<Object[]> findUserIdAndSumTimes(Long companyId);
+
 //    @Query(value="select * from settlement WHERE sec_route_id in (SELECT id FROM sec_route WHERE route_id=:routeId)",nativeQuery = true)
 //    List<Settlement> findSettlementById(@Param("routeId")Long routeId);
 }

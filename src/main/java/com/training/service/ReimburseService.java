@@ -21,4 +21,6 @@ public interface ReimburseService {
 
     ResponseResult GetReimburseStatistic_person(Long id);
     ResponseResult findUserIdAndSumPrice(Long companyId);
+
+    ResponseResult findUserIdAndSumTimes(Long companyId);
 }

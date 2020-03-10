@@ -106,13 +106,23 @@ public class ReimburseController {
         //   return new ResponseResult("ok!");
     }
 
-    @ApiOperation("统计该公司所有的报销,所有人的情况")
+    @ApiOperation("统计该公司所有的报销,所有人的情况(按金额排序)")
     @GetMapping("/findUserIdAndSumPrice")
     public  ResponseResult findUserIdAndSumPrice(HttpServletRequest request){
         HttpSession session = request.getSession();
         Master master = (Master) session.getAttribute("master");
         //此处省去权限验证
         return reimburseService.findUserIdAndSumPrice(master.getCompanyId());
+        //   return new ResponseResult("ok!");
+    }
+
+    @ApiOperation("统计该公司所有的报销,所有人的情况(按次数排序)")
+    @GetMapping("/findUserIdAndSumTimes")
+    public  ResponseResult findUserIdAndSumTimes(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Master master = (Master) session.getAttribute("master");
+        //此处省去权限验证
+        return reimburseService.findUserIdAndSumTimes(master.getCompanyId());
         //   return new ResponseResult("ok!");
     }
 

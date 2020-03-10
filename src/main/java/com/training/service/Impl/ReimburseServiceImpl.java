@@ -4,10 +4,7 @@ import com.training.Util.EntityConstructor;
 import com.training.domain.Reimburse;
 import com.training.domain.Route;
 import com.training.domain.Settlement;
-import com.training.dto.ReimburseDetail;
-import com.training.dto.ReimburseStatistic;
-import com.training.dto.ReimburseStatisticByDay;
-import com.training.dto.UserIdAndSumPrice;
+import com.training.dto.*;
 import com.training.model.ReimburseListOfUser;
 import com.training.model.ReimburseModel;
 import com.training.repository.*;
@@ -229,6 +226,19 @@ public class ReimburseServiceImpl implements ReimburseService {
         }
         return new ResponseResult(ans);
     }
+
+    @Override
+    public ResponseResult findUserIdAndSumTimes(Long companyId) {
+        List<Object[]> userIdAndSumPrice = routeRepository.findUserIdAndSumTimes(companyId);
+        List ans = null;
+        try {
+            ans = EntityConstructor.castEntity(userIdAndSumPrice, UserIdAndSumTimes.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ResponseResult(ans);
+    }
+
     @Override
     public ResponseResult GetReimburseStatistic_person(Long id) {
         Map<String, List<Route>> temp = new HashMap<>();
