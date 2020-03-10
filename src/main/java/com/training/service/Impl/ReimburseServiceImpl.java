@@ -203,6 +203,14 @@ public class ReimburseServiceImpl implements ReimburseService {
             day.setIsimbursing(is2);
             list.add(day);
         }
+
+        Collections.sort(list, new Comparator<ReimburseStatisticByDay>() {
+            @Override
+            public int compare(ReimburseStatisticByDay o1, ReimburseStatisticByDay o2) {
+                return o1.getDate().compareTo(o2.getDate());
+            }
+        });
+
         ReimburseStatistic ans = new ReimburseStatistic();
         ans.setDataOfEveryDay(list);
         ReimburseDetail summ = new ReimburseDetail();
