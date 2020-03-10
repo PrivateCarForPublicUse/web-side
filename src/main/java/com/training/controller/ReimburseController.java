@@ -106,4 +106,14 @@ public class ReimburseController {
         //   return new ResponseResult("ok!");
     }
 
+    @ApiOperation("统计该公司所有的报销,所有人的情况")
+    @GetMapping("/findUserIdAndSumPrice")
+    public  ResponseResult findUserIdAndSumPrice(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        Master master = (Master) session.getAttribute("master");
+        //此处省去权限验证
+        return reimburseService.findUserIdAndSumPrice(master.getCompanyId());
+        //   return new ResponseResult("ok!");
+    }
+
 }

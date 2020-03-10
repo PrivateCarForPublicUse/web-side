@@ -2,6 +2,7 @@ package com.training.repository;
 
 import com.training.domain.Route;
 import com.training.domain.Settlement;
+import com.training.dto.UserIdAndSumPrice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -32,6 +33,8 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
     @Query(value="select * from route where user_id in (select id from user where company_id = :companyId) and is_reimburse=:isReimburse",nativeQuery = true)
     List<Route> findRoutesByIsReimburseAndCompanyId(int isReimburse,Long companyId);
 
+    @Query(value = "SELECT user_id ,sum(price) as sum FROM route where  user_id in (select id from user where company_id = :companyId) group by user_id ORDER BY sum DESC",nativeQuery = true)
+    List<Object[]> findUserIdAndSumPrice(Long companyId);
     //根据审核状态返回行程
     List<Route> findRoutesByStatus(int status);
 
