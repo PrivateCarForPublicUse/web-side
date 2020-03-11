@@ -164,6 +164,12 @@ public class CarController {
         return carService.findCarsByUserId(id);
     }
 
+    @ApiOperation("管理员接口：根据用户ID获取其所有车辆")
+    @GetMapping("/getUserCars/{userId}")
+    public ResponseResult getCarsByUser(@PathVariable("userId")Long userId){
+        return carService.findCarsByUserId(userId);
+    }
+
     @ApiResponses({
             @ApiResponse(code=508,message="没有该状态的车辆")
     })
@@ -208,4 +214,6 @@ public class CarController {
             return new ResponseResult(600,"没有权限!");
         }
     }
+
+
 }
