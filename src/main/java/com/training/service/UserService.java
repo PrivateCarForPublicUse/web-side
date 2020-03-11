@@ -1,6 +1,7 @@
 package com.training.service;
 
 import com.training.domain.User;
+import com.training.model.ChgPwdModel;
 import com.training.response.ResponseResult;
 import org.springframework.stereotype.Service;
 
@@ -19,4 +20,6 @@ public interface UserService {
     ResponseResult getUsersByCheckStatus(int status);
     ResponseResult updateFDUser(User user);
     ResponseResult getUsersByCompanyId(Long companyId);
+    //用户修改密码
+    ResponseResult changePassword(User user,ChgPwdModel chgPwdModel);
 }

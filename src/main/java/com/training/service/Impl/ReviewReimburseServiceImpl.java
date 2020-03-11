@@ -21,7 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class ReviewReimburseImpl implements ReviewReimburseService {
+public class ReviewReimburseServiceImpl implements ReviewReimburseService {
 
     @Autowired
     AccountService accountService;

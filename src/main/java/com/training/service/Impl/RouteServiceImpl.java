@@ -142,6 +142,13 @@ public class RouteServiceImpl implements RouteService {
         return new ResponseResult(carRouteModels);
     }
 
+    //不知道谁把上面的代码改了，出了bug让我一顿好找。。重新写一个，就根据userId返回该用户的车辆的行程信息，不根据车辆区分
+    @Override
+    public ResponseResult findCarRouteByUserId2(Long userId){
+        return new ResponseResult(this.packRouteModels(routeRepository.findRouteByUserId(userId)));
+    }
+
+
     //根据审核状态和管理员Id返回包含所有信息的路程
     @Override
     public ResponseResult findRoutesByStatusAndMasterId(int status,Long masterId) {

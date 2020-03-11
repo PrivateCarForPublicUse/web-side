@@ -149,7 +149,7 @@ public class RegisterController {
         return new ResponseResult();
     }
 
-    @ApiOperation("车辆注册接口，由于要同时上传图片，后端获取的HttpServletRequest与一般的不同，无法直接获取当前登录的用户信息，因此需要指定参数")
+    @ApiOperation("车辆注册接口，需要userId，由于要同时上传图片，后端获取的HttpServletRequest与一般的不同，无法直接获取当前登录的用户信息，因此需要指定参数")
     @PostMapping("/car")
     public ResponseResult registerCar(HttpServletRequest request, @RequestParam("license") String license, @RequestParam("band") String band, @RequestParam("type") String type, @RequestParam("isPublic") int isPublic, @RequestParam("starTime") String starTime, @RequestParam("endTime") String endTime, @RequestParam("displacement") double displacement, @RequestParam("userId")Long userId,
                                       @RequestParam(value = "picture", required = false) MultipartFile picture, @RequestParam(value = "drivingLicenseImg", required = false) MultipartFile drivingLicenseUrl) throws IOException {

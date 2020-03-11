@@ -30,6 +30,8 @@ public class Route {
     //管理员处理报销时间
     private String handleTime;
 
+    private Double price;
+
     public String getReimburseTime() {
         return reimburseTime;
     }
@@ -46,7 +48,7 @@ public class Route {
         this.handleTime = handleTime;
     }
 
-    private double price;
+
 
     public double getPrice() {
         return price;

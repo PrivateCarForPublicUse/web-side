@@ -2,6 +2,7 @@ package com.training.service.Impl;
 
 import com.training.domain.User;
 import com.training.domain.UserRate;
+import com.training.model.UserRateModel;
 import com.training.repository.UserRateRepository;
 import com.training.repository.UserRepository;
 import com.training.response.ResponseResult;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +26,8 @@ public class UserRateServiceImpl implements UserRateService {
     UserRateRepository userRateRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public ResponseResult getUserRates(Long companyId){
@@ -37,9 +41,17 @@ public class UserRateServiceImpl implements UserRateService {
     public ResponseResult save(UserRate userRate){
         try {
             UserRate u = userRateRepository.save(userRate);
-            int count = userRateRepository.findByEvaluateeId(userRate.getEvaluateeId()).size();
+//            int count = userRateRepository.findByEvaluateeId(userRate.getEvaluateeId()).size();
+//            User user = (User)userService.getUserById(userRate.getEvaluateeId()).getData();
+//            user.setStarLevel((user.getStarLevel()*(count-1) + userRate.getRate())/count);
+            // 原代码修改为根据当前的评分重新计算
+            List<UserRate> list=userRateRepository.findByEvaluateeId(userRate.getEvaluateeId());
+            double count=0;
+            for(UserRate ur : list){
+                count+=ur.getRate();
+            }
             User user = (User)userService.getUserById(userRate.getEvaluateeId()).getData();
-            user.setStarLevel((user.getStarLevel()*(count-1) + userRate.getRate())/count);
+            user.setStarLevel(count/list.size());
             userService.save(user);
             return new ResponseResult(u);
         }
@@ -73,5 +85,15 @@ public class UserRateServiceImpl implements UserRateService {
         if (userRates.size() == 0)
             return new ResponseResult(503,"该用户没有受到过任何评价!");
         return new ResponseResult(userRates);
+    }
+
+    @Override
+    public ResponseResult findByEvaluateeId2(Long evaluateeId) {
+        List<UserRate> userRates = userRateRepository.findByEvaluateeId(evaluateeId);
+        List<UserRateModel> userRateModelList=new ArrayList<>();
+        for(UserRate userRate: userRates){
+            userRateModelList.add(new UserRateModel(userRepository.findUserById(userRate.getUserId()),userRate));
+        }
+        return new ResponseResult(userRateModelList);
     }
 }

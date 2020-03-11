@@ -224,6 +224,14 @@ public class RouteController {
         return routeService.findCarRouteByUserId(id);
     }
 
+    @ApiOperation("返回当前登录用户的车辆的行程信息，原始版本，原来的接口被改了，保险起见新建一个接口")
+    @GetMapping("/my-car-route-origin")
+    public ResponseResult findMyCarRouteOrigin(HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        if(user == null)return new ResponseResult(501,"用户未登录");
+        return routeService.findCarRouteByUserId2(user.getId());
+    }
+
     @ApiOperation("返回当前用户的所有行程信息")
     @GetMapping("/my-route")
     public ResponseResult findMyRoute(HttpServletRequest request) {
