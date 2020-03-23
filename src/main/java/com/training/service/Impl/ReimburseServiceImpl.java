@@ -4,6 +4,7 @@ import com.training.Util.EntityConstructor;
 import com.training.domain.Reimburse;
 import com.training.domain.Route;
 import com.training.domain.Settlement;
+import com.training.domain.User;
 import com.training.dto.*;
 import com.training.model.ReimburseListOfUser;
 import com.training.model.ReimburseModel;
@@ -33,6 +34,8 @@ public class ReimburseServiceImpl implements ReimburseService {
     @Autowired
     SecRouteRepository secRouteRepository;
 
+    @Autowired
+    UserRepository userRepository;
 //    @Override
 //    public ResponseResult getReimburses(Long companyId) {
 //        List<Reimburse> reimburses = reimburseRepository.findAllByCompany(companyId);
@@ -224,7 +227,11 @@ public class ReimburseServiceImpl implements ReimburseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseResult(ans);
+
+        UserIdAndSumPrice userIdAndSumPrice1=(UserIdAndSumPrice)ans;
+        User user = userRepository.findUserById(userIdAndSumPrice1.getUserId().longValue());
+
+        return new ResponseResult(new UserAndSumPrice(user,userIdAndSumPrice1.getSum()));
     }
 
     @Override
@@ -236,7 +243,10 @@ public class ReimburseServiceImpl implements ReimburseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new ResponseResult(ans);
+        UserIdAndSumTimes userIdAndSumTimes=(UserIdAndSumTimes) ans;
+        User user = userRepository.findUserById(userIdAndSumTimes.getUserId().longValue());
+
+        return new ResponseResult(new UserAndSumTimes(user,userIdAndSumTimes.getTimes()));
     }
 
     @Override
