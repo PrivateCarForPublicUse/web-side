@@ -223,15 +223,21 @@ public class ReimburseServiceImpl implements ReimburseService {
         List<Object[]> userIdAndSumPrice = routeRepository.findUserIdAndSumPrice(companyId);
         List ans = null;
         try {
-            ans = EntityConstructor.castEntity(userIdAndSumPrice,UserIdAndSumPrice.class);
+            ans = EntityConstructor.castEntity(userIdAndSumPrice, UserIdAndSumPrice.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        List<UserIdAndSumPrice> list=(List<UserIdAndSumPrice>) ans;
 
-        UserIdAndSumPrice userIdAndSumPrice1=(UserIdAndSumPrice)ans;
-        User user = userRepository.findUserById(userIdAndSumPrice1.getUserId().longValue());
+        List<UserAndSumPrice> list1 = new LinkedList<>();
 
-        return new ResponseResult(new UserAndSumPrice(user,userIdAndSumPrice1.getSum()));
+        for (UserIdAndSumPrice an : list) {
+            User user = userRepository.findUserById(an.getUserId().longValue());
+            list1.add(new UserAndSumPrice(user,an.getSum()));
+        }
+
+
+        return new ResponseResult(list1);
     }
 
     @Override
@@ -243,10 +249,17 @@ public class ReimburseServiceImpl implements ReimburseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        UserIdAndSumTimes userIdAndSumTimes=(UserIdAndSumTimes) ans;
-        User user = userRepository.findUserById(userIdAndSumTimes.getUserId().longValue());
+        List<UserIdAndSumTimes> list=(List<UserIdAndSumTimes>) ans;
 
-        return new ResponseResult(new UserAndSumTimes(user,userIdAndSumTimes.getTimes()));
+        List<UserAndSumTimes> list1 = new LinkedList<>();
+
+        for (UserIdAndSumTimes an : list) {
+            User user = userRepository.findUserById(an.getUserId().longValue());
+            list1.add(new UserAndSumTimes(user,an.getTimes()));
+        }
+
+
+        return new ResponseResult(list1);
     }
 
     @Override
