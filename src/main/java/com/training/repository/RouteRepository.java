@@ -33,7 +33,7 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
     @Query(value="select * from route where user_id in (select id from user where company_id = :companyId) and is_reimburse=:isReimburse",nativeQuery = true)
     List<Route> findRoutesByIsReimburseAndCompanyId(int isReimburse,Long companyId);
 
-    @Query(value = "SELECT user_id ,sum(price) as sum FROM route where  user_id in (select id from user where company_id = :companyId) and is_imburse=1 group by user_id ORDER BY sum DESC",nativeQuery = true)
+    @Query(value = "SELECT user_id ,sum(price) as sum FROM route where  user_id in (select id from user where company_id = :companyId) and is_reimburse=1 group by user_id ORDER BY sum DESC",nativeQuery = true)
     List<Object[]> findUserIdAndSumPrice(Long companyId);
     //根据审核状态返回行程
     List<Route> findRoutesByStatus(int status);
@@ -58,7 +58,7 @@ public interface RouteRepository extends JpaRepository<Route,Long>{
     List<Route> findRoutesByStatusAndIsReimburseAndCompanyId(@Param("status")int status,@Param("isReimburse")int isReimburse,@Param("companyId")Long companyId);
 
 
-    @Query(value = "SELECT user_id ,count(price) as count FROM route where  user_id in (select id from user where company_id = :companyId) and is_imburse=1 group by user_id ORDER BY count DESC",nativeQuery = true)
+    @Query(value = "SELECT user_id ,count(price) as count FROM route where  user_id in (select id from user where company_id = :companyId) and is_reimburse=1 group by user_id ORDER BY count DESC",nativeQuery = true)
     List<Object[]> findUserIdAndSumTimes(Long companyId);
 
 //    @Query(value="select * from settlement WHERE sec_route_id in (SELECT id FROM sec_route WHERE route_id=:routeId)",nativeQuery = true)
